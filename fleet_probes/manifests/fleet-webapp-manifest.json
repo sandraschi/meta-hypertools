@@ -1,0 +1,1352 @@
+[
+  {
+    "repo": "advanced-memory-mcp",
+    "startPath": "webapp/start.ps1",
+    "port": 10705,
+    "healthPath": "/api/v1/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "advanced-memory-start.bat"
+    ],
+    "frontendPort": 10704,
+    "proxyHealthPath": "/api/v1/health"
+  },
+  {
+    "repo": "aiwatcher-mcp",
+    "startPath": "start.ps1",
+    "port": 10946,
+    "healthPath": "/api/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "aiwatcher-mcp-start.bat"
+    ],
+    "frontendPort": 10947,
+    "proxyHealthPath": "/api/health"
+  },
+  {
+    "repo": "alexa-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10801,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "alexa-start.bat"
+    ],
+    "frontendPort": 10800,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "arxiv-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10770,
+    "healthPath": "/api/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "arxiv-start.bat"
+    ],
+    "frontendPort": 10771,
+    "proxyHealthPath": "/api/health"
+  },
+  {
+    "repo": "audiotool-nexus-mcp",
+    "startPath": "webapp/start.ps1",
+    "port": 10900,
+    "healthPath": "/",
+    "timeoutSec": 90,
+    "startsBats": [
+      "audiotool-nexus-start.bat"
+    ],
+    "frontendPort": 0,
+    "note": "Vite-only dashboard on 10900 \u00e2\u20ac\u201d no separate backend."
+  },
+  {
+    "repo": "autohotkey-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10746,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "autohotkey-mcp-start.bat"
+    ],
+    "frontendPort": 10747,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "autohotkey-test",
+    "startPath": "start.ps1",
+    "port": 10744,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "autohotkey-test-start.bat"
+    ]
+  },
+  {
+    "repo": "avatar-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10793,
+    "healthPath": "/api/v1/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "avatar-start.bat"
+    ],
+    "frontendPort": 10792,
+    "proxyHealthPath": "/api/v1/health"
+  },
+  {
+    "repo": "beyondcompare-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10841,
+    "healthPath": "/api/v1/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "beyondcompare-start.bat"
+    ],
+    "frontendPort": 10840,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "blender-mcp",
+    "startPath": "webapp/start.ps1",
+    "port": 10849,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "blender-start.bat"
+    ],
+    "frontendPort": 10848,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "bookmarks-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10803,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "bookmarks-start.bat"
+    ],
+    "frontendPort": 10802,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "bumi-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10774,
+    "healthPath": "/api/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "bumi-start.bat"
+    ],
+    "frontendPort": 10775,
+    "proxyHealthPath": "/api/health"
+  },
+  {
+    "repo": "calibre-mcp",
+    "startPath": "webapp/start.ps1",
+    "port": 10720,
+    "healthPath": "/health",
+    "timeoutSec": 120,
+    "startsBats": [
+      "calibre-start.bat"
+    ],
+    "frontendPort": 10721,
+    "proxyHealthPath": "",
+    "frontendRoutes": [
+      "/"
+    ]
+  },
+  {
+    "repo": "chitchat",
+    "startPath": "web_sota/start.ps1",
+    "port": 10974,
+    "healthPath": "/api/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "chitchat-start.bat"
+    ],
+    "frontendPort": 10975,
+    "proxyHealthPath": "/api/health"
+  },
+  {
+    "repo": "dark-app-factory",
+    "startPath": "web/start.ps1",
+    "port": 10738,
+    "healthPath": "/api/v1/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "dark-app-factory-start.bat"
+    ],
+    "frontendPort": 0,
+    "proxyHealthPath": ""
+  },
+  {
+    "repo": "database-operations-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10709,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "database-operations-start.bat"
+    ],
+    "frontendPort": 10708,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "davinci-resolve-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10843,
+    "healthPath": "/api/v1/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "davinci-resolve-start.bat"
+    ],
+    "frontendPort": 10842,
+    "proxyHealthPath": "/api/v1/health"
+  },
+  {
+    "repo": "deepfang",
+    "startPath": "start.ps1",
+    "port": 0,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "deepfang-start.bat"
+    ]
+  },
+  {
+    "repo": "depot-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10727,
+    "healthPath": "/api/capabilities",
+    "timeoutSec": 90,
+    "startsBats": [
+      "depot-start.bat"
+    ],
+    "frontendPort": 10726,
+    "proxyHealthPath": ""
+  },
+  {
+    "repo": "devices-mcp",
+    "startPath": "web-sota/start.ps1",
+    "port": 10717,
+    "healthPath": "/",
+    "timeoutSec": 90,
+    "startsBats": [
+      "devices-start.bat"
+    ],
+    "frontendPort": 10716,
+    "proxyHealthPath": "/api/health"
+  },
+  {
+    "repo": "directmedia-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10827,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [],
+    "frontendPort": 10826,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "discord-mcp",
+    "startPath": "webapp/start.ps1",
+    "port": 10756,
+    "healthPath": "/api/v1/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "discord-start.bat"
+    ],
+    "frontendPort": 10757,
+    "proxyHealthPath": "/api/v1/health"
+  },
+  {
+    "repo": "docker-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10807,
+    "healthPath": "/api/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "docker-start.bat"
+    ],
+    "frontendPort": 10806,
+    "proxyHealthPath": "/api/health"
+  },
+  {
+    "repo": "documentation-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 11033,
+    "healthPath": "/api/settings",
+    "timeoutSec": 120,
+    "startsBats": [
+      "documentation-mcp-start.bat"
+    ],
+    "frontendPort": 11032,
+    "proxyHealthPath": "/api/settings",
+    "note": "Public docs hub - frontend 11032, backend+MCP 11033."
+  },
+  {
+    "repo": "dreame-mcp",
+    "startPath": "webapp/start.ps1",
+    "port": 10894,
+    "healthPath": "/api/v1/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "dreame-start.bat"
+    ],
+    "frontendPort": 10895,
+    "proxyHealthPath": "/api/v1/health"
+  },
+  {
+    "repo": "edge-bookmark-mcp-server",
+    "startPath": "web_sota/start.ps1",
+    "port": 0,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [],
+    "probeSkip": true,
+    "note": "Stdio MCP only \u00e2\u20ac\u201d no HTTP fleet port."
+  },
+  {
+    "repo": "ednaficator",
+    "startPath": "start.ps1",
+    "port": 10942,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "ednaficator-start.bat"
+    ],
+    "frontendPort": 10943,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "email-mcp",
+    "startPath": "webapp/start.ps1",
+    "port": 10813,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "email-start.bat"
+    ],
+    "frontendPort": 10812,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "fastsearch-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10845,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "fastsearch-start.bat"
+    ],
+    "frontendPort": 10844,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "filesystem-mcp",
+    "startPath": "webapp/start.ps1",
+    "port": 10742,
+    "healthPath": "/health",
+    "timeoutSec": 120,
+    "startsBats": [
+      "filesystem-start.bat"
+    ],
+    "frontendPort": 10743,
+    "proxyHealthPath": ""
+  },
+  {
+    "repo": "fleet-agent-mcp",
+    "startPath": "start.ps1",
+    "port": 10996,
+    "healthPath": "/api/whoami",
+    "timeoutSec": 90,
+    "startsBats": [
+      "fleet-agent-start.bat"
+    ],
+    "frontendPort": 10997,
+    "proxyHealthPath": "/api/whoami"
+  },
+  {
+    "repo": "freecad-mcp",
+    "startPath": "start.ps1",
+    "port": 10944,
+    "healthPath": "/api/v1/status",
+    "timeoutSec": 90,
+    "startsBats": [
+      "freecad-mcp-start.bat"
+    ],
+    "frontendPort": 10945,
+    "proxyHealthPath": "/api/v1/status"
+  },
+  {
+    "repo": "games-app",
+    "startPath": "web_sota/start.ps1",
+    "port": 10987,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "games-app-start.bat"
+    ],
+    "frontendPort": 10986,
+    "proxyHealthPath": ""
+  },
+  {
+    "repo": "gimp-mcp",
+    "startPath": "webapp/start.ps1",
+    "port": 10773,
+    "healthPath": "/api/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "gimp-start.bat"
+    ],
+    "frontendPort": 10772,
+    "proxyHealthPath": "/api/health"
+  },
+  {
+    "repo": "git-github-mcp",
+    "startPath": "start.ps1",
+    "port": 10702,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "git-github-mcp-start.bat"
+    ],
+    "frontendPort": 10703,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "godot-mcp",
+    "startPath": "start.ps1",
+    "port": 10993,
+    "healthPath": "/api/v1/status",
+    "timeoutSec": 90,
+    "startsBats": [
+      "godot-start.bat"
+    ],
+    "frontendPort": 10992,
+    "proxyHealthPath": "/api/v1/status"
+  },
+  {
+    "repo": "google-ai-mcp",
+    "startPath": "start.ps1",
+    "port": 11014,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "google-ai-start.bat"
+    ],
+    "frontendPort": 11015,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "goose-mcp",
+    "startPath": "start.ps1",
+    "port": 10948,
+    "healthPath": "/api/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "goose-mcp-start.bat"
+    ],
+    "frontendPort": 10949,
+    "proxyHealthPath": "/api/health"
+  },
+  {
+    "repo": "grandorgue-mcp",
+    "startPath": "start.ps1",
+    "port": 11010,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "grandorgue-mcp-start.bat"
+    ],
+    "frontendPort": 11011,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "gtfs-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10913,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "gtfs-start.bat"
+    ],
+    "frontendPort": 10912,
+    "proxyHealthPath": "/health",
+    "note": "Frontend 10912, backend+MCP 10913."
+  },
+  {
+    "repo": "handbrake-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10875,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "handbrake-start.bat"
+    ],
+    "frontendPort": 10874,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "home-assistant-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10835,
+    "healthPath": "/api/v1/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "home-assistant-start.bat"
+    ],
+    "frontendPort": 10834,
+    "proxyHealthPath": ""
+  },
+  {
+    "repo": "immich-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10839,
+    "healthPath": "/api/v1/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "immich-start.bat"
+    ],
+    "frontendPort": 10838,
+    "proxyHealthPath": "/api/v1/health"
+  },
+  {
+    "repo": "inkscape-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 11028,
+    "healthPath": "/api/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "inkscape-start.bat"
+    ],
+    "frontendPort": 11029,
+    "proxyHealthPath": "/api/health",
+    "note": "Moved off 10900 (audiotool-nexus conflict); backend 11028 / frontend 11029."
+  },
+  {
+    "repo": "kicad-mcp",
+    "startPath": "start.ps1",
+    "port": 11016,
+    "healthPath": "/api/v1/status",
+    "timeoutSec": 90,
+    "startsBats": [
+      "kicad-mcp-start.bat"
+    ],
+    "frontendPort": 11017,
+    "proxyHealthPath": "/api/v1/status"
+  },
+  {
+    "repo": "kyutai-mcp",
+    "startPath": "webapp/start.ps1",
+    "port": 10924,
+    "healthPath": "/api/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "kyutai-start.bat"
+    ],
+    "frontendPort": 10925,
+    "proxyHealthPath": "/api/health"
+  },
+  {
+    "repo": "libreoffice-mcp",
+    "startPath": "start.ps1",
+    "port": 10981,
+    "healthPath": "/health",
+    "timeoutSec": 120,
+    "startsBats": [
+      "libreoffice-mcp-start.bat"
+    ],
+    "frontendPort": 10983,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "llm-txt-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10837,
+    "healthPath": "/api/v1/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "llm-txt-start.bat"
+    ],
+    "frontendPort": 10836,
+    "proxyHealthPath": "/api/v1/health"
+  },
+  {
+    "repo": "local-llm-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10833,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "local-llm-start.bat"
+    ],
+    "frontendPort": 10832,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "mcp-central-docs",
+    "startPath": "web_sota/start.ps1",
+    "port": 10795,
+    "healthPath": "/health",
+    "timeoutSec": 120,
+    "startsBats": [
+      "mcp-central-docs-start.bat"
+    ],
+    "frontendPort": 10794,
+    "proxyHealthPath": "/api/status",
+    "frontendRoutes": [
+      "/"
+    ]
+  },
+  {
+    "repo": "mcp-federation-hub",
+    "startPath": "webapp/start.ps1",
+    "port": 10857,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "federation-start.bat"
+    ],
+    "frontendPort": 10856,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "meta_mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10718,
+    "healthPath": "/health",
+    "timeoutSec": 120,
+    "startsBats": [
+      "meta_mcp-start.bat"
+    ],
+    "frontendPort": 10719,
+    "proxyHealthPath": "/health",
+    "probeSkip": true,
+    "note": "Probe host \u00e2\u20ac\u201d excluded from cold-start probe (MetaMCP UI runs the probe)."
+  },
+  {
+    "repo": "moltbot-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10731,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "moltbot-start.bat"
+    ],
+    "frontendPort": 10730,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "monitoring-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10851,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "monitoring-start.bat"
+    ],
+    "frontendPort": 10850,
+    "proxyHealthPath": "/"
+  },
+  {
+    "repo": "multi-backup-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10799,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "multi-backup-start.bat"
+    ],
+    "frontendPort": 10798,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "myai",
+    "startPath": "web_sota/start.ps1",
+    "port": 10889,
+    "healthPath": "/api/platform/health",
+    "timeoutSec": 120,
+    "startsBats": [
+      "myai-start.bat"
+    ],
+    "frontendPort": 10888,
+    "proxyHealthPath": "/api/platform/health"
+  },
+  {
+    "repo": "mywienerlinien",
+    "startPath": "web_sota/start.ps1",
+    "port": 10896,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "mywienerlinien-start.bat"
+    ],
+    "frontendPort": 10896,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "nest-protect-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10753,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "nest-protect-start.bat"
+    ],
+    "frontendPort": 10752,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "netatmo-weather-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10823,
+    "healthPath": "/api/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "netatmo-weather-start.bat"
+    ],
+    "frontendPort": 10822,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "notepadpp-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10815,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "notepadpp-start.bat"
+    ],
+    "frontendPort": 10814,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "notion-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10811,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "notion-start.bat"
+    ],
+    "frontendPort": 10810,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "nuki-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10894,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [],
+    "frontendPort": 10980,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "obs-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10819,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "obs-start.bat"
+    ],
+    "frontendPort": 10818,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "observability-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 12007,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "observability-start.bat"
+    ],
+    "frontendPort": 12008,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "obsidian-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10915,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "obsidian-start.bat"
+    ],
+    "frontendPort": 10890,
+    "proxyHealthPath": "/health",
+    "note": "Backend 10915 (was 10889, conflict with myai)."
+  },
+  {
+    "repo": "ocr-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10859,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "ocr-start.bat"
+    ],
+    "frontendPort": 10858,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "onenote-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10907,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "onenote-start.bat"
+    ],
+    "frontendPort": 10906,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "openclaude-mcp",
+    "startPath": "start.ps1",
+    "port": 10932,
+    "healthPath": "/api/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "openclaude-mcp-start.bat"
+    ],
+    "frontendPort": 10933,
+    "proxyHealthPath": "/api/health"
+  },
+  {
+    "repo": "openclaw-molt-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10765,
+    "healthPath": "/api/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "openclaw-molt-start.bat"
+    ],
+    "frontendPort": 10764,
+    "proxyHealthPath": "/api/health"
+  },
+  {
+    "repo": "opencode-cli-mcp",
+    "startPath": "start.ps1",
+    "port": 10951,
+    "healthPath": "/api/v1/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "opencode-cli-start.bat"
+    ],
+    "frontendPort": 10950,
+    "proxyHealthPath": "/api/v1/health"
+  },
+  {
+    "repo": "openmanus-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10768,
+    "healthPath": "/api/v1/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "openmanus-start.bat"
+    ],
+    "frontendPort": 10769,
+    "proxyHealthPath": "/api/v1/health"
+  },
+  {
+    "repo": "osc-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10767,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "osc-start.bat"
+    ],
+    "frontendPort": 10766,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "pinokio-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 0,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "pinokio-start.bat"
+    ],
+    "probeSkip": true,
+    "note": "Stdio MCP (port 0) \u00e2\u20ac\u201d HTTP cold-start probe skipped by design."
+  },
+  {
+    "repo": "plex-mcp",
+    "startPath": "webapp/start.ps1",
+    "port": 10740,
+    "healthPath": "/health",
+    "timeoutSec": 120,
+    "startsBats": [
+      "plex-start.bat"
+    ],
+    "frontendPort": 10741,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "pywinauto-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10789,
+    "healthPath": "/api/v1/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "pywinauto-start.bat"
+    ],
+    "frontendPort": 10788,
+    "proxyHealthPath": "/api/v1/health"
+  },
+  {
+    "repo": "qbt-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10910,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "qbt-start.bat"
+    ],
+    "frontendPort": 10911,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "qcad-mcp",
+    "startPath": "start.ps1",
+    "port": 10966,
+    "healthPath": "/api/v1/status",
+    "timeoutSec": 90,
+    "startsBats": [
+      "qcad-start.bat"
+    ],
+    "frontendPort": 10967,
+    "proxyHealthPath": "/api/v1/status"
+  },
+  {
+    "repo": "readly-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10863,
+    "healthPath": "/api/health",
+    "timeoutSec": 120,
+    "startsBats": [
+      "readly-start.bat"
+    ],
+    "frontendPort": 10706,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "reaper-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10797,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "reaper-start.bat"
+    ],
+    "frontendPort": 10796,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "repomix-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10914,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "repomix-start.bat"
+    ],
+    "frontendPort": 10913,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "resolume-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10771,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "resolume-start.bat"
+    ],
+    "frontendPort": 10770,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "resonite-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10979,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "resonite-start.bat"
+    ],
+    "frontendPort": 10978,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "reversing-mcp",
+    "startPath": "reversing-webapp/start.ps1",
+    "port": 10751,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "reversing-start.bat"
+    ],
+    "probeSkip": true,
+    "note": "Legacy Next.js entry \u00e2\u20ac\u201d use web_sota/start.ps1."
+  },
+  {
+    "repo": "reversing-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10750,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "reversing-sota-start.bat"
+    ],
+    "frontendPort": 10751,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "ring-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10729,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "ring-start.bat"
+    ],
+    "frontendPort": 10728,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "robofang",
+    "startPath": "robofang-hub/start.ps1",
+    "port": 10870,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "robofang-start.bat"
+    ],
+    "frontendPort": 10870,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "robotics-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10707,
+    "healthPath": "/api/v1/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "robotics-start.bat"
+    ],
+    "frontendPort": 10706,
+    "proxyHealthPath": "/api/v1/health"
+  },
+  {
+    "repo": "rustdesk-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10805,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "rustdesk-start.bat"
+    ],
+    "frontendPort": 10804,
+    "proxyHealthPath": "/"
+  },
+  {
+    "repo": "sakana-mcp",
+    "startPath": "webapp/start.ps1",
+    "port": 10863,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "sakana-start.bat"
+    ],
+    "frontendPort": 10862,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "scraper-mcp",
+    "startPath": "start.ps1",
+    "port": 10998,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "scraper-mcp-start.bat"
+    ],
+    "frontendPort": 10999,
+    "proxyHealthPath": "/health",
+    "note": "Replaces toolbench-mcp (10816/10817 deprecated)."
+  },
+  {
+    "repo": "sdr-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10891,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "sdr-start.bat"
+    ],
+    "frontendPort": 10890,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "songgeneration-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10885,
+    "healthPath": "/api/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "songgeneration-start.bat"
+    ],
+    "frontendPort": 10884,
+    "proxyHealthPath": "/api/health"
+  },
+  {
+    "repo": "speech-mcp",
+    "startPath": "web/start.ps1",
+    "port": 10909,
+    "healthPath": "/",
+    "timeoutSec": 90,
+    "startsBats": [
+      "speech-start.bat"
+    ],
+    "frontendPort": 10908,
+    "proxyHealthPath": "/api/v1/health"
+  },
+  {
+    "repo": "steam-mcp",
+    "startPath": "webapp/start.ps1",
+    "port": 11020,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "steam-mcp-start.bat"
+    ],
+    "frontendPort": 11021,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "suno-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10883,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "suno-start.bat"
+    ],
+    "frontendPort": 10882,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "system-admin-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10861,
+    "healthPath": "/api/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "system-admin-start.bat"
+    ],
+    "frontendPort": 10860,
+    "proxyHealthPath": "/api/health"
+  },
+  {
+    "repo": "tahoma2d-mcp",
+    "startPath": "start.ps1",
+    "port": 11013,
+    "healthPath": "/api/status",
+    "timeoutSec": 90,
+    "startsBats": [
+      "tahoma2d-mcp-start.bat"
+    ],
+    "frontendPort": 11012,
+    "proxyHealthPath": "/api/status"
+  },
+  {
+    "repo": "tailscale-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10821,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "tailscale-start.bat"
+    ],
+    "frontendPort": 10820,
+    "proxyHealthPath": "/"
+  },
+  {
+    "repo": "uitars-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10976,
+    "healthPath": "/api/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "uitars-start.bat"
+    ],
+    "frontendPort": 10977,
+    "proxyHealthPath": "/api/health"
+  },
+  {
+    "repo": "unity3d-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10831,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "unity3d-start.bat"
+    ],
+    "frontendPort": 10830,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "universal-actuator-mcp",
+    "startPath": "webapp/start.ps1",
+    "port": 10745,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "universal-actuator-start.bat"
+    ],
+    "frontendPort": 10744,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "vienna-life-assistant",
+    "startPath": "web_sota/start.ps1",
+    "port": 10922,
+    "healthPath": "/health",
+    "timeoutSec": 120,
+    "startsBats": [
+      "vienna-life-start.bat"
+    ],
+    "frontendPort": 10988,
+    "proxyHealthPath": "/health",
+    "teardownPorts": [
+      10989,
+      10990
+    ],
+    "note": "ViLife \u00e2\u20ac\u201d frontend 10988, backend+MCP 10922. Teardown kills drift ports."
+  },
+  {
+    "repo": "vienna-live-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 0,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "vienna-live-start.bat"
+    ]
+  },
+  {
+    "repo": "virtualdj-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10877,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "virtualdj-start.bat"
+    ],
+    "frontendPort": 10876,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "virtualization-mcp",
+    "startPath": "webapp/start.ps1",
+    "port": 10701,
+    "healthPath": "/api/v1/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "virtualization-start.bat"
+    ],
+    "frontendPort": 10700,
+    "proxyHealthPath": "/api/v1/health"
+  },
+  {
+    "repo": "vroidstudio-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10881,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "vroidstudio-start.bat"
+    ],
+    "frontendPort": 10880,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "web-development-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10853,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "web-development-start.bat"
+    ],
+    "frontendPort": 10852,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "windows-operations-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10748,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "windows-operations-start.bat"
+    ],
+    "frontendPort": 10749,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "winrar-mcp",
+    "startPath": "webapp/start.ps1",
+    "port": 10762,
+    "healthPath": "/api/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "winrar-start.bat"
+    ],
+    "frontendPort": 10763,
+    "proxyHealthPath": "/api/health"
+  },
+  {
+    "repo": "worldlabs-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10865,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "worldlabs-start.bat"
+    ],
+    "frontendPort": 10864,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "xkcd-mcp",
+    "startPath": "web_sota/start.ps1",
+    "port": 10778,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "xkcd-start.bat"
+    ],
+    "frontendPort": 10779,
+    "proxyHealthPath": "/health"
+  },
+  {
+    "repo": "yahboom-mcp",
+    "startPath": "webapp/start.ps1",
+    "port": 10892,
+    "healthPath": "/health",
+    "timeoutSec": 90,
+    "startsBats": [
+      "yahboom-start.bat"
+    ],
+    "frontendPort": 10893,
+    "proxyHealthPath": "/health"
+  }
+]

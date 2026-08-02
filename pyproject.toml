@@ -1,0 +1,127 @@
+[project]
+name = "meta_mcp"
+version = "0.5.0"
+description = "Fleet MCP orchestrator: lifecycle, sandboxed cold-install probes, GitHub repo inspiration, diagnostics, and web dashboard"
+authors = [
+    { name = "Sandra Schipal" }
+]
+dependencies = [
+    "fastmcp[tasks]>=3.4.4,<4",
+    "fastapi",
+    "uvicorn",
+    "watchfiles",
+    "jinja2",
+    "pydantic-settings",
+    "python-multipart",
+    "structlog",
+    "toml",
+    "tomli",
+    "aiohttp",
+    "aiofiles",
+    "httpx>=0.27.0",
+    "lupa<2.6",
+    "prefab-ui>=0.14.0",
+]
+readme = "README.md"
+requires-python = ">=3.10"
+
+[project.scripts]
+meta-mcp = "meta_mcp.main:main"
+meta-mcp-server = "meta_mcp.mcp_server:main"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["meta_mcp*"]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.16.0,<0.17",
+    "pytest>=8.0.0",
+    "pytest-asyncio",
+    "pytest-mock",
+    "pytest-cov",
+    "pyinstaller>=6",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+extend-exclude = [
+    "mcpb",
+    "_llm_test_scripts",
+    "debug_emoji.py",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "S", "UP", "RUF"]
+ignore = [
+    "S101",
+    "B008",
+    "B904",
+    "S104",
+    "S110",
+    "S112",
+    "S113",
+    "S602",
+    "S603",
+    "S607",
+    "E722",
+    "RUF006",
+    "RUF012",
+    "B024",
+    "S102",
+    "S307",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"src/meta_mcp/main.py" = ["E402", "F401"]
+"src/meta_mcp/mcp_server.py" = ["E402", "F401"]
+"src/meta_mcp/tools/**" = ["F401", "E402"]
+"scripts/**" = ["E402", "S310"]
+"tests/**" = ["E402", "S108"]
+"tools/**" = ["E402"]
+"src/meta_mcp/tools/landing_page.py" = ["E501"]
+"src/meta_mcp/tools/landing_page_builder.py" = ["E501"]
+"src/meta_mcp/tools/powershell_profile_manager.py" = ["E501"]
+"src/meta_mcp/tools/powershell_validator.py" = ["E501"]
+"scripts/mcp-watchdog.py" = ["E501"]
+"src/meta_mcp/router_index.py" = ["S608"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "asyncio: async test",
+    "slow: slow tests",
+]
+
+[tool.coverage.run]
+source = ["src/meta_mcp"]
+omit = [
+    "*/mcpb/*",
+    "*/tests/*",
+    "*/scripts/*",
+    "*_test_scripts/*",
+    "*scratch/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]
+

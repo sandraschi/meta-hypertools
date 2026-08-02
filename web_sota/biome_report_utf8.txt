@@ -1,0 +1,289 @@
+﻿node.exe : src\components\Skeleton.tsx:79:16 lint/suspicious/noArrayIndexKey 
+ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Users\sandr\AppData\Roaming\ ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (src\components\...ÔöüÔöüÔöüÔöüÔöü:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+  ├ù Avoid using the index of an array as key property in an element.
+  
+    77 Ôöé       {Array.from({ length: count }, (_, i) => (
+    78 Ôöé         <motion.div
+  > 79 Ôöé           key={i}
+       Ôöé                ^
+    80 Ôöé           initial={{ opacity: 0, y: 20 }}
+    81 Ôöé           animate={{ opacity: 1, y: 0 }}
+  
+  i This is the source of the key value.
+  
+    75 Ôöé   return (
+    76 Ôöé     <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 ${className}`}>
+  > 77 Ôöé       {Array.from({ length: count }, (_, i) => (
+       Ôöé                                          ^
+    78 Ôöé         <motion.div
+    79 Ôöé           key={i}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+src\components\ErrorBoundary.tsx:78:15 lint/a11y/useButtonType 
+ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ├ù Provide an explicit type prop for the button element.
+  
+    77 Ôöé             <div className="space-y-3 mb-6">
+  > 78 Ôöé               <button
+       Ôöé               ^^^^^^^
+  > 79 Ôöé                 onClick={this.handleRefresh}
+  > 80 Ôöé                 className="btn-primary w-full flex items-center justify-center gap-2"
+  > 81 Ôöé               >
+       Ôöé               ^
+    82 Ôöé                 <RefreshCw size={16} />
+    83 Ôöé                 Refresh Page
+  
+  i The default type of a button is submit, which causes the submission of a form when placed inside a `form` element. 
+This is likely not the behaviour that you want inside a React application.
+  
+  i Allowed button types are: submit, button or reset
+  
+
+src\components\ErrorBoundary.tsx:86:15 lint/a11y/useButtonType 
+ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ├ù Provide an explicit type prop for the button element.
+  
+    84 Ôöé               </button>
+    85 Ôöé 
+  > 86 Ôöé               <button
+       Ôöé               ^^^^^^^
+  > 87 Ôöé                 onClick={this.handleGoHome}
+  > 88 Ôöé                 className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 
+transition-colors flex items-center justify-center gap-2"
+  > 89 Ôöé               >
+       Ôöé               ^
+    90 Ôöé                 <Home size={16} />
+    91 Ôöé                 Go Home
+  
+  i The default type of a button is submit, which causes the submission of a form when placed inside a `form` element. 
+This is likely not the behaviour that you want inside a React application.
+  
+  i Allowed button types are: submit, button or reset
+  
+
+src\utils\logger.ts:36:5 lint/complexity/noForEach ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔö
+üÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ├ù Prefer for...of instead of forEach.
+  
+    35 Ôöé     // Notify listeners
+  > 36 Ôöé     this.listeners.forEach((listener) => listener(entry));
+       Ôöé     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    37 Ôöé 
+    38 Ôöé     // Also log to console for devtools
+  
+  i forEach may lead to performance issues when working with large arrays. When combined with functions like filter or 
+map, this causes multiple iterations over the same type.
+  
+
+src\components\AppsHub.tsx:26:53 lint/suspicious/noExplicitAny 
+ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ! Unexpected any. Specify a different type.
+  
+    24 Ôöé }
+    25 Ôöé 
+  > 26 Ôöé const TAG_ICONS: Record<string, React.ComponentType<any>> = {
+       Ôöé                                                     ^^^
+    27 Ôöé   infra: Shield,
+    28 Ôöé   ai: Cpu,
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+src\main.tsx format ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔö
+üÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ├ù Formatter would have printed the following content:
+  
+     6  6 Ôöé   const rootElement = document.getElementById("root");
+     7  7 Ôöé   if (!rootElement) {
+     8    Ôöé - ┬À┬Àthrow┬Ànew┬ÀError("Failed┬Àto┬Àfind┬Àthe┬Àroot┬Àelement.┬ÀPlease┬Àensure┬Àindex.html┬Àcontains┬Àa┬À
+<div┬Àid=\"root\">┬Àelement.");
+        8 Ôöé + ┬À┬Àthrow┬Ànew┬ÀError(
+        9 Ôöé + 
+┬À┬À┬À┬À'Failed┬Àto┬Àfind┬Àthe┬Àroot┬Àelement.┬ÀPlease┬Àensure┬Àindex.html┬Àcontains┬Àa┬À<div┬Àid="root">┬Àelement.',
+       10 Ôöé + ┬À┬À);
+     9 11 Ôöé   }
+    10 12 Ôöé   
+  
+
+src\components\modals\JsonEditorModal.tsx:75:7 parse ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ├ù Expected corresponding JSX closing tag for 'dialog'.
+  
+    73 Ôöé       role="presentation"
+    74 Ôöé     >
+  > 75 Ôöé       <dialog
+       Ôöé       ^^^^^^^
+  > 76 Ôöé         className="bg-slate-900 border border-slate-700 w-full max-w-2xl rounded-2xl shadow-2xl flex 
+flex-col max-h-[85vh] open:flex"
+        ...
+  > 83 Ôöé         open
+  > 84 Ôöé       >
+       Ôöé       ^
+    85 Ôöé         {/* Header */}
+    86 Ôöé         <div className="flex items-center justify-between p-6 border-b border-slate-800">
+  
+  i Opening tag
+  
+    73 Ôöé       role="presentation"
+    74 Ôöé     >
+  > 75 Ôöé       <dialog
+       Ôöé       ^^^^^^^
+  > 76 Ôöé         className="bg-slate-900 border border-slate-700 w-full max-w-2xl rounded-2xl shadow-2xl flex 
+flex-col max-h-[85vh] open:flex"
+        ...
+  > 83 Ôöé         open
+  > 84 Ôöé       >
+Checked 45 files in 97ms. No fixes applied.
+Found 11 errors.
+Found 2 warnings.
+       Ôöé       ^
+    85 Ôöé         {/* Header */}
+    86 Ôöé         <div className="flex items-center justify-between p-6 border-b border-slate-800">
+  
+  i closing tag
+  
+    174 Ôöé           )}
+    175 Ôöé         </div>
+  > 176 Ôöé       </div>
+        Ôöé       ^^^^^^
+    177 Ôöé     </div>
+    178 Ôöé   );
+  
+
+src\components\modals\JsonEditorModal.tsx:46:11 lint/suspicious/noImplicitAnyLet 
+ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ├ù This variable implicitly has the any type.
+  
+    45 Ôöé     try {
+  > 46 Ôöé       let parsedData;
+       Ôöé           ^^^^^^^^^^
+    47 Ôöé       try {
+    48 Ôöé         parsedData = JSON.parse(jsonText);
+  
+  i Variable declarations without type annotation and initialization implicitly have the any type. Declare a type or 
+initialize the variable with some value.
+  
+
+src\components\modals\JsonEditorModal.tsx:75:7 parse ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ├ù Expected corresponding JSX closing tag for 'dialog'.
+  
+    73 Ôöé       role="presentation"
+    74 Ôöé     >
+  > 75 Ôöé       <dialog
+       Ôöé       ^^^^^^^
+  > 76 Ôöé         className="bg-slate-900 border border-slate-700 w-full max-w-2xl rounded-2xl shadow-2xl flex 
+flex-col max-h-[85vh] open:flex"
+        ...
+  > 83 Ôöé         open
+  > 84 Ôöé       >
+       Ôöé       ^
+    85 Ôöé         {/* Header */}
+    86 Ôöé         <div className="flex items-center justify-between p-6 border-b border-slate-800">
+  
+  i Opening tag
+  
+    73 Ôöé       role="presentation"
+    74 Ôöé     >
+  > 75 Ôöé       <dialog
+       Ôöé       ^^^^^^^
+  > 76 Ôöé         className="bg-slate-900 border border-slate-700 w-full max-w-2xl rounded-2xl shadow-2xl flex 
+flex-col max-h-[85vh] open:flex"
+        ...
+  > 83 Ôöé         open
+  > 84 Ôöé       >
+       Ôöé       ^
+    85 Ôöé         {/* Header */}
+    86 Ôöé         <div className="flex items-center justify-between p-6 border-b border-slate-800">
+  
+  i closing tag
+  
+    174 Ôöé           )}
+    175 Ôöé         </div>
+  > 176 Ôöé       </div>
+        Ôöé       ^^^^^^
+    177 Ôöé     </div>
+    178 Ôöé   );
+  
+
+src\components\modals\JsonEditorModal.tsx format ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔ
+öüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ├ù Code formatting aborted due to parsing errors. To format code with errors, enable the 
+'formatter.formatWithErrors' option.
+  
+
+src\components\ScaffoldingWizard.tsx:65:36 lint/suspicious/noExplicitAny 
+ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ! Unexpected any. Specify a different type.
+  
+    63 Ôöé     if (!selectedTemplate || !projectName) return;
+    64 Ôöé 
+  > 65 Ôöé     const features: Record<string, any> = {};
+       Ôöé                                    ^^^
+    66 Ôöé 
+    67 Ôöé     if (selectedTemplate === "mcp_server") {
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+src\components\ScaffoldingWizard.tsx:142:17 lint/a11y/noLabelWithoutControl 
+ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ├ù A form label must be associated with an input.
+  
+    140 Ôöé               {/* Template Selection */}
+    141 Ôöé               <div>
+  > 142 Ôöé                 <label className="block text-sm font-medium mb-3">Select Template Type</label>
+        Ôöé                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    143 Ôöé                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    144 Ôöé                   {TEMPLATE_TYPES.map((template) => (
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the 
+label element.
+  
+
+src\components\ScaffoldingWizard.tsx:242:25 lint/a11y/noLabelWithoutControl 
+ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ├ù A form label must be associated with an input.
+  
+    240 Ôöé                     <>
+    241 Ôöé                       <div>
+  > 242 Ôöé                         <label className="block text-sm font-medium mb-2">Hero Subtitle</label>
+        Ôöé                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    243 Ôöé                         <input
+    244 Ôöé                           type="text"
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the 
+label element.
+  
+
+check ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔö
+üÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔ
+öüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ├ù Some errors were emitted while running checks.
+  
+

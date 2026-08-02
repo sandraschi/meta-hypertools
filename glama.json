@@ -1,0 +1,42 @@
+{
+  "$schema": "https://glama.ai/mcp/schema/2025",
+  "id": "meta-mcp",
+  "name": "meta-mcp",
+  "version": "0.5.0",
+  "description": "MCP fleet orchestrator - the meta layer that scaffolds servers and webapps, studies GitHub inspiration without cloning, wraps existing code via AST harness, probes releases (cold-start + cold-install), audits fleet standards compliance, and operates IDE registrations, schedulers, toolchain presets, and context packing.",
+  "categories": ["development", "automation", "devops", "productivity"],
+  "author": {
+    "name": "Sandra Schipal",
+    "url": "https://github.com/sandraschi"
+  },
+  "repository": "https://github.com/sandraschi/meta-mcp",
+  "homepage": "https://github.com/sandraschi/meta-mcp",
+  "tools": [
+    "help",
+    "show_mcp_overview",
+    "scaffold_ops",
+    "scaffold_mcp_server",
+    "scaffold_app_fullstack",
+    "scaffold_landing_page",
+    "analysis_ops",
+    "analyze_mcp_runts",
+    "inspire_repo",
+    "inspire_repo_workflow",
+    "harness_analyze",
+    "harness_generate",
+    "harness_refine",
+    "fleet_config_audit",
+    "fleet_startup_probe",
+    "fleet_cold_install_probe",
+    "pack_ops",
+    "server_ops",
+    "scheduler_ops",
+    "toolchain_ops",
+    "heartbeat_ops",
+    "token_ops",
+    "get_fleet_status",
+    "diagnostics_ops",
+    "meta_dev_ops",
+    "demo_ops"
+  ]
+}

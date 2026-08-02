@@ -1,0 +1,15 @@
+fastmcp[tasks]<4,>=3.4.4
+fastapi
+uvicorn
+watchfiles
+jinja2
+pydantic-settings
+python-multipart
+structlog
+toml
+tomli
+aiohttp
+aiofiles
+httpx>=0.27.0
+lupa<2.6
+prefab-ui>=0.14.0

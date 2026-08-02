@@ -1,0 +1,37 @@
+# Logic / dev bloat
+.venv/
+venv/
+node_modules/
+__pycache__/
+*.egg-info/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+tests/
+web_sota/
+web/
+fleet_probes/
+native/
+dist/
+build/
+*.mcpb
+*.log
+.env
+.env.*
+
+# Discovery & fleet metadata (repo-only)
+glama.json
+llms.txt
+llms-full.txt
+.git/
+.github/
+.vscode/
+
+# Pack tooling (not for bundle)
+pack.ps1
+.gitignore
+
+# Backup artifacts
+*.bak
+*.backup

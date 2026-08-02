@@ -1,0 +1,64 @@
+{
+  "productName": "MetaMCP",
+  "version": "0.3.0",
+  "identifier": "ai.fleet.meta-mcp",
+  "build": {
+    "frontendDist": "../web_sota/dist",
+    "devUrl": "http://localhost:10719",
+    "beforeDevCommand": "npm --prefix ../web_sota run dev"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "MetaMCP — Fleet Orchestrator",
+        "label": "main",
+        "width": 1200,
+        "height": 800,
+        "minWidth": 800,
+        "minHeight": 600
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "resources": [
+      "resources/meta_mcp-backend.exe",
+            "resources/.env.example"
+    ],
+    "targets": [
+      "nsis"
+    ],
+    "windows": {
+      "webviewInstallMode": {
+        "type": "skip"
+      },
+      "nsis": {
+        "installMode": "currentUser",
+"installerHooks": "./windows/hooks.nsh"
+      }
+    }
+  },
+  "plugins": {
+    "shell": {
+      "open": true
+    },
+    "fs": {
+      "requireLiteralLeadingDot": false
+    },
+    "process": {
+      "all": true
+    }
+  }
+}
+
+

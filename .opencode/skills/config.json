@@ -1,0 +1,10 @@
+{
+  "auto_load": ["session-context"],
+  "skills": {
+    "session-context": {
+      "name": "session-context",
+      "description": "Session context injection for MetaMCP — tool awareness at session start",
+      "file": "session-context/SKILL.md"
+    }
+  }
+}

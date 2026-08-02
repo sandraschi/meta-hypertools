@@ -1,0 +1,88 @@
+# MetaMCP
+
+> Manage MCP server fleets from one process: runtime control, diagnostics, GitHub repo inspiration, and automated cold-start / cold-install health probes. Transports: **stdio MCP** (IDEs) and **HTTP** (FastAPI + React dashboard `web_sota`). Local operator tool -- see [docs/PRIVACY.md](docs/PRIVACY.md).
+
+**Full detail: see [llms-full.txt](llms-full.txt)**
+
+---
+
+## Quick links
+
+- [README.md](README.md) -- overview and quick start
+- [docs/INSTALL.md](docs/INSTALL.md) -- install, IDE snippets, ports
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) -- server, API, MCP, UI
+- [docs/TOOLS.md](docs/TOOLS.md) -- tool suite index
+- [docs/PRIVACY.md](docs/PRIVACY.md) -- sensitive data and scrub guidance
+- [docs/fleet/FLEET_PROBE_ARCHITECTURE.md](docs/fleet/FLEET_PROBE_ARCHITECTURE.md) -- probe design
+- [fleet_probes/README.md](fleet_probes/README.md) -- vendored probe scripts
+- [CHANGELOG.md](CHANGELOG.md) -- release notes
+- [PRD.md](PRD.md) -- product requirements
+
+**Live codebase digest (optional):** https://gitingest.com/sandraschi/meta-mcp
+
+---
+
+## Ports
+
+| Service | Default |
+|---------|---------|
+| Web + API (production static) | `10718` |
+| Vite dev frontend | `10719` |
+| Fleet Starts launcher (optional) | `10796` |
+
+Bind via `HOST` / `PORT` in `.env`.
+
+---
+
+## Run (summary)
+
+```powershell
+git clone https://github.com/sandraschi/meta-mcp.git
+cd meta-mcp
+uv sync --group dev
+copy .env.example .env   # set REPOS_DIR, WURST_AUTH_TOKEN
+uv run meta-mcp          # dashboard http://127.0.0.1:10718
+uv run meta-mcp-server   # stdio MCP for IDE
+```
+
+Regenerate tool list: `uv run python scripts/dump_mcp_tools.py`
+
+---
+
+## Tools (summary)
+
+Discovery: `help`, `show_mcp_overview`, `find_mcp_tools`, `inspire_repo_help`
+
+| Suite | Examples |
+|-------|----------|
+| Dynamic routing | `meta_route_tool`, `meta_search_capabilities`, `meta_routing_status` |
+| Fleet runtime | `get_fleet_status`, `launch_fleet_app`, `stop_fleet_app` |
+| Fleet probes | `fleet_startup_probe`, `fleet_cold_install_probe`, `*_report` |
+| Diagnostics | `scan_mcp_unicode`, `validate_mcp_pwsh`, `audit_mcp_implementation` |
+| Analysis | `analyze_mcp_runts`, `show_mcp_status`, `list_analysis_depot` |
+| Repo inspiration | `inspire_repo`, `inspire_repo_workflow`, `inspire_repo_structure_card` |
+| Server mgmt | `start_mcp_server`, `stop_mcp_server`, `discover_mcp_servers` |
+| Client / toolchains | `read_client_config`, `apply_mcp_toolchain` |
+| Meta dev | `probe_fleet_health`, `diff_mcp_configs`, `audit_secret_redaction` |
+
+Full tool table: [llms-full.txt#tools](llms-full.txt)
+
+---
+
+## MCP prompts and resources
+
+- Prompts: `inspire_repo_study`, `meta_mcp_fleet_discovery`
+- Resources: `resource://meta-mcp/repo-inspiration/skills`, `resource://meta-mcp/capabilities`
+
+---
+
+## Doc map (tools)
+
+- [docs/tools/routing.md](docs/tools/routing.md)
+- [docs/tools/diagnostics.md](docs/tools/diagnostics.md)
+- [docs/tools/analysis.md](docs/tools/analysis.md)
+- [docs/tools/repo-inspiration.md](docs/tools/repo-inspiration.md)
+- [docs/tools/server-management.md](docs/tools/server-management.md)
+- [docs/tools/client-management.md](docs/tools/client-management.md)
+- [docs/tools/toolchains.md](docs/tools/toolchains.md)
+- [docs/tools/meta-dev.md](docs/tools/meta-dev.md)

@@ -1,0 +1,915 @@
+[
+  {
+    "tool": "help",
+    "input": {},
+    "expected": "Tool list with descriptions",
+    "note": "First call for any vague task"
+  },
+  {
+    "tool": "help",
+    "input": {},
+    "expected": "Tool list with descriptions",
+    "note": "First call for any vague task"
+  },
+  {
+    "tool": "help",
+    "input": {},
+    "expected": "Tool list with descriptions",
+    "note": "First call for any vague task"
+  },
+  {
+    "tool": "help",
+    "input": {},
+    "expected": "Tool list with descriptions",
+    "note": "First call for any vague task"
+  },
+  {
+    "tool": "show_mcp_overview",
+    "input": {},
+    "expected": "Platform map of suites",
+    "note": "Suites: scaffolding, analysis, inspiration, harness, probes, ops"
+  },
+  {
+    "tool": "scaffold_mcp_server",
+    "input": {
+      "name": "weather-mcp",
+      "description": "Weather forecasts",
+      "features": "prefab,skills,webapp,ci,tests"
+    },
+    "expected": "Complete repo at weather-mcp",
+    "note": "New Repo Gate compliant output"
+  },
+  {
+    "tool": "scaffold_mcp_server",
+    "input": {
+      "name": "notes-mcp",
+      "description": "Local markdown notes",
+      "features": "skills,ci,tests"
+    },
+    "expected": "Complete repo at notes-mcp",
+    "note": "New Repo Gate compliant output"
+  },
+  {
+    "tool": "scaffold_mcp_server",
+    "input": {
+      "name": "gps-mcp",
+      "description": "GPS track analysis",
+      "features": "prefab,skills"
+    },
+    "expected": "Complete repo at gps-mcp",
+    "note": "New Repo Gate compliant output"
+  },
+  {
+    "tool": "scaffold_mcp_server",
+    "input": {
+      "name": "radar-mcp",
+      "description": "Radar data processing",
+      "features": "webapp,ci,tests"
+    },
+    "expected": "Complete repo at radar-mcp",
+    "note": "New Repo Gate compliant output"
+  },
+  {
+    "tool": "scaffold_mcp_server",
+    "input": {
+      "name": "hifi-mcp",
+      "description": "HiFi component control",
+      "features": "prefab,webapp"
+    },
+    "expected": "Complete repo at hifi-mcp",
+    "note": "New Repo Gate compliant output"
+  },
+  {
+    "tool": "scaffold_mcp_server",
+    "input": {
+      "name": "vpn-mcp",
+      "description": "VPN connection manager",
+      "features": "skills,ci"
+    },
+    "expected": "Complete repo at vpn-mcp",
+    "note": "New Repo Gate compliant output"
+  },
+  {
+    "tool": "scaffold_app_fullstack",
+    "input": {
+      "app_name": "control-room",
+      "port": 11200,
+      "description": "Fleet control room dashboard"
+    },
+    "expected": "React + FastMCP pair at control-room",
+    "note": "Adjacent ports seeded"
+  },
+  {
+    "tool": "scaffold_app_fullstack",
+    "input": {
+      "app_name": "lab-notebook",
+      "port": 11202,
+      "description": "Lab notebook webapp"
+    },
+    "expected": "React + FastMCP pair at lab-notebook",
+    "note": "Adjacent ports seeded"
+  },
+  {
+    "tool": "scaffold_app_fullstack",
+    "input": {
+      "app_name": "garden-timer",
+      "port": 11204,
+      "description": "Garden watering scheduler"
+    },
+    "expected": "React + FastMCP pair at garden-timer",
+    "note": "Adjacent ports seeded"
+  },
+  {
+    "tool": "scaffold_landing_page",
+    "input": {
+      "theme": "dark",
+      "name": "fleet-landing"
+    },
+    "expected": "Landing page scaffold",
+    "note": "Fleet design language"
+  },
+  {
+    "tool": "scaffold_landing_page",
+    "input": {
+      "theme": "amber",
+      "name": "fleet-landing"
+    },
+    "expected": "Landing page scaffold",
+    "note": "Fleet design language"
+  },
+  {
+    "tool": "scaffold_landing_page",
+    "input": {
+      "theme": "minimal",
+      "name": "fleet-landing"
+    },
+    "expected": "Landing page scaffold",
+    "note": "Fleet design language"
+  },
+  {
+    "tool": "analyze_mcp_runts",
+    "input": {
+      "scan_path": "D:\\Dev\\repos",
+      "format": "markdown"
+    },
+    "expected": "Scored runt report",
+    "note": "Shallow scan"
+  },
+  {
+    "tool": "analyze_mcp_runts",
+    "input": {
+      "format": "json",
+      "scan_path": "D:\\Dev\\repos",
+      "deep_scan": true
+    },
+    "expected": "Scored runt report with source checks",
+    "note": "Deep scan"
+  },
+  {
+    "tool": "analyze_mcp_runts",
+    "input": {
+      "format": "markdown",
+      "scan_path": "D:\\Dev\\repos\\arxiv-mcp",
+      "deep_scan": true
+    },
+    "expected": "Single-repo scorecard",
+    "note": "Scoped to one repo"
+  },
+  {
+    "tool": "get_fleet_status",
+    "input": {},
+    "expected": "Per-webapp up/down status",
+    "note": "Live HTTP health probes"
+  },
+  {
+    "tool": "get_fleet_status",
+    "input": {
+      "scope": "webapp"
+    },
+    "expected": "Webapp-only status",
+    "note": "Filter to webapps"
+  },
+  {
+    "tool": "fleet_config_audit",
+    "input": {},
+    "expected": "Per-repo config matrix",
+    "note": "CLAUDE.md, llms.txt, glama.json presence"
+  },
+  {
+    "tool": "fleet_config_audit",
+    "input": {
+      "file": "llms-full.txt"
+    },
+    "expected": "Repos missing llms-full.txt",
+    "note": "Single-file audit"
+  },
+  {
+    "tool": "inspire_repo",
+    "input": {
+      "owner": "modelcontextprotocol",
+      "repo": "servers"
+    },
+    "expected": "Architecture study",
+    "note": "No-clone analysis"
+  },
+  {
+    "tool": "inspire_repo",
+    "input": {
+      "owner": "astral-sh",
+      "repo": "uv"
+    },
+    "expected": "Architecture study",
+    "note": "No-clone analysis"
+  },
+  {
+    "tool": "inspire_repo",
+    "input": {
+      "owner": "jlowin",
+      "repo": "fastmcp"
+    },
+    "expected": "Architecture study",
+    "note": "No-clone analysis"
+  },
+  {
+    "tool": "inspire_repo",
+    "input": {
+      "owner": "sandraschi",
+      "repo": "mcp-central-docs"
+    },
+    "expected": "Architecture study",
+    "note": "No-clone analysis"
+  },
+  {
+    "tool": "inspire_repo_workflow",
+    "input": {
+      "goal": "clone the tool surface",
+      "owner": "modelcontextprotocol",
+      "repo": "servers"
+    },
+    "expected": "Scaffold recommendation",
+    "note": "Agentic multi-step study"
+  },
+  {
+    "tool": "inspire_repo_workflow",
+    "input": {
+      "goal": "compare webapp architecture",
+      "owner": "sandraschi",
+      "repo": "email-mcp"
+    },
+    "expected": "Gap analysis vs fleet",
+    "note": "Fleet internal reference"
+  },
+  {
+    "tool": "harness_analyze",
+    "input": {
+      "path": "C:\\code\\mylib"
+    },
+    "expected": "AST spec JSON",
+    "note": "Pass 1"
+  },
+  {
+    "tool": "harness_analyze",
+    "input": {
+      "path": "C:\\code\\mylib",
+      "recursive": true
+    },
+    "expected": "Deep spec with submodules",
+    "note": "Recursive analysis"
+  },
+  {
+    "tool": "harness_generate",
+    "input": {
+      "spec": "C:\\code\\spec.json",
+      "name": "mylib-mcp"
+    },
+    "expected": "FastMCP server repo",
+    "note": "Pass 2"
+  },
+  {
+    "tool": "harness_refine",
+    "input": {
+      "server_path": "C:\\code\\mylib-mcp",
+      "spec": "C:\\code\\spec.json"
+    },
+    "expected": "Gap list",
+    "note": "Pass 3"
+  },
+  {
+    "tool": "fleet_startup_probe",
+    "input": {
+      "scope": "all"
+    },
+    "expected": "Boot report per repo",
+    "note": "Pre-release gate"
+  },
+  {
+    "tool": "fleet_startup_probe",
+    "input": {
+      "scope": "runt"
+    },
+    "expected": "Boot report for runts",
+    "note": "Focused on weak repos"
+  },
+  {
+    "tool": "fleet_startup_probe",
+    "input": {
+      "scope": "calibre-mcp"
+    },
+    "expected": "Single repo boot check",
+    "note": "Scoped probe"
+  },
+  {
+    "tool": "fleet_cold_install_probe",
+    "input": {
+      "repo": "calibre-mcp"
+    },
+    "expected": "INSTALL.md + mcpb asset validation",
+    "note": "Cold install simulation"
+  },
+  {
+    "tool": "fleet_cold_install_probe",
+    "input": {
+      "repo": "pywinauto-mcp",
+      "ide": "cursor"
+    },
+    "expected": "Cursor-specific install smoke",
+    "note": "Per-IDE check"
+  },
+  {
+    "tool": "server_ops",
+    "input": {
+      "operation": "list"
+    },
+    "expected": "server_ops result",
+    "note": "Lifecycle management"
+  },
+  {
+    "tool": "server_ops",
+    "input": {
+      "operation": "register",
+      "server_name": "weather-mcp",
+      "config": "cursor"
+    },
+    "expected": "server_ops result",
+    "note": "Lifecycle management"
+  },
+  {
+    "tool": "server_ops",
+    "input": {
+      "operation": "register",
+      "server_name": "notes-mcp",
+      "config": "claude"
+    },
+    "expected": "server_ops result",
+    "note": "Lifecycle management"
+  },
+  {
+    "tool": "server_ops",
+    "input": {
+      "operation": "status",
+      "server_name": "weather-mcp"
+    },
+    "expected": "server_ops result",
+    "note": "Lifecycle management"
+  },
+  {
+    "tool": "server_ops",
+    "input": {
+      "operation": "remove",
+      "server_name": "old-mcp"
+    },
+    "expected": "server_ops result",
+    "note": "Lifecycle management"
+  },
+  {
+    "tool": "scheduler_ops",
+    "input": {
+      "operation": "list"
+    },
+    "expected": "scheduler_ops result",
+    "note": "Background job management"
+  },
+  {
+    "tool": "scheduler_ops",
+    "input": {
+      "operation": "add",
+      "job_name": "nightly-digest",
+      "command": "meta-ops.py analyze-runts",
+      "schedule": "0 5 * * *"
+    },
+    "expected": "scheduler_ops result",
+    "note": "Background job management"
+  },
+  {
+    "tool": "scheduler_ops",
+    "input": {
+      "operation": "add",
+      "job_name": "port-audit",
+      "command": "fleet-start.config check",
+      "schedule": "0 * * * *"
+    },
+    "expected": "scheduler_ops result",
+    "note": "Background job management"
+  },
+  {
+    "tool": "scheduler_ops",
+    "input": {
+      "operation": "run_now",
+      "job_name": "nightly-digest"
+    },
+    "expected": "scheduler_ops result",
+    "note": "Background job management"
+  },
+  {
+    "tool": "scheduler_ops",
+    "input": {
+      "operation": "pause",
+      "job_name": "port-audit"
+    },
+    "expected": "scheduler_ops result",
+    "note": "Background job management"
+  },
+  {
+    "tool": "scheduler_ops",
+    "input": {
+      "operation": "resume",
+      "job_name": "port-audit"
+    },
+    "expected": "scheduler_ops result",
+    "note": "Background job management"
+  },
+  {
+    "tool": "scheduler_ops",
+    "input": {
+      "operation": "remove",
+      "job_name": "old-job"
+    },
+    "expected": "scheduler_ops result",
+    "note": "Background job management"
+  },
+  {
+    "tool": "toolchain_ops",
+    "input": {
+      "operation": "list"
+    },
+    "expected": "toolchain_ops result",
+    "note": "Preset switching"
+  },
+  {
+    "tool": "toolchain_ops",
+    "input": {
+      "operation": "create",
+      "preset_name": "research"
+    },
+    "expected": "toolchain_ops result",
+    "note": "Preset switching"
+  },
+  {
+    "tool": "toolchain_ops",
+    "input": {
+      "operation": "apply",
+      "preset_name": "research"
+    },
+    "expected": "toolchain_ops result",
+    "note": "Preset switching"
+  },
+  {
+    "tool": "toolchain_ops",
+    "input": {
+      "operation": "apply",
+      "preset_name": "creative"
+    },
+    "expected": "toolchain_ops result",
+    "note": "Preset switching"
+  },
+  {
+    "tool": "toolchain_ops",
+    "input": {
+      "operation": "delete",
+      "preset_name": "old-preset"
+    },
+    "expected": "toolchain_ops result",
+    "note": "Preset switching"
+  },
+  {
+    "tool": "heartbeat_ops",
+    "input": {
+      "operation": "status"
+    },
+    "expected": "heartbeat_ops result",
+    "note": "Machine health"
+  },
+  {
+    "tool": "heartbeat_ops",
+    "input": {
+      "operation": "processes"
+    },
+    "expected": "heartbeat_ops result",
+    "note": "Machine health"
+  },
+  {
+    "tool": "heartbeat_ops",
+    "input": {
+      "operation": "ports"
+    },
+    "expected": "heartbeat_ops result",
+    "note": "Machine health"
+  },
+  {
+    "tool": "pack_ops",
+    "input": {
+      "path": "D:\\Dev\\repos\\arxiv-mcp",
+      "operation": "pack"
+    },
+    "expected": "Context bundle",
+    "note": "Single-file pack"
+  },
+  {
+    "tool": "pack_ops",
+    "input": {
+      "path": "D:\\Dev\\repos\\arxiv-mcp",
+      "operation": "info"
+    },
+    "expected": "Size + token estimate",
+    "note": "Pre-embed check"
+  },
+  {
+    "tool": "token_ops",
+    "input": {
+      "path": "src\\meta_mcp\\server.py",
+      "operation": "file"
+    },
+    "expected": "Token estimate",
+    "note": "Single file"
+  },
+  {
+    "tool": "token_ops",
+    "input": {
+      "path": "D:\\Dev\\repos\\arxiv-mcp",
+      "operation": "repo"
+    },
+    "expected": "Repo token estimate + heavy files",
+    "note": "Budgeting"
+  },
+  {
+    "tool": "token_ops",
+    "input": {
+      "path": "D:\\Dev\\repos\\arxiv-mcp",
+      "operation": "bundle"
+    },
+    "expected": "Bundle token estimate",
+    "note": "Pack companion"
+  },
+  {
+    "tool": "scaffold_mcp_server",
+    "input": {
+      "description": "Sensor telemetry collector",
+      "name": "telemetry-mcp",
+      "features": "prefab,webapp,ci,tests"
+    },
+    "expected": "Complete repo at telemetry-mcp",
+    "note": "Feature flag combinations"
+  },
+  {
+    "tool": "scaffold_mcp_server",
+    "input": {
+      "description": "Alert routing hub",
+      "name": "alerts-mcp",
+      "features": "skills,webapp"
+    },
+    "expected": "Complete repo at alerts-mcp",
+    "note": "Feature flag combinations"
+  },
+  {
+    "tool": "scaffold_mcp_server",
+    "input": {
+      "description": "Fleet report generator",
+      "name": "fleet-report-mcp",
+      "features": "prefab,skills,ci"
+    },
+    "expected": "Complete repo at fleet-report-mcp",
+    "note": "Feature flag combinations"
+  },
+  {
+    "tool": "scaffold_mcp_server",
+    "input": {
+      "description": "Energy monitor",
+      "name": "energy-mcp",
+      "features": "webapp,tests"
+    },
+    "expected": "Complete repo at energy-mcp",
+    "note": "Feature flag combinations"
+  },
+  {
+    "tool": "scaffold_mcp_server",
+    "input": {
+      "description": "WiFi survey tool",
+      "name": "wifi-mcp",
+      "features": "prefab,ci"
+    },
+    "expected": "Complete repo at wifi-mcp",
+    "note": "Feature flag combinations"
+  },
+  {
+    "tool": "scaffold_mcp_server",
+    "input": {
+      "description": "Printer queue manager",
+      "name": "printer-mcp",
+      "features": "skills,webapp,ci,tests"
+    },
+    "expected": "Complete repo at printer-mcp",
+    "note": "Feature flag combinations"
+  },
+  {
+    "tool": "inspire_repo",
+    "input": {
+      "owner": "openai",
+      "repo": "openai-agents-python"
+    },
+    "expected": "Architecture study",
+    "note": "Reference mining"
+  },
+  {
+    "tool": "inspire_repo",
+    "input": {
+      "owner": "anthropics",
+      "repo": "anthropic-quickstarts"
+    },
+    "expected": "Architecture study",
+    "note": "Reference mining"
+  },
+  {
+    "tool": "inspire_repo",
+    "input": {
+      "owner": "crewAIInc",
+      "repo": "crewAI"
+    },
+    "expected": "Architecture study",
+    "note": "Reference mining"
+  },
+  {
+    "tool": "inspire_repo",
+    "input": {
+      "owner": "langchain-ai",
+      "repo": "langchain"
+    },
+    "expected": "Architecture study",
+    "note": "Reference mining"
+  },
+  {
+    "tool": "inspire_repo",
+    "input": {
+      "owner": "fastapi",
+      "repo": "fastapi"
+    },
+    "expected": "Architecture study",
+    "note": "Reference mining"
+  },
+  {
+    "tool": "inspire_repo",
+    "input": {
+      "owner": "streamlit",
+      "repo": "streamlit"
+    },
+    "expected": "Architecture study",
+    "note": "Reference mining"
+  },
+  {
+    "tool": "inspire_repo_workflow",
+    "input": {
+      "goal": "multi-agent patterns",
+      "repo": "autogen",
+      "owner": "microsoft"
+    },
+    "expected": "Pattern extraction",
+    "note": "Deep study"
+  },
+  {
+    "tool": "inspire_repo_workflow",
+    "input": {
+      "goal": "tool wrapping strategy",
+      "repo": "transformers",
+      "owner": "huggingface"
+    },
+    "expected": "Wrapping strategy",
+    "note": "Harness feeder"
+  },
+  {
+    "tool": "harness_analyze",
+    "input": {
+      "exclude": [
+        "tests"
+      ],
+      "path": "C:\\code\\utils"
+    },
+    "expected": "Spec excluding tests",
+    "note": "Exclusion support"
+  },
+  {
+    "tool": "harness_generate",
+    "input": {
+      "spec": "C:\\code\\utils-spec.json",
+      "name": "utils-mcp",
+      "features": "prefab"
+    },
+    "expected": "Server with prefab",
+    "note": "Feature flags in generate"
+  },
+  {
+    "tool": "harness_refine",
+    "input": {
+      "verbose": true,
+      "spec": "C:\\code\\utils-spec.json",
+      "server_path": "C:\\code\\utils-mcp"
+    },
+    "expected": "Detailed gap list",
+    "note": "Verbose mode"
+  },
+  {
+    "tool": "fleet_startup_probe",
+    "input": {
+      "timeout": 30,
+      "scope": "all"
+    },
+    "expected": "Boot report with timeouts",
+    "note": "Timeout tuning"
+  },
+  {
+    "tool": "fleet_cold_install_probe",
+    "input": {
+      "repo": "email-mcp"
+    },
+    "expected": "Install validation",
+    "note": "Batch of one"
+  },
+  {
+    "tool": "fleet_cold_install_probe",
+    "input": {
+      "ide": "opencode",
+      "repo": "freecad-mcp"
+    },
+    "expected": "OpenCode install smoke",
+    "note": "Per-IDE"
+  },
+  {
+    "tool": "server_ops",
+    "input": {
+      "config": "cursor",
+      "operation": "list"
+    },
+    "expected": "Cursor registrations",
+    "note": "Config scoped"
+  },
+  {
+    "tool": "server_ops",
+    "input": {
+      "operation": "register",
+      "server_name": "weather-mcp",
+      "config": "opencode"
+    },
+    "expected": "Registered in opencode",
+    "note": "Cross IDE"
+  },
+  {
+    "tool": "server_ops",
+    "input": {
+      "operation": "status",
+      "server_name": "notes-mcp",
+      "config": "claude"
+    },
+    "expected": "Status in claude",
+    "note": "Scoped status"
+  },
+  {
+    "tool": "scheduler_ops",
+    "input": {
+      "job_name": "backup-check",
+      "operation": "add",
+      "command": "multi-backup status",
+      "schedule": "15 3 * * *"
+    },
+    "expected": "Job created",
+    "note": "Nightly at 03:15"
+  },
+  {
+    "tool": "scheduler_ops",
+    "input": {
+      "job_name": "feed-poll",
+      "operation": "add",
+      "command": "aiwatcher poll",
+      "schedule": "*/30 * * * *"
+    },
+    "expected": "Job created",
+    "note": "Every 30 minutes"
+  },
+  {
+    "tool": "scheduler_ops",
+    "input": {
+      "verbose": true,
+      "operation": "list"
+    },
+    "expected": "Jobs with run history",
+    "note": "Verbose listing"
+  },
+  {
+    "tool": "toolchain_ops",
+    "input": {
+      "verbose": true,
+      "operation": "list"
+    },
+    "expected": "Presets with server counts",
+    "note": "Detailed list"
+  },
+  {
+    "tool": "toolchain_ops",
+    "input": {
+      "operation": "create",
+      "preset_name": "media"
+    },
+    "expected": "Preset captured",
+    "note": "Capture current"
+  },
+  {
+    "tool": "toolchain_ops",
+    "input": {
+      "operation": "apply",
+      "preset_name": "media"
+    },
+    "expected": "Config switched",
+    "note": "Apply preset"
+  },
+  {
+    "tool": "heartbeat_ops",
+    "input": {
+      "detailed": true,
+      "operation": "status"
+    },
+    "expected": "Detailed health",
+    "note": "Detailed mode"
+  },
+  {
+    "tool": "heartbeat_ops",
+    "input": {
+      "filter": "python",
+      "operation": "processes"
+    },
+    "expected": "Python processes",
+    "note": "Filtered"
+  },
+  {
+    "tool": "heartbeat_ops",
+    "input": {
+      "operation": "ports",
+      "range": "10700-11500"
+    },
+    "expected": "Ports in fleet range",
+    "note": "Range filter"
+  },
+  {
+    "tool": "pack_ops",
+    "input": {
+      "operation": "pack",
+      "exclude": [
+        "monitoring"
+      ],
+      "path": "D:\\Dev\\repos\\mcp-central-docs"
+    },
+    "expected": "Bundle with exclusions",
+    "note": "Exclusion support"
+  },
+  {
+    "tool": "token_ops",
+    "input": {
+      "operation": "file",
+      "path": "README.md"
+    },
+    "expected": "README token cost",
+    "note": "Quick estimate"
+  },
+  {
+    "tool": "token_ops",
+    "input": {
+      "operation": "repo",
+      "limit": 10,
+      "path": "D:\\Dev\\repos\\meta_mcp"
+    },
+    "expected": "Top 10 heaviest files",
+    "note": "Heavy file discovery"
+  },
+  {
+    "tool": "get_fleet_status",
+    "input": {
+      "format": "json"
+    },
+    "expected": "JSON status",
+    "note": "Machine readable"
+  },
+  {
+    "tool": "get_fleet_status",
+    "input": {
+      "check_health": true
+    },
+    "expected": "Status with health checks",
+    "note": "Deep probe"
+  }
+]

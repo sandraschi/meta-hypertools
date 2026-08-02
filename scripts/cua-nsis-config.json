@@ -1,0 +1,12 @@
+{
+  "product_name": "MetaMCP",
+  "install_dir": "%LOCALAPPDATA%\\MetaMCP",
+  "operator_exe": "meta-mcp-native.exe",
+  "backend_process_names": ["meta-mcp-native", "meta_mcp-backend"],
+  "backend_port": 10718,
+  "health_path": "/health",
+  "frontend_port": 10719,
+  "window_title_re": "MetaMCP",
+  "nsis_glob": "native/target/release/bundle/nsis/MetaMCP_*_x64-setup.exe",
+  "uninstall_registry_filter": "*MetaMCP*"
+}

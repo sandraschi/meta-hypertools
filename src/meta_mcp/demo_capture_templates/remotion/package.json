@@ -1,0 +1,16 @@
+{
+  "name": "fleet-screencast",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Remotion post-production for fleet webapp demo videos",
+  "scripts": {
+    "render": "remotion render src/index.ts DemoComposition"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.236",
+    "@remotion/media-utils": "^4.0.236",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.236"
+  }
+}

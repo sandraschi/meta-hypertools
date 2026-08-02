@@ -1,0 +1,60 @@
+{
+  "manifest_version": "0.3",
+  "name": "meta-mcp",
+  "version": "0.5.0",
+  "description": "MCP fleet orchestrator: scaffolding, remote GitHub inspiration, fleet probes, harness generation, config audit, portmanteau tool management, and analysis tools.",
+  "author": {
+    "name": "Sandra Schipal",
+    "url": "https://github.com/sandraschi"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sandraschi/meta-mcp.git"
+  },
+  "homepage": "https://github.com/sandraschi/meta-mcp",
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "fastmcp",
+    "fleet",
+    "scaffolding",
+    "harness",
+    "github-inspiration",
+    "config-audit",
+    "devtools"
+  ],
+  "server": {
+    "type": "python",
+    "entry_point": "src/meta_mcp/__main__.py",
+    "mcp_config": {
+      "command": "uv",
+      "args": ["--directory", "${__dirname}", "run", "meta-mcp-server"],
+      "env": {
+        "PYTHONUNBUFFERED": "1"
+      }
+    }
+  },
+  "tools": [
+    {"name": "help", "description": "Fleet discovery — list all MetaMCP tools"},
+    {"name": "show_mcp_overview", "description": "Platform overview: suites, builders, analyzers"},
+    {"name": "scaffold_mcp_server", "description": "Generate SOTA MCP server repo"},
+    {"name": "scaffold_app_fullstack", "description": "Scaffold FastAPI + React fullstack app"},
+    {"name": "scaffold_landing_page", "description": "Generate landing page scaffold"},
+    {"name": "analyze_mcp_runts", "description": "Scan fleet repos for SOTA gaps"},
+    {"name": "inspire_repo", "description": "Portmanteau GitHub repo study — no clone"},
+    {"name": "inspire_repo_workflow", "description": "Multi-step agentic repo architecture study"},
+    {"name": "harness_analyze", "description": "AST source analysis for MCP server generation"},
+    {"name": "harness_generate", "description": "Generate FastMCP server from analysis spec"},
+    {"name": "harness_refine", "description": "Gap analysis for harness-generated servers"},
+    {"name": "fleet_config_audit", "description": "Scan fleet for config files (CLAUDE.md, llms.txt, glama.json, etc.)"},
+    {"name": "fleet_startup_probe", "description": "Batch cold-start probe across fleet"},
+    {"name": "fleet_cold_install_probe", "description": "INSTALL.md preflight, mcpb smoke"},
+    {"name": "pack_ops", "description": "Pack repository for LLM context (portmanteau)"},
+    {"name": "server_ops", "description": "Manage MCP server lifecycle (portmanteau)"},
+    {"name": "scheduler_ops", "description": "Manage scheduled background tasks (portmanteau)"},
+    {"name": "toolchain_ops", "description": "Manage toolchain presets (portmanteau)"},
+    {"name": "heartbeat_ops", "description": "System health monitoring (portmanteau)"},
+    {"name": "token_ops", "description": "Analyze token usage in files (portmanteau)"},
+    {"name": "get_fleet_status", "description": "Runtime audit of fleet webapps"}
+  ]
+}

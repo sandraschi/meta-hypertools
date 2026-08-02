@@ -1,0 +1,221 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #00f3ff;
+  --color-secondary: #bd00ff;
+  --color-accent: #ff0055;
+  --color-muted: #c0c0c0;
+
+  --animate-pulse-glow: pulse-glow 2s ease-in-out infinite;
+
+  @keyframes pulse-glow {
+    0%,
+    100% {
+      box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
+    }
+
+    50% {
+      box-shadow: 0 0 40px rgba(0, 243, 255, 0.3);
+    }
+  }
+}
+
+html {
+  font-size: 18px;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  background-image: radial-gradient(circle at 10% 20%, rgba(189, 0, 255, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(0, 243, 255, 0.05) 0%, transparent 40%);
+  background-attachment: fixed;
+}
+
+:root {
+  --background: #020202;
+  --foreground: #ffffff;
+  --primary: #00f3ff;
+  --secondary: #bd00ff;
+  --accent: #ff0055;
+  --muted: #c0c0c0;
+  --border: rgba(255, 255, 255, 0.1);
+  --glass: rgba(255, 255, 255, 0.05);
+  --text-shadow-value: 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+p,
+li,
+td,
+th,
+label,
+input,
+textarea,
+select,
+button,
+a,
+span,
+div,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-shadow: var(--text-shadow-value);
+}
+
+.text-\[9px\] {
+  font-size: 0.75rem !important;
+}
+
+.text-\[10px\] {
+  font-size: 0.8125rem !important;
+}
+
+/* Boost readability of low-opacity text (not decorative elements) */
+.opacity-20.font-bold,
+.opacity-20.font-black,
+.opacity-30.font-bold,
+.opacity-30.font-black,
+.opacity-40.font-bold,
+.opacity-40.font-black,
+.opacity-20.uppercase,
+.opacity-30.uppercase,
+.opacity-40.uppercase,
+.opacity-20.tracking-widest,
+.opacity-30.tracking-widest,
+.opacity-40.tracking-widest {
+  opacity: 0.6 !important;
+}
+
+@layer components {
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.03);
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1.25rem;
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+  }
+
+  .text-gradient {
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(to right, white, white, rgba(255, 255, 255, 0.5));
+  }
+
+  .text-gradient-purple {
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(to right, #bd00ff, #00f3ff);
+  }
+
+  .btn-primary {
+    @apply px-6 py-2.5 rounded-xl font-black text-black transition-all duration-300;
+    transform: none;
+    background: linear-gradient(135deg, #00f3ff, #bd00ff);
+    box-shadow: 0 0 15px rgba(189, 0, 255, 0.3);
+  }
+
+  .btn-primary:active {
+    scale: 0.95;
+    opacity: 0.9;
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 0 25px rgba(0, 243, 255, 0.5);
+    transform: translateY(-1px);
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.875rem 1rem;
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    color: white;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+
+  .nav-item:hover {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+
+  .nav-item.active {
+    color: white;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.05);
+  border: 3px solid transparent;
+  background-clip: padding-box;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+
+/* Animations */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+body {
+  color-scheme: dark;
+}
+
+/* EXPERIMENTAL light mode (invert hack) - NOT fleet standard, reversible.
+   Toggling .dark off <html> inverts the whole UI. Remove this block to
+   revert to permanently-dark. */
+html:not(.dark) {
+  filter: invert(1) hue-rotate(180deg);
+  background: #f4f4f5;
+}
+html:not(.dark) img,
+html:not(.dark) video,
+html:not(.dark) canvas,
+html:not(.dark) iframe {
+  filter: invert(1) hue-rotate(180deg);
+}

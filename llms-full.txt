@@ -1,0 +1,318 @@
+# MetaMCP -- LLM corpus
+
+> Version `0.5.0` (see `pyproject.toml`). Fleet MCP orchestrator: scaffolding, analysis, runtime, diagnostics, repo inspiration, cold-start and cold-install probes, routing, harness generation. **Curated manifest** -- no live MCP configs or machine paths. Privacy: [docs/PRIVACY.md](docs/PRIVACY.md).
+
+Generated: 2026-08-02 (hand-maintained; refresh after tool or env changes)
+
+## 2026-08 modernization (v0.5.1)
+
+- **Standards checker v2** - scripts/check-repo-standards.ps1 (synced to
+  mcp-central-docs/sota-scripts/repo-standards/): FastMCP 3.4 floor,
+  uv.lock over requirements.txt, assets/icon.png, 3-4-100 prompt word
+  gates (system 3000+, user 4000+, examples 100+), mcpb/ layout support,
+  live standards doc refs, ASCII-only output. Run: just health.
+- **MCPB bundle at the 3-4-100 gate** - mcpb/assets: icon.png (256x256),
+  prompts/system.md (3154w), prompts/user.md (4226w), examples.json (101).
+- **Fullstack builder** (scripts/fullstack-builder.ps1, 2768 lines):
+  emits React 18 + Vite + Tailwind + Bun webapp with FastMCP 3.4 backend,
+  SQLite (members/products/orders), membership roster, onboarding wizard,
+  fleet-standard chat (skill-first preprompt, personalities, example
+  prompts, Ollama/LM Studio/vLLM probe), webshop, APScheduler jobs
+  (patrol demo), Logs ring buffer, API Docs page, Playwright e2e, CI,
+  optional Tauri 2.0 wrapper. Flags: -Interactive, -IncludeTauri,
+  -IncludeVoice, -IncludeScheduler, etc. Ports adjacent in 10700-11500.
+- **Auth** - src/meta_mcp/auth.py: X-Wurst-Auth middleware protects
+  /api/analysis, /api/remediation, /api/patch, /api/fleet/scan,
+  /api/v1/fleet/start|stop|restart. Token unset = local-dev bypass.
+- **demo-app** - D:\Dev\repos\demo-app (11140/11141), IDEAS.md roadmap.
+
+---
+
+## Tools
+
+All tools are registered via FastMCP suites in `src/meta_mcp/mcp_server.py`. Call `help()` for the live catalog.
+
+### Discovery and overview
+
+| Tool | Purpose |
+|------|---------|
+| `help` | List every MetaMCP tool (primary discovery entry) |
+| `find_mcp_tools` | Search toolsets by keyword |
+| `list_mcp_tools` | Alias of `help` with lower default cap |
+| `show_mcp_overview` | Short platform overview and next steps |
+| `inspire_repo_help` | Parameter reference for inspiration tools |
+
+### Fleet runtime
+
+| Tool | Purpose |
+|------|---------|
+| `get_fleet_status` | Audit fleet runtime status |
+| `launch_fleet_app` | Start a fleet application |
+| `stop_fleet_app` | Stop a fleet application |
+| `refresh_mcp_fleet` | Sync fleet registry metadata |
+| `open_mcp_launcher` | Open fleet management UI |
+| `ping_fleet` | Ping entire fleet |
+
+### Fleet probes
+
+| Tool | Purpose |
+|------|---------|
+| `fleet_startup_probe` | Cold-start probe: `start.ps1`, health, dirty log |
+| `fleet_startup_probe_report` | Latest cold-start report JSON |
+| `fleet_cold_install_probe` | Cold-install: INSTALL.md, mcpb (Claude), stdio smoke |
+| `fleet_cold_install_probe_report` | Latest cold-install report JSON |
+
+HTTP mirrors: `POST/GET /api/v1/fleet/startup-probe/*`, `POST/GET /api/v1/fleet/cold-install/*`
+
+### Diagnostics
+
+| Tool | Purpose |
+|------|---------|
+| `scan_mcp_unicode` | Unicode logging / docstring safety audit |
+| `validate_mcp_pwsh` | PowerShell native cmdlet standards |
+| `audit_mcp_implementation` | Stub / honesty scan |
+| `audit_mcp_surface` | FastMCP surface audit |
+| `audit_ide_integration` | IDE integration health |
+| `validate_tool_schema` | Validate tool parameters |
+| `benny_handshake` | Physical interrupt protocol for critical ops |
+
+### Analysis and depot
+
+Portmanteau: `analysis_ops(operation="runts"|"status"|"codebase"|"list_depot"|"get_depot_run"|"publish_mcd")`.
+
+Checks 40+ 2026 fleet standards: FastMCP version, web stack (Bun/Biome/Tailwind/Zustand/Lucide), Tauri/NSIS, docs (llms.txt/glama.json/.env.example), testing (Playwright/CUA-NSIS), safety (session context, CORS, --bak/--dryrun). Outputs structured **remediation_todo** grouped P0/P1/P2.
+
+| Tool | Purpose |
+|------|---------|
+| `analysis_ops` | Portmanteau: runt scan, repo status, codebase digest, depot management |
+| `deep_scan_repo` | Deep repository scan |
+| `verify_exploit` | Grounded exploit verification |
+| `generate_patch` | Generate patch for verified exploit |
+
+### Repository inspiration (GitHub, no clone)
+
+| Tool | Purpose |
+|------|---------|
+| `inspire_repo` | Portmanteau: structure / files / patterns / help |
+| `inspire_repo_structure` | Filtered file tree |
+| `inspire_repo_files` | Fetch selected source files |
+| `inspire_repo_patterns` | Architecture study pack |
+| `inspire_repo_workflow` | Multi-step study with optional sampling |
+| `inspire_repo_structure_card` | Prefab UI structure card |
+
+### Server management
+
+| Tool | Purpose |
+|------|---------|
+| `discover_mcp_servers` | Discover local MCP servers |
+| `list_mcp_servers` | List running servers |
+| `start_mcp_server` | Start server process |
+| `stop_mcp_server` | Stop server process |
+| `add_mcp_server` | Register server |
+| `remove_mcp_server` | Remove server |
+| `show_server_status` | Server status |
+| `execute_mcp_tool` | Execute tool on remote server |
+| `show_tool_history` | Tool execution history |
+
+### Client management and toolchains
+
+| Tool | Purpose |
+|------|---------|
+| `list_client_configs` | List IDE MCP configs |
+| `read_client_config` | Read one client config |
+| `update_client_config` | Update client config |
+| `validate_client_config` | Validate client config |
+| `list_mcp_toolchains` | List toolchain presets |
+| `create_mcp_toolchain` | Create preset |
+| `delete_mcp_toolchain` | Delete preset |
+| `apply_mcp_toolchain` | Apply preset to IDE |
+| `show_available_servers` | Servers available for toolchains |
+| `export_mcp_snippet` | Export Cursor MCP snippet block |
+| `diff_mcp_configs` | Diff MCP configurations |
+
+### Token analysis and packing
+
+| Tool | Purpose |
+|------|---------|
+| `analyze_file_tokens` | Token count for one file |
+| `analyze_dir_tokens` | Token count for directory |
+| `check_context_limits` | Fit tokens in LLM context windows |
+| `pack_mcp_repository` | Pack repo for LLM context |
+| `pack_repo_ai_optimized` | AI-optimized pack |
+
+### Scaffolding
+
+Portmanteau: `scaffold_ops(operation="mcp_server"|"fullstack"|"landing_page"|"webshop"|"game"|"wisdom_tree"|"tauri_nsis"|"tiiny_site"|"questionnaire")`.
+
+| Tool | Purpose |
+|------|---------|
+| `scaffold_ops` | Portmanteau: all project generation |
+| `create_mcp_server` | SOTA FastMCP 3.4+ server with dual transport, prefab, Tauri/NSIS |
+| `create_fullstack_app` | React + FastAPI fullstack |
+| `create_landing_page` | Premium dark-theme marketing page |
+| `create_tiiny_site` | Static HTML page + optional tiiny.host deploy |
+
+### Scheduler and heartbeat
+
+| Tool | Purpose |
+|------|---------|
+| `schedule_tool_task` | Schedule recurrent tool run |
+| `list_scheduled_tasks` | List schedules |
+| `cancel_scheduled_task` | Cancel schedule |
+| `config_proactive` | Configure proactive pulses |
+| `heartbeat_pulse` | System + fleet pulse summary |
+
+### Meta / fleet dev
+
+| Tool | Purpose |
+|------|---------|
+| `probe_fleet_health` | Fleet health probe |
+| `find_orphan_tools` | Orphan tool references |
+| `digest_mcp_changelog` | Changelog digest |
+| `summarize_server_prompt` | Server summary for prompts |
+| `tail_log_file` | Tail IDE log file (sensitive) |
+| `verify_system_env` | Environment sanity check |
+| `audit_secret_redaction` | Scan file for secret-like lines (redacted preview) |
+| `pipeline_liveness_check` | Pipeline liveness supervisor |
+
+### Dynamic routing
+
+| Tool | Purpose |
+|------|---------|
+| `meta_route_tool` | Resolve tool name → fleet server, hot-start if offline, proxy call |
+| `meta_search_capabilities` | Semantic search across tool names and descriptions |
+| `meta_routing_status` | Index health, running servers, fleet stats |
+| `meta_routing_reindex` | Force full fleet re-scan and SQLite rebuild |
+| `meta_routing_servers` | List all fleet servers in the index |
+
+### Security assessment (optional)
+
+| Tool | Purpose |
+|------|---------|
+| `verify_exploit` | Grounded exploit verification |
+| `generate_patch` | Generate patch for verified exploit |
+
+---
+
+## Environment
+
+| Variable | Default / note | Purpose |
+|----------|----------------|---------|
+| `HOST` | `127.0.0.1` | API bind address |
+| `PORT` | `10718` | API + static UI port |
+| `REPOS_DIR` | `~/repos` | Fleet repo scan root |
+| `MCP_CENTRAL_DOCS_ROOT` | `{REPOS_DIR}/mcp-central-docs` | Optional handbook clone |
+| `WURST_AUTH_TOKEN` | unset | Enables auth on protected API paths when set |
+| `GITHUB_TOKEN` | unset | Higher GitHub API rate limits |
+| `META_MCP_NODE_LABEL` | OS hostname | Override node name in heartbeat (use `local` for privacy) |
+| `META_MCP_FLEET_DEPOT` | `~/.meta_mcp/fleet` | Probe reports and manifests |
+| `META_MCP_FLEET_PROBES_ROOT` | `fleet_probes/scripts` | Vendored probe scripts |
+| `FLEET_REPOS_ROOT` | parent of install | Fleet probe repo root |
+| `FLEET_PROBE_RUN` | set by probe | Redirect child logs during cold-start |
+| `META_MCP_ANALYSIS_DEPOT` | `~/.meta_mcp/analysis` | Analysis depot |
+| `META_MCP_PREFAB_APPS` | on | Set `0` to skip Prefab App tool registration |
+
+Copy [.env.example](.env.example) to `.env`. Never commit `.env`.
+
+---
+
+## Run
+
+### Install
+
+```powershell
+git clone https://github.com/sandraschi/meta-mcp.git
+cd meta-mcp
+uv sync --group dev
+Copy-Item .env.example .env
+# Edit .env: REPOS_DIR, WURST_AUTH_TOKEN, optional GITHUB_TOKEN
+```
+
+### Web dashboard + API
+
+```powershell
+uv run meta-mcp
+# http://127.0.0.1:10718
+```
+
+Or `.\start.bat` when present. Vite dev UI: `just web-dev` → port `10719`.
+
+### stdio MCP (IDE)
+
+```json
+{
+  "mcpServers": {
+    "meta-mcp": {
+      "command": "uv",
+      "args": ["run", "meta-mcp-server"],
+      "cwd": "/absolute/path/to/meta-mcp"
+    }
+  }
+}
+```
+
+Adjust `cwd` to your clone. Restart the IDE after config changes.
+
+### Useful commands
+
+| Command | Purpose |
+|---------|---------|
+| `just` | Recipe menu |
+| `just tools` | Dump registered MCP tools |
+| `uv run python scripts/dump_mcp_tools.py` | Same tool dump |
+
+---
+
+## Architecture
+
+```
+web_sota (React)  <->  FastAPI /api/v1  <->  FastMCP (stdio + in-process)
+                              |
+                    Services (fleet, analysis, inspiration, ...)
+                              |
+              fleet_probes/scripts/*.ps1  ->  dev-host probes
+              ~/.meta_mcp/fleet/          ->  reports, manifests
+```
+
+- **Package:** `src/meta_mcp/`
+- **Active UI:** `web_sota/` (`frontend/` is legacy)
+- **Probe scripts:** `fleet_probes/` (vendored; MCD not required at runtime)
+- **Tool suites:** `src/meta_mcp/tools/registries/*.py`
+
+Fleet probe outcomes include `stack_ok`, `stack_degraded` (dirty console), `start_failed`, cold-install `mcpb_*` / `stdio_*`. mcpb applies to **Claude Desktop only**.
+
+---
+
+## Fleet probes (operator)
+
+| Probe | Question |
+|-------|----------|
+| Cold-start | Does `start.ps1` bring up stack; is console clean? |
+| Cold-install | Can consumer follow `INSTALL.md` / mcpb / stdio? |
+
+Dashboard: Fleet → Cold-start / Cold-install tabs. Reports: `~/.meta_mcp/fleet/reports/`.
+
+---
+
+## Troubleshooting
+
+1. **No fleet repos found** -- set `REPOS_DIR` in `.env` to your clones parent directory.
+2. **Probe scripts fail on Linux/macOS** -- cold-start/cold-install probes are PowerShell/Windows-oriented.
+3. **401/403 on API writes** -- set `WURST_AUTH_TOKEN` in `.env` and send header `X-Wurst-Auth`.
+4. **Repo inspiration rate limited** -- set `GITHUB_TOKEN` in `.env`.
+5. **Dashboard empty tool list** -- run `uv run meta-mcp-server` once or check `GET /api/v1/mcp/catalog`; use Tool Lab after backend is up.
+
+---
+
+## Privacy reminder
+
+Tools that read IDE configs, log tails, or probe captures may surface **secrets or hostnames**. Scrub before sharing. See [docs/PRIVACY.md](docs/PRIVACY.md).
+
+---
+
+## Related docs (inline pointers only)
+
+- Install: [docs/INSTALL.md](docs/INSTALL.md)
+- Tools index: [docs/TOOLS.md](docs/TOOLS.md)
+- Probe architecture: [docs/fleet/FLEET_PROBE_ARCHITECTURE.md](docs/fleet/FLEET_PROBE_ARCHITECTURE.md)
+

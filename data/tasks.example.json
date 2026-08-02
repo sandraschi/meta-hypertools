@@ -1,0 +1,18 @@
+{
+  "system_heartbeat": {
+    "id": "system_heartbeat",
+    "name": "System Heartbeat",
+    "description": "Default proactive system pulse log.",
+    "interval": 21600,
+    "server_id": "metaops",
+    "tool_name": "heartbeat_pulse",
+    "parameters": {
+      "detailed": true
+    },
+    "last_run": null,
+    "next_run": null,
+    "status": "active",
+    "history": [],
+    "context": {}
+  }
+}

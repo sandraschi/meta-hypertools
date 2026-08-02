@@ -1,0 +1,34 @@
+services:
+  frontend:
+    build:
+      context: ./web_sota
+      dockerfile: Dockerfile
+    ports:
+      - "10719:80"
+    restart: unless-stopped
+    depends_on:
+      - backend
+    networks:
+      - metric-net
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "10718:18000"
+    volumes:
+      # Mount users mcp config and logs for persistence and access
+      - ${USERPROFILE}/.gemini/antigravity:/root/.gemini/antigravity
+      # Mount source code (DISABLED: Causes major I/O lag/freezes on Windows Bind Mounts)
+      # - ./src:/app/src
+    environment:
+      - HOST=0.0.0.0
+      - PORT=18000
+    restart: unless-stopped
+    networks:
+      - metric-net
+
+networks:
+  metric-net:
+    driver: bridge

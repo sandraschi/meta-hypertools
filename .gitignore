@@ -1,0 +1,141 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+.ENV/
+.env
+.env.local
+.env.production
+.env.staging
+
+# Node.js / Frontend
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+yarn.lock
+dist/
+build/
+.next/
+.nuxt/
+.vite/
+.web/
+
+# Testing & Coverage
+.ruff_cache/
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+.coverage.*
+coverage.xml
+*.cover
+.hypothesis/
+
+# IDEs & Editors
+.vscode/
+.idea/
+.windsurf/
+.cursor/
+.zig/
+.zed/
+.antigravity/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Backups and Temp Files
+*.backup
+*.backup-*
+*.tmp
+.backup-test-*
+.backup-rules.md
+*.log
+logs/
+
+# Documentation Build
+docs/_build/
+docs/build/
+
+# Database Files
+*.db
+*.sqlite
+*.sqlite3
+
+# Temporary Files
+.tmp/
+temp/
+.cache/
+
+# MCP Specific
+mcp_logs/
+mcp_cache/
+.server_configs/
+.client_configs/
+*.mcpb
+*.dxt
+mcpb/src/
+mcpb/requirements.txt
+mcpb/README.md
+mcpb/CHANGELOG.md
+mcpb/LICENSE
+mcpb/pyproject.toml
+
+# Web Development
+.parcel-cache/
+.cache/
+public/uploads/
+public/assets/
+
+# Runtime Data
+*.pid
+*.lock
+process.json
+data/tasks.json
+
+# Local dumps (may contain paths, MCP configs, hostnames)
+debug_output.txt
+web_sota/build_log.txt
+scripts/out/
+
+# Logs
+*.log
+logs/
+mcp-server.log
+web-server.log
+
+# Backup Files
+*.bak
+*.orig
+*.rej
+# Rust / Zed IDE — rust-analyzer may create target/ at repo root
+target/
+
+_dashboard/
+
+debug_emoji.py
+discovery_result.json
+justfile.bak*
+
+reports/
