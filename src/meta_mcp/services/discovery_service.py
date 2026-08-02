@@ -17,7 +17,7 @@ class DiscoveryService(MetaMCPService):
     async def check_integration(self, ide_name: str) -> dict[str, Any]:
         """Audit client integration status for a specific IDE."""
         # Note: check_client_integration in tools/client_integration.py does the heavy lifting
-        return check_client_integration(ide_name)
+        return await check_client_integration(ide_name)
 
     async def discover_servers_api(
         self,
@@ -45,7 +45,7 @@ class DiscoveryService(MetaMCPService):
         try:
             if operation == "check":
                 # Discover all installed clients
-                discovered_clients = discover_clients()
+                discovered_clients = await discover_clients()
 
                 # Convert to the expected format for compatibility
                 clients_dict = {}
