@@ -219,3 +219,13 @@ html:not(.dark) canvas,
 html:not(.dark) iframe {
   filter: invert(1) hue-rotate(180deg);
 }
+
+/* Fleet contrast + font-size floor (SOTA 2026).
+   Tiny arbitrary font sizes are bumped to readable floors and
+   near-black text on dark surfaces is lifted to zinc-400 (>= 7:1 on
+   zinc-900). Delete this block to revert to author-chosen sizes. */
+.text-\[9px\] { font-size: 11px !important; }
+.text-\[10px\] { font-size: 12px !important; }
+.text-\[11px\] { font-size: 12px !important; }
+.text-zinc-700 { color: #a1a1aa !important; }
+.text-zinc-600 { color: #a1a1aa !important; }

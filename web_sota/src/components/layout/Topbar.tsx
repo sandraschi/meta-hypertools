@@ -16,7 +16,7 @@ import { logger } from "../../utils/logger";
 // EXPERIMENTAL light mode (invert hack). Not fleet standard - see index.css.
 // Toggling `.dark` off the root flips the invert filter; persisted so the
 // choice survives reloads. Delete this + the CSS block to revert.
-const THEME_KEY = "meta-light-mode";
+const THEME_KEY = "meta-hypertools-light-mode";
 
 function useExperimentalTheme() {
   const [light, setLight] = useState(() => {
@@ -194,3 +194,4 @@ export function Topbar({ title, onShowLogger, onShowHelp }: TopbarProps) {
     </div>
   );
 }
+

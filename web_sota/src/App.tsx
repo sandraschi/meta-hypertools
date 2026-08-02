@@ -65,7 +65,7 @@ function App() {
     setIsLoading(true);
     setError(null);
     try {
-      const serversResp = await api.executeTool("metaops", "list_mcp_servers", {});
+      const serversResp = await api.executeTool("metaops", "discovery_ops", { operation: "servers" });
       if (isSuccessResponse(serversResp)) {
         const payload = serversResp.result ?? serversResp.data;
         const inner =
