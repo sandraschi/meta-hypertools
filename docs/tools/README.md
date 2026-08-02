@@ -1,8 +1,8 @@
-# MetaMCP Tool Suites
+# meta-hypertools Tool Suites
 
 For a **compact overview** and links into this folder, see **[../TOOLS.md](../TOOLS.md)**.
 
-MetaMCP is organized into modular tool suites, each handling a specific domain of the MCP ecosystem.
+meta-hypertools is organized into modular tool suites, each handling a specific domain of the MCP ecosystem.
 
 ## 🧰 Available Suites
 
@@ -48,3 +48,4 @@ Fleet health probes, MASTER config snippets, diffs, FastMCP surface audits, and 
 
 ### [Demo capture](demo-capture.md)
 Remote webapp demo pipeline: `demo_ops` — Playwright screenshots/video walkthrough + optional Remotion MP4 render (`demo_capture` suite).
+

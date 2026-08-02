@@ -1,4 +1,4 @@
-# MetaMCP -- LLM corpus
+# meta-hypertools -- LLM corpus
 
 > Version `0.5.0` (see `pyproject.toml`). Fleet MCP orchestrator: scaffolding, analysis, runtime, diagnostics, repo inspiration, cold-start and cold-install probes, routing, harness generation. **Curated manifest** -- no live MCP configs or machine paths. Privacy: [docs/PRIVACY.md](docs/PRIVACY.md).
 
@@ -36,7 +36,7 @@ All tools are registered via FastMCP suites in `src/meta_mcp/mcp_server.py`. Cal
 
 | Tool | Purpose |
 |------|---------|
-| `help` | List every MetaMCP tool (primary discovery entry) |
+| `help` | List every meta-hypertools tool (primary discovery entry) |
 | `find_mcp_tools` | Search toolsets by keyword |
 | `list_mcp_tools` | Alias of `help` with lower default cap |
 | `show_mcp_overview` | Short platform overview and next steps |
@@ -221,7 +221,7 @@ Copy [.env.example](.env.example) to `.env`. Never commit `.env`.
 ### Install
 
 ```powershell
-git clone https://github.com/sandraschi/meta-mcp.git
+git clone https://github.com/sandraschi/meta-hypertools.git
 cd meta-mcp
 uv sync --group dev
 Copy-Item .env.example .env
@@ -315,4 +315,6 @@ Tools that read IDE configs, log tails, or probe captures may surface **secrets 
 - Install: [docs/INSTALL.md](docs/INSTALL.md)
 - Tools index: [docs/TOOLS.md](docs/TOOLS.md)
 - Probe architecture: [docs/fleet/FLEET_PROBE_ARCHITECTURE.md](docs/fleet/FLEET_PROBE_ARCHITECTURE.md)
+
+
 

@@ -1,7 +1,7 @@
 {
   "$schema": "https://glama.ai/mcp/schema/2025",
-  "id": "meta-mcp",
-  "name": "meta-mcp",
+  "id": "meta-hypertools",
+  "name": "meta-hypertools",
   "version": "0.5.0",
   "description": "MCP fleet orchestrator - the meta layer that scaffolds servers and webapps, studies GitHub inspiration without cloning, wraps existing code via AST harness, probes releases (cold-start + cold-install), audits fleet standards compliance, and operates IDE registrations, schedulers, toolchain presets, and context packing.",
   "categories": ["development", "automation", "devops", "productivity"],
@@ -9,8 +9,8 @@
     "name": "Sandra Schipal",
     "url": "https://github.com/sandraschi"
   },
-  "repository": "https://github.com/sandraschi/meta-mcp",
-  "homepage": "https://github.com/sandraschi/meta-mcp",
+  "repository": "https://github.com/sandraschi/meta-hypertools",
+  "homepage": "https://github.com/sandraschi/meta-hypertools",
   "tools": [
     "help",
     "show_mcp_overview",
@@ -40,3 +40,7 @@
     "demo_ops"
   ]
 }
+
+
+
+

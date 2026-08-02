@@ -1,4 +1,4 @@
-# MetaMCP
+# meta-hypertools
 
 > Manage MCP server fleets from one process: runtime control, diagnostics, GitHub repo inspiration, and automated cold-start / cold-install health probes. Transports: **stdio MCP** (IDEs) and **HTTP** (FastAPI + React dashboard `web_sota`). Local operator tool -- see [docs/PRIVACY.md](docs/PRIVACY.md).
 
@@ -37,7 +37,7 @@ Bind via `HOST` / `PORT` in `.env`.
 ## Run (summary)
 
 ```powershell
-git clone https://github.com/sandraschi/meta-mcp.git
+git clone https://github.com/sandraschi/meta-hypertools.git
 cd meta-mcp
 uv sync --group dev
 copy .env.example .env   # set REPOS_DIR, WURST_AUTH_TOKEN
@@ -86,3 +86,5 @@ Full tool table: [llms-full.txt#tools](llms-full.txt)
 - [docs/tools/client-management.md](docs/tools/client-management.md)
 - [docs/tools/toolchains.md](docs/tools/toolchains.md)
 - [docs/tools/meta-dev.md](docs/tools/meta-dev.md)
+
+

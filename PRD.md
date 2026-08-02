@@ -1,4 +1,4 @@
-# MetaMCP -- Product Requirements Document
+# meta-hypertools -- Product Requirements Document
 
 **Version**: 0.5.0 (2026-08-02)
 **Status**: ACTIVE - the fleet's central nervous system
@@ -14,7 +14,7 @@ schedulers, and documentation - each one born, grown, and retired. Most
 fleet operators drown in that organism: scaffolding by hand, auditing by
 grep, releases by prayer.
 
-MetaMCP is the organism's **meta layer**. It does not serve data. It
+meta-hypertools is the organism's **meta layer**. It does not serve data. It
 serves the fleet itself. Point it at any problem - "scaffold a server
 like this repo", "wrap my script collection", "why is this webapp down",
 "who is behind on standards", "ship ten releases safely" - and it turns
@@ -29,13 +29,13 @@ else.
 
 Every fleet operation that is currently a dozen scripts, a wiki page, and
 a prayer becomes a single MCP tool with a schema, a report, and a
-recovery path. MetaMCP is the operational API of the fleet: **scaffold,
+recovery path. meta-hypertools is the operational API of the fleet: **scaffold,
 inspire, wrap, probe, audit, operate** - all of it, all the time, all
 against the current SOTA 2026 bar.
 
 ## 3. The Problem
 
-| Pain | Today (without MetaMCP) | With MetaMCP |
+| Pain | Today (without meta-hypertools) | With meta-hypertools |
 |------|--------------------------|--------------|
 | New server | Copy an old repo, rip out its soul, pray | `scaffold_mcp_server` - full SOTA repo in one pass |
 | Imitate a GitHub project | Clone, grep, squint | `inspire_repo_workflow` - architecture study, no clone |
@@ -92,7 +92,7 @@ release wave - they catch what unit tests never see.
 `analyze_mcp_runts` scores every repo against the SOTA bar (FastMCP 3.4
 floor, MCPB 3-4-100 prompts, uv, CI, docs, tooling). `fleet_config_audit`
 checks configuration artifacts fleet-wide. The diagnostics suite scrubs
-Unicode, PowerShell, and stub-ware. And MetaMCP audits itself: its own
+Unicode, PowerShell, and stub-ware. And meta-hypertools audits itself: its own
 standards checker scores it 10/10, its own tests are 65 green, its own
 bundle ships to the 3-4-100 gate.
 
@@ -181,11 +181,11 @@ Token unset = local-dev bypass; token set = 403 without header.
   crashed backends, re-register drifted configs) with human approval
 - **The Fleet Brain**: a RAG depot over all fleet docs and llms-full.txt
   files, so agents can query the fleet in natural language
-- **Cross-fleet orchestration**: one MetaMCP instance in every fleet,
+- **Cross-fleet orchestration**: one meta-hypertools instance in every fleet,
   gossiping health via the bridge URLs
 - **Robot integration**: scheduled patrols dispatching to yahboom-mcp
   (the Boomy safety patrol), alert routing through aiwatcher-mcp
-- **Self-scaffolding**: MetaMCP that can regenerate parts of itself from
+- **Self-scaffolding**: meta-hypertools that can regenerate parts of itself from
   its own harness spec - the ultimate dogfood
 
 ## 8. Success Metrics
@@ -219,3 +219,4 @@ Token unset = local-dev bypass; token set = 403 without header.
 ---
 
 *"Build the meta layer and the fleet builds itself."*
+

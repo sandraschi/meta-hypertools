@@ -1,6 +1,6 @@
 {
   "manifest_version": "0.3",
-  "name": "meta-mcp",
+  "name": "meta-hypertools",
   "version": "0.5.0",
   "description": "MCP fleet orchestrator: scaffolding, remote GitHub inspiration, fleet probes, harness generation, config audit, portmanteau tool management, and analysis tools.",
   "author": {
@@ -9,9 +9,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/sandraschi/meta-mcp.git"
+    "url": "https://github.com/sandraschi/meta-hypertools.git"
   },
-  "homepage": "https://github.com/sandraschi/meta-mcp",
+  "homepage": "https://github.com/sandraschi/meta-hypertools",
   "license": "MIT",
   "keywords": [
     "mcp",
@@ -58,3 +58,4 @@
     {"name": "get_fleet_status", "description": "Runtime audit of fleet webapps"}
   ]
 }
+

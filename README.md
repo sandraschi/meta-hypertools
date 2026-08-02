@@ -1,6 +1,6 @@
-# MetaMCP
+# meta-hypertools
 
-> **MCP fleet orchestrator** -- scaffolding, GitHub repo inspiration, fleet probes, harness generation, config audit, portmanteau tool management, and analysis tools.
+> **The MCP server that builds, wraps, probes, audits, and operates every other MCP server.** Scaffolding, GitHub inspiration, AST harness, fleet probes, standards analysis, diagnostics, and lifecycle ops - one toolbox, one pipeline, all SOTA-baked.
 
 <p align="center">
   <a href="https://github.com/casey/just"><img src="https://img.shields.io/badge/just-ready_to_go-7c5cfc?style=flat-square&logo=just&logoColor=white" alt="Just"></a>
@@ -9,7 +9,7 @@
   <a href="https://python.org"><img src="https://img.shields.io/badge/Python-3.12+-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python"></a>
   <a href="https://github.com/PrefectHQ/fastmcp"><img src="https://img.shields.io/badge/FastMCP-3.4-7c5cfc?style=flat-square" alt="FastMCP"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="MIT"></a>
-  <a href="https://github.com/sandraschi/meta-mcp/releases"><img src="https://img.shields.io/github/v/release/sandraschi/meta-mcp?include_prereleases&label=release&style=flat-square" alt="Release"></a>
+  <a href="https://github.com/sandraschi/meta-hypertools/releases"><img src="https://img.shields.io/github/v/release/sandraschi/meta-hypertools?include_prereleases&label=release&style=flat-square" alt="Release"></a>
 </p>
 
 Exposed as **stdio MCP** (IDEs), **REST API** (HTTP mode), and a **web dashboard** (`web_sota`).
@@ -20,11 +20,26 @@ Exposed as **stdio MCP** (IDEs), **REST API** (HTTP mode), and a **web dashboard
 
 ---
 
+## Reading ladder (the stack)
+
+This repo is a leporello - it folds out. Read as deep as you need:
+
+| Level | Doc | What you get |
+|-------|-----|--------------|
+| **L1 - 30 seconds** | This README | What it is + what you can do with it (below) |
+| **L2 - 5 minutes** | [docs/README.md](docs/README.md) | The tour: suites, dashboard, probes, workflows |
+| **L3 - tool deep dives** | [docs/TOOLS.md](docs/TOOLS.md) + `docs/tools/*.md` | Every tool, operation, and example |
+| **L4 - architecture** | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Server, API, MCP, UI internals |
+| **L5 - the vision** | [PRD.md](PRD.md) | Where it is going (moonshots included) |
+| **L6 - the scripts** | [scripts/README.md](scripts/README.md) | Every build script, with help entry points |
+
+---
+
 ## The meta layer
 
 The fleet is a living organism: 180+ MCP servers, webapps, robots, and
-schedulers. MetaMCP is the organism's **meta layer** - it does not serve
-data, it serves the fleet itself.
+schedulers. meta-hypertools is the organism's **meta layer** - it does not
+serve data, it serves the fleet itself.
 
 ```
 scaffold → build servers & webapps (one-pass, SOTA-baked)
@@ -45,9 +60,66 @@ MCPB bundle ships at the **3-4-100 prompt gate**.
 
 ---
 
+## What you do with it (the leporello)
+
+Fold out; pick your mission. Every row is a real, tested workflow.
+
+### Build things
+
+| You want... | Do this | In one line |
+|-------------|---------|-------------|
+| A new MCP server, standards-ready | `scaffold_ops(operation="mcp_server")` or dashboard Builders | Full SOTA repo in one pass - pyproject, uv.lock, llms.txt, glama, CI, MCPB layout |
+| A fullstack webapp with backend | `scaffold_app_fullstack` or `scripts/fullstack-builder.ps1` | The 2768-line monolith emits a 50-file app: roster, shop, onboarding, chat, scheduler, Tauri wrapper |
+| A dog care plane (really) | `scaffold_app_fullstack -AppName benny-the-dog-mcp` | Yes, the fleet dog has one - with Boomy patrol integration |
+| A landing page | `scaffold_ops(operation="landing_page")` | Tailwind marketing scaffold |
+| A spec-kit project | `scaffold_ops(operation="spec_kit")` | GitHub Spec-Driven Development with agent slash commands |
+| A webshop / game / wisdom tree | `scaffold_ops(operation="webshop"\|"game"\|"wisdom_tree")` | Specialized templates |
+
+### Learn from others
+
+| You want... | Do this | In one line |
+|-------------|---------|-------------|
+| To study any GitHub repo without cloning | `inspire_repo(operation="structure\|files\|patterns")` | Architecture study: tree, README, topics, patterns |
+| A deep agentic architecture review | `inspire_repo_workflow(goal=...)` | Multi-step reasoning + a scaffold recommendation |
+| To wrap your script collection as MCP | `harness_analyze` → `harness_generate` → `harness_refine` | AST spec in, FastMCP server out, gaps checked |
+
+### Certify & guard
+
+| You want... | Do this | In one line |
+|-------------|---------|-------------|
+| To know which repos decayed | `analysis_ops(operation="runts")` | 40+ rules, P0/P1/P2 remediation, scored report |
+| To verify releases actually boot | `fleet_startup_probe` | Cold-start probe: start.ps1, health, dirty logs |
+| To validate install paths | `fleet_cold_install_probe` | INSTALL.md, .mcpb assets, per-IDE stdio smoke |
+| To scrub Unicode from loggers | `diagnostics_ops(operation="unicode")` | EmojiBuster - Windows loggers stay ASCII |
+| To scrub PowerShell Linux-isms | `diagnostics_ops(operation="pwsh")` | No grep/tail/&& in fleet scripts |
+| To audit the repo's own honesty | `diagnostics_ops(operation="audit_impl")` | Stubs, mocks, TODO placeholders |
+
+### Operate the machine
+
+| You want... | Do this | In one line |
+|-------------|---------|-------------|
+| Servers registered in all IDEs | `server_ops` | list/register/status/remove with backups |
+| Scheduled background jobs | `scheduler_ops` | add/list/run_now/pause/resume/remove |
+| Toolchain presets | `toolchain_ops` | one apply switches the whole IDE config |
+| Machine health | `heartbeat_ops` | status/processes/ports in the fleet range |
+| A repo packed for LLM context | `pack_ops` | single bundle + token estimate |
+| Token budgeting | `token_ops` | per-file/repo estimates before embedding |
+| Fleet discovery | `discovery_ops` | local servers + IDE audit |
+
+### The meta moves
+
+| You want... | Do this |
+|-------------|---------|
+| The fleet audited automatically | schedule `analysis_ops(operation="runts")` via `scheduler_ops` |
+| A server inspired by a repo you like | `inspire_repo_workflow` → `scaffold_mcp_server` - two calls |
+| Your existing code exposed to Claude | `harness_analyze` → `harness_generate` - three calls total |
+| To know it all still works | `just health` (self-audit 10/10), `just test` (65 green), `just mcpb-pack` (3-4-100 gate) |
+
+---
+
 ## What it does
 
-MetaMCP is a single local hub for operations otherwise spread across a dozen scripts. All tools are **portmanteau** -- consolidated by domain with `operation: Literal[...]` discriminators.
+meta-hypertools is a single local hub for operations otherwise spread across a dozen scripts. All tools are **portmanteau** -- consolidated by domain with `operation: Literal[...]` discriminators.
 
 | Area | Summary |
 |------|---------|
@@ -133,7 +205,7 @@ Docs: [docs/tools/analysis.md](docs/tools/analysis.md) · [docs/tools/diagnostic
 
 ## Fleet probes
 
-MetaMCP **orchestrates** fleet-wide health checks. Probe scripts live in `fleet_probes/`; reports and manifests default to `~/.meta_mcp/fleet/`. No separate handbook repo is required at runtime.
+meta-hypertools **orchestrates** fleet-wide health checks. Probe scripts live in `fleet_probes/`; reports and manifests default to `~/.meta_mcp/fleet/`. No separate handbook repo is required at runtime.
 
 ### Cold-start probe
 
@@ -178,7 +250,7 @@ Path resolution: `src/meta_mcp/fleet_paths.py`. Override with `META_MCP_FLEET_PR
 
 ### Sandboxed cold-install (`-Execute`)
 
-Beyond INSTALL.md preflight and host-side mcpb/stdio smoke (Phase 2b), MetaMCP can generate **consumer-profile sandbox install scripts** for naked Windows validation via [virtualization-mcp](https://github.com/sandraschi/virtualization-mcp).
+Beyond INSTALL.md preflight and host-side mcpb/stdio smoke (Phase 2b), meta-hypertools can generate **consumer-profile sandbox install scripts** for naked Windows validation via [virtualization-mcp](https://github.com/sandraschi/virtualization-mcp).
 
 | Mode | What it checks | Status |
 |------|----------------|--------|
@@ -196,7 +268,7 @@ Options A/B/C in an isolated consumer sandbox -- see vendored [FLEET_COLD_INSTAL
 
 ## Repo inspiration
 
-**Study OSS repos from inside MetaMCP** -- filtered trees, token-safe file fetches, and architecture prompts. Adapted from [Repomuse](https://www.npmjs.com/package/repomuse); implemented natively in Python (no `npx` sidecar).
+**Study OSS repos from inside meta-hypertools** -- filtered trees, token-safe file fetches, and architecture prompts. Adapted from [Repomuse](https://www.npmjs.com/package/repomuse); implemented natively in Python (no `npx` sidecar).
 
 | Surface | Entry |
 |---------|--------|
@@ -215,7 +287,7 @@ Optional `GITHUB_TOKEN` raises GitHub API rate limits. Tree cache (~5 min) avoid
 ## Quick start
 
 ```powershell
-git clone https://github.com/sandraschi/meta-mcp.git
+git clone https://github.com/sandraschi/meta-hypertools.git
 cd meta-mcp
 uv sync --group dev
 ```
@@ -224,7 +296,7 @@ uv sync --group dev
 |------|---------|-----------------|
 | Web + API | `.\start.bat` or `uv run meta-mcp` | http://127.0.0.1:10718 |
 | stdio MCP | `uv run meta-mcp-server` | Cursor / Claude / etc. |
-| Claude Desktop | `just mcpb-pack` → drag `dist/meta-mcp-v*.mcpb` | [Releases](https://github.com/sandraschi/meta-mcp/releases) |
+| Claude Desktop | `just mcpb-pack` → drag `dist/meta-mcp-v*.mcpb` | [Releases](https://github.com/sandraschi/meta-hypertools/releases) |
 | Recipes | `just` | See [INSTALL.md](INSTALL.md) |
 | Native desktop | `just build-native` | [docs/TAURI.md](docs/TAURI.md) -- installer + PyInstaller sidecar |
 
@@ -271,7 +343,7 @@ Install paths, IDE snippets, ports, troubleshooting: **[INSTALL.md](INSTALL.md)*
 
 ## Privacy and sensitive data
 
-MetaMCP runs **locally**. It does not host user accounts, but several tools read IDE configs, log directories, and fleet probe output that may contain **API keys, paths, or your machine hostname**.
+meta-hypertools runs **locally**. It does not host user accounts, but several tools read IDE configs, log directories, and fleet probe output that may contain **API keys, paths, or your machine hostname**.
 
 - Reports and depot data live under `~/.meta_mcp/` (not committed).
 - `data/tasks.json` is **gitignored**; seed from [data/tasks.example.json](data/tasks.example.json).
@@ -285,7 +357,7 @@ Full detail: **[docs/PRIVACY.md](docs/PRIVACY.md)**.
 
 ## GitHub repository settings
 
-Use these on [github.com/sandraschi/meta-mcp](https://github.com/sandraschi/meta-mcp) (About → Description & topics):
+Use these on [github.com/sandraschi/meta-hypertools](https://github.com/sandraschi/meta-hypertools) (About → Description & topics):
 
 | Field | Value |
 |-------|--------|
@@ -316,3 +388,4 @@ Repo inspiration credit: [Repomuse](https://www.npmjs.com/package/repomuse) (MIT
 ## License
 
 MIT -- see [LICENSE](LICENSE).
+

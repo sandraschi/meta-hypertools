@@ -78,7 +78,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 $version = Get-ProjectVersion
-$bundleName = "meta-mcp-v$version.mcpb"
+$bundleName = "meta-hypertools-v$version.mcpb"
 $bundlePath = Join-Path $distDir $bundleName
 
 New-Item -ItemType Directory -Force -Path $distDir | Out-Null
@@ -109,3 +109,4 @@ if ($LASTEXITCODE -ne 0) {
 Set-Location $repoRoot
 $sizeKb = [math]::Round((Get-Item $bundlePath).Length / 1KB, 1)
 Write-Host "Built: $bundlePath ($sizeKb KB)" -ForegroundColor Green
+

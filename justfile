@@ -8,7 +8,7 @@ NAME := "meta_mcp"
 
 # Open the interactive recipe dashboard in the browser
 default:
-    @powershell.exe -NoProfile -ExecutionPolicy Bypass -File ../mcp-central-docs/scripts/just-industrial-dashboard.ps1 -Path . -Title meta_mcp -Version 0.3.0 -Subtitle "MetaMCP Orchestrator"
+    @powershell.exe -NoProfile -ExecutionPolicy Bypass -File ../mcp-central-docs/scripts/just-industrial-dashboard.ps1 -Path . -Title meta-hypertools -Version 0.5.1 -Subtitle "meta-hypertools Orchestrator"
 
 # ── Sovereign ─────────────────────────────────────────────────────────────────
 
