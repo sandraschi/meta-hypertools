@@ -2,19 +2,31 @@
 
 **The generation engine.** One portmanteau, nine operations, complete
 SOTA-baked project trees out. This suite is why no fleet repo is ever
-hand-scaffolded: `scaffold_ops` emits a full standards-compliant
-repository - source, tests, CI, docs, packaging - in one pass, and the
-`fullstack-builder.ps1` monolith goes one step further for webapps.
+hand-scaffolded.
+
+## The makers, each with its own page
+
+| Builder | Page | Generates |
+|---------|------|-----------|
+| **MCP Server** | [scaffolding/mcp-server.md](scaffolding/mcp-server.md) | Full FastMCP 3.4+ server repo (New Repo Gate) |
+| **Fullstack App** | [scaffolding/fullstack.md](scaffolding/fullstack.md) | React 18 + Vite + Tailwind + Bun webapp paired with FastMCP backend - the 2768-line monolith |
+| **Landing Page** | [scaffolding/landing-page.md](scaffolding/landing-page.md) | Tailwind marketing page |
+| **Webshop / Game / Wisdom Tree** | [scaffolding/webshop-game-wisdom.md](scaffolding/webshop-game-wisdom.md) | Specialized templates |
+| **Tauri NSIS wrapper** | [scaffolding/tauri-nsis.md](scaffolding/tauri-nsis.md) | Native desktop wrapper for an existing repo |
+| **Spec Kit / Tiiny / Questionnaire** | [scaffolding/spec-kit-tiiny.md](scaffolding/spec-kit-tiiny.md) | SDD projects, static deploys, interactive config |
 
 ## Entry points
 
 | Surface | How |
 |---------|-----|
 | **MCP** | `scaffold_ops(operation=...)` - the portmanteau (primary) |
-| **Dashboard** | Builders page - wizard UI per operation |
+| **Dashboard** | Builders page - wizard UI, one card per builder |
 | **Questionnaire** | `scaffold_ops(operation="questionnaire")` - interactive config card in chat |
-| **PowerShell** | `scripts/fullstack-builder.ps1` - the 2768-line monolith for fullstack apps |
+| **PowerShell** | `scripts/fullstack-builder.ps1` - the monolith for fullstack apps |
 | **Legacy** | `create_tauri_nsis` (alias for `operation="tauri_nsis"`) |
+
+![Builders page](../../screenshots/builders-page.png)
+*The Builders page: one card per maker tool.*
 
 ## The portmanteau: `scaffold_ops`
 
@@ -25,7 +37,7 @@ scaffold_ops(operation=..., name=..., description=..., repository_path=...,
 
 | Parameter | Meaning |
 |-----------|---------|
-| `operation` | Which generator to run (enum below) |
+| `operation` | Which generator to run (`fullstack`, `landing_page`, `mcp_server`, `webshop`, `game`, `wisdom_tree`, `tauri_nsis`, `questionnaire`, `tiiny_site`) |
 | `name` / `description` | Project identity - become package name, README title, hero copy |
 | `author` | pyproject/README author (default "MCP Studio") |
 | `repository_path` | Parent directory for the generated repo |
@@ -37,90 +49,22 @@ scaffold_ops(operation=..., name=..., description=..., repository_path=...,
 | `dual_connect` | Wire stdio + HTTP dual transport |
 | `backend_port` / `frontend_port` | Seed ports (fleet range 10700-11500, adjacent) |
 
-## Operations
+## Shared limits (read before scaffolding)
 
-### `mcp_server` - the flagship
-
-Generates a complete FastMCP 3.4+ server repository following the New
-Repo Gate: `pyproject.toml` with uv + committed `uv.lock`, `justfile`
-with discoverable recipes, `llms.txt` + `llms-full.txt`, `glama.json`,
-MCPB packaging layout with the 3-4-100 prompts, `.github/workflows/ci.yml`,
-README + INSTALL, portmanteau tool pattern, Prefab UI for list/status
-tools, and pytest scaffold.
-
-```python
-scaffold_ops(operation="mcp_server", name="weather-mcp",
-             description="Weather forecast server", include_frontend=True)
-```
-
-### `fullstack` - webapp + backend pair
-
-Generates a React 18 + Vite + Tailwind + Bun frontend paired with a
-FastMCP 3.4 backend. The webapp ships the mandatory SOTA page set:
-Dashboard (KPI cards, data-testid), Tools (dynamic discovery), Skills,
-Chat (skill-first preprompt, local LLM probe), Settings (Ollama/LM
-Studio/vLLM), Help, Logs, API Docs - plus Jobs, roster, shop, and
-onboarding in the monolith variant. Ports are adjacent.
-
-### The `fullstack-builder.ps1` monolith
-
-The same `fullstack` operation is also available as a 2768-line
-PowerShell script - intentionally monolithic, one linear flow, a whole
-repo:
-
-```powershell
-pwsh scripts/fullstack-builder.ps1 -?                    # full help
-pwsh scripts/fullstack-builder.ps1 -AppName my-app       # defaults
-pwsh scripts/fullstack-builder.ps1 -AppName my-app -Interactive -IncludeTauri
-```
-
-| Flag | What it adds |
-|------|--------------|
-| `-Interactive` | Feature-selection menu (11 toggles) |
-| `-IncludeAI` | Local LLM chat (default on) |
-| `-IncludeMCP` | MCP streamable HTTP endpoint `/mcp` (default on) |
-| `-IncludeScheduler` | APScheduler jobs + patrol demo job (default on) |
-| `-IncludeCI` / `-IncludeTesting` | GitHub Actions + pytest/Playwright (default on) |
-| `-IncludeFileUpload` / `-IncludeVoice` / `-IncludePWA` / `-IncludeEmail` / `-IncludeRealtime` | Feature blocks |
-| `-IncludeTauri` | Tauri 2.0 desktop wrapper scaffold (`native/`) |
-| `-BackendPort` / `-FrontendPort` | Adjacent fleet-range ports |
-
-It emits a 50-file app: SQLite (members/products/orders), membership
-roster, dog-grade onboarding wizard, webshop with cart + orders, Logs
-ring buffer, API Docs page, Playwright e2e, CI, README + llms.txt.
-Dogfood proof: `benny-the-dog-mcp` was built with it.
-
-### `landing_page`
-
-Tailwind marketing page with the fleet design language (dark zinc,
-amber accents, lucide icons). `scaffold_ops(operation="landing_page",
-name="fleet-landing")`.
-
-### `webshop`, `game`, `wisdom_tree`
-
-Specialized templates: e-commerce foundation, browser game bootstrap,
-and knowledge-tree interface. Each scaffolds the repo structure; the
-domain logic is yours to grow.
-
-### `tauri_nsis`
-
-Adds the Tauri 2.0 NSIS wrapper to an existing repo: `native/` with
-`Cargo.toml`, `tauri.conf.json` (embedded backend via `bundle.resources`,
-not `externalBin`), capabilities, and `build-sidecar.ps1` (PyInstaller
-pipeline). See `docs/TAURI.md` for the full NSIS build rules.
-
-### `questionnaire`
-
-Interactive scaffold config card - renders in chat (Prefab) so the user
-picks features without reading the schema. `scaffold_ops(operation="questionnaire")`.
-
-### `tiiny_site`
-
-Static page scaffold + deploy to tiiny.host.
+- **`name` is required** for `mcp_server`; `config` is required for
+  `fullstack`, `landing_page`, `webshop`, `game`, `wisdom_tree`. The
+  tool returns `success: false` with the exact missing field - it never
+  guesses defaults.
+- **Target directory must not exist** - generators refuse to overwrite.
+- **Ports must be adjacent** and inside 10700-11500 (fleet reservoir).
+  Register chosen ports in `mcp-central-docs/operations/WEBAPP_PORTS.md`.
+- **Generated code is a starting point, not a finish line**: the example
+  tools/pages are placeholders to replace; the SOTA structure around them
+  is the deliverable. Harness-refine or code review before committing.
+- **Template updates propagate forward, not backward** - existing
+  generated repos do not auto-update when the builder changes.
 
 ## After scaffolding - the verification flow
-
-Every generated repo is self-contained and verifiable:
 
 ```powershell
 cd <generated-repo>
@@ -131,9 +75,8 @@ just e2e              # Playwright (webapp)
 just mcpb-pack        # MCPB bundle at the 3-4-100 gate
 ```
 
-Then register the ports in `mcp-central-docs/operations/WEBAPP_PORTS.md`
-(backend + frontend adjacent) and `server_ops(operation="register")` to
-wire it into your IDE.
+Then register the ports and `server_ops(operation="register")` to wire it
+into your IDE.
 
 ## Philosophy
 
@@ -141,16 +84,15 @@ wire it into your IDE.
   docs ship in the first pass - no "scaffold, then add quality" stages.
 - **SOTA by default**: templates encode the current standards bar
   (FastMCP 3.4 floor, uv.lock, icon.png, 3-4-100 prompts, portmanteau
-  pattern, data-testid, dark mode). Template updates propagate to every
-  new project automatically.
+  pattern, data-testid, dark mode).
 - **One pass or not at all**: the New Repo Gate exists so the first
-  version is the real version. No runt iterations.
-- **The monolith stays a monolith**: the 2768-line builder is
+  version is the real version.
+- **The monolith stays a monolith**: the 2768-line fullstack builder is
   intentionally one file. It is the joke, and the joke works.
 
 ## Related
 
-- [spec-kit-integration.md](../spec-kit-integration.md) - Spec Kit (SDD) operation
+- [spec-kit-integration.md](../spec-kit-integration.md)
 - [../README.md](../README.md) - tour + leporello
 - [../TAURI.md](../TAURI.md) - Tauri/NSIS pipeline
 - [scripts/README.md](../../scripts/README.md) - the build scripts behind the suite
