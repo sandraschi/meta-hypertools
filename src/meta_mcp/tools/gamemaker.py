@@ -9,7 +9,7 @@ logger = structlog.get_logger(__name__)
 
 class GameMaker:
     """
-    Scaffolds retro games from the games-app collection.
+    Scaffolds retro games from the ai-games-collection collection.
     """
 
     TEMPLATES = [

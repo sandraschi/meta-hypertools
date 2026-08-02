@@ -380,13 +380,13 @@
     "proxyHealthPath": "/api/v1/status"
   },
   {
-    "repo": "games-app",
+    "repo": "ai-games-collection",
     "startPath": "web_sota/start.ps1",
     "port": 10987,
     "healthPath": "/health",
     "timeoutSec": 90,
     "startsBats": [
-      "games-app-start.bat"
+      "ai-games-collection-start.bat"
     ],
     "frontendPort": 10986,
     "proxyHealthPath": ""

@@ -10,7 +10,7 @@ logger = structlog.get_logger(__name__)
 
 class WisdomTreeBuilder:
     """
-    Scaffolds interactive knowledge trees from the games-app Technical Tree collection.
+    Scaffolds interactive knowledge trees from the ai-games-collection Technical Tree collection.
     """
 
     TEMPLATES: ClassVar[list[str]] = [

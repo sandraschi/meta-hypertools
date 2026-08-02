@@ -14,7 +14,7 @@
 - Tests: 65 green (fixed auth-env, stale help-tool portmanteau test)
 
 ### Removed
-- Dead scripts: bin/dev.ps1 (forbidden ports), backup-repo.ps1 (0B), fix-standards.ps1 (generated), sync-sota.ps1 (vestige), wisdom/gamemaker/webshop builders (stale games-app paths), mcp-watchdog.ps1 (dup of .py), mcpb-pack.ps1 (dup of mcpb/pack.ps1), scripts/out/
+- Dead scripts: bin/dev.ps1 (forbidden ports), backup-repo.ps1 (0B), fix-standards.ps1 (generated), sync-sota.ps1 (vestige), wisdom/gamemaker/webshop builders (stale ai-games-collection paths), mcp-watchdog.ps1 (dup of .py), mcpb-pack.ps1 (dup of mcpb/pack.ps1), scripts/out/
 - 79 committed .bak/.backup files (fleet cleanup)
 - fullstack_builder_ASSESSMENT.md (obsolete "runt" verdict)
 

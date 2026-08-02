@@ -619,13 +619,13 @@
         "note":  ""
     },
     {
-        "repo":  "games-app",
+        "repo":  "ai-games-collection",
         "installPath":  "INSTALL.md",
         "installOptions":  "C",
         "githubOwner":  "sandraschi",
-        "githubRepo":  "games-dash",
+        "githubRepo":  "ai-games-collection",
         "mcpbAvailable":  false,
-        "mcpbReleasesUrl":  "https://github.com/sandraschi/games-dash/releases",
+        "mcpbReleasesUrl":  "https://github.com/sandraschi/ai-games-collection/releases",
         "mcpbAssetName":  null,
         "studioSmokeArgs":  null,
         "hasWebapp":  true,
