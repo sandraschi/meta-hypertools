@@ -60,115 +60,20 @@ def register_scaffolding_tools(mcp: FastMCP):
                 - **wisdom_tree**: Generate a knowledge tree interface
                 - **tauri_nsis**: Add a Tauri 2.0 NSIS native wrapper to a repo
                 - **questionnaire**: Show interactive scaffold config card
+                - **tiiny_site**: Scaffold a static page and deploy to tiiny.host
 
         ## Return Format
         {"success": bool, "operation": str, "message": str}
 
         ## Examples
 
-
-
-
-
-
-
-
-        a
-        w
-        a
-        i
-        t
-
-        s
-        c
-        a
-        f
-        f
-        o
-        l
-        d
-        _
-        o
-        p
-        s
-        (
-        o
-        p
-        e
-        r
-        a
-        t
-        i
-        o
-        n
-        =
-        "
-        f
-        u
-        l
-        l
-        s
-        t
-        a
-        c
-        k
-        "
-        )
-
-
-
-
-
-
-
-
-
-
-        a
-        w
-        a
-        i
-        t
-
-        s
-        c
-        a
-        f
-        f
-        o
-        l
-        d
-        _
-        o
-        p
-        s
-        (
-        o
-        p
-        e
-        r
-        a
-        t
-        i
-        o
-        n
-        =
-        "
-        l
-        a
-        n
-        d
-        i
-        n
-        g
-        _
-        p
-        a
-        g
-        e
-        "
-        )
+        await scaffold_ops(operation='fullstack', config={...})
+        await scaffold_ops(operation='landing_page', config={...})
+        await scaffold_ops(operation='mcp_server', name='my-server', description='...')
+        await scaffold_ops(operation='tauri_nsis', repo_root='D:/Dev/repos/my-mcp')
+        await scaffold_ops(operation='questionnaire')
         """
+
         if operation == "fullstack":
             if config is None:
                 return {"success": False, "error": "config required for fullstack"}

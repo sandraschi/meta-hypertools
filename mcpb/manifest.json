@@ -28,34 +28,185 @@
     "entry_point": "src/meta_mcp/__main__.py",
     "mcp_config": {
       "command": "uv",
-      "args": ["--directory", "${__dirname}", "run", "meta-mcp-server"],
+      "args": [
+        "--directory",
+        "${__dirname}",
+        "run",
+        "meta-mcp-server"
+      ],
       "env": {
         "PYTHONUNBUFFERED": "1"
       }
     }
   },
   "tools": [
-    {"name": "help", "description": "Fleet discovery — list all MetaMCP tools"},
-    {"name": "show_mcp_overview", "description": "Platform overview: suites, builders, analyzers"},
-    {"name": "scaffold_mcp_server", "description": "Generate SOTA MCP server repo"},
-    {"name": "scaffold_app_fullstack", "description": "Scaffold FastAPI + React fullstack app"},
-    {"name": "scaffold_landing_page", "description": "Generate landing page scaffold"},
-    {"name": "analyze_mcp_runts", "description": "Scan fleet repos for SOTA gaps"},
-    {"name": "inspire_repo", "description": "Portmanteau GitHub repo study — no clone"},
-    {"name": "inspire_repo_workflow", "description": "Multi-step agentic repo architecture study"},
-    {"name": "harness_analyze", "description": "AST source analysis for MCP server generation"},
-    {"name": "harness_generate", "description": "Generate FastMCP server from analysis spec"},
-    {"name": "harness_refine", "description": "Gap analysis for harness-generated servers"},
-    {"name": "fleet_config_audit", "description": "Scan fleet for config files (CLAUDE.md, llms.txt, glama.json, etc.)"},
-    {"name": "fleet_startup_probe", "description": "Batch cold-start probe across fleet"},
-    {"name": "fleet_cold_install_probe", "description": "INSTALL.md preflight, mcpb smoke"},
-    {"name": "pack_ops", "description": "Pack repository for LLM context (portmanteau)"},
-    {"name": "server_ops", "description": "Manage MCP server lifecycle (portmanteau)"},
-    {"name": "scheduler_ops", "description": "Manage scheduled background tasks (portmanteau)"},
-    {"name": "toolchain_ops", "description": "Manage toolchain presets (portmanteau)"},
-    {"name": "heartbeat_ops", "description": "System health monitoring (portmanteau)"},
-    {"name": "token_ops", "description": "Analyze token usage in files (portmanteau)"},
-    {"name": "get_fleet_status", "description": "Runtime audit of fleet webapps"}
+    {
+      "name": "analysis_ops",
+      "description": "Repository analysis and SOTA compliance (portmanteau)."
+    },
+    {
+      "name": "assess_reports_ops",
+      "description": "Scan and read assess-fix reports across all fleet repos."
+    },
+    {
+      "name": "benny_handshake",
+      "description": "The \"Benny\" Protocol: Physical Interrupt for critical operations."
+    },
+    {
+      "name": "client_ops",
+      "description": "IDE client configuration management (portmanteau)."
+    },
+    {
+      "name": "deep_scan_repo",
+      "description": "Deep repository scan."
+    },
+    {
+      "name": "demo_capture_help",
+      "description": "Explain how the demo capture system works (legacy alias ù prefer demo_ops help)."
+    },
+    {
+      "name": "demo_ops",
+      "description": "Fleet webapp demo capture (portmanteau)."
+    },
+    {
+      "name": "diagnostics_ops",
+      "description": "Diagnostics, tool discovery, and standards validation (portmanteau)."
+    },
+    {
+      "name": "discovery_ops",
+      "description": "MCP server and IDE integration discovery (portmanteau)."
+    },
+    {
+      "name": "execute_mcp_tool",
+      "description": "Execute server tool."
+    },
+    {
+      "name": "fleet_config_audit",
+      "description": "Scan all fleet repos for config files (CLAUDE.md, AGENTS.md, .cursorrules, llms.txt, glama.json, etc.)."
+    },
+    {
+      "name": "fleet_ops",
+      "description": "Fleet application lifecycle and probing (portmanteau)."
+    },
+    {
+      "name": "generate_demo_script",
+      "description": "Generate a config.json for the fleet demo-capture template (legacy alias for demo_ops plan)."
+    },
+    {
+      "name": "generate_patch",
+      "description": "Generate a security patch for a verified exploit."
+    },
+    {
+      "name": "harness_analyze",
+      "description": "Analyse a codebase and produce a structured tool surface specification."
+    },
+    {
+      "name": "harness_generate",
+      "description": "Generate a fleet-conformant FastMCP server from a ToolSurfaceSpec."
+    },
+    {
+      "name": "harness_refine",
+      "description": "Iteratively improve a harness-generated MCP server."
+    },
+    {
+      "name": "heartbeat_ops",
+      "description": "System health monitoring (portmanteau)."
+    },
+    {
+      "name": "inspire_repo",
+      "description": "Study a public GitHub repo without cloning (portmanteau)."
+    },
+    {
+      "name": "inspire_repo_files",
+      "description": "Read source files from a GitHub repository for design inspiration."
+    },
+    {
+      "name": "inspire_repo_help",
+      "description": "Parameter reference for inspire_repo and related inspiration tools."
+    },
+    {
+      "name": "inspire_repo_patterns",
+      "description": "Build an architecture study pack for a GitHub repository."
+    },
+    {
+      "name": "inspire_repo_structure",
+      "description": "Get a filtered file tree of a GitHub repository."
+    },
+    {
+      "name": "inspire_repo_structure_card",
+      "description": "GitHub repo structure as a Prefab card (fleet list/status surface)."
+    },
+    {
+      "name": "inspire_repo_workflow",
+      "description": "Agentic multi-step repo study: structure  pick paths  files  patterns  synthesis."
+    },
+    {
+      "name": "list_mcp_tools",
+      "description": "List server tools."
+    },
+    {
+      "name": "meta_dev_ops",
+      "description": "Fleet developer and meta-operation helpers (portmanteau)."
+    },
+    {
+      "name": "meta_route_tool",
+      "description": "Route a tool call to any MCP server in the fleet."
+    },
+    {
+      "name": "meta_routing_reindex",
+      "description": "Force a full fleet capability re-index."
+    },
+    {
+      "name": "meta_routing_servers",
+      "description": "List all fleet servers discovered by the capability index."
+    },
+    {
+      "name": "meta_routing_status",
+      "description": "Report the capability index health and fleet routing status."
+    },
+    {
+      "name": "meta_search_capabilities",
+      "description": "Search the fleet capability index for tools matching a query."
+    },
+    {
+      "name": "ollama_ops",
+      "description": "Manage the local Ollama engine -- status, kill, start, restart."
+    },
+    {
+      "name": "pack_ops",
+      "description": "Repository packing for LLM context (portmanteau)."
+    },
+    {
+      "name": "scaffold_ops",
+      "description": "Project scaffolding and code generation (portmanteau)."
+    },
+    {
+      "name": "scheduler_ops",
+      "description": "Background task scheduling (portmanteau)."
+    },
+    {
+      "name": "server_ops",
+      "description": "MCP server process lifecycle (portmanteau)."
+    },
+    {
+      "name": "show_tool_history",
+      "description": "Get execution history."
+    },
+    {
+      "name": "token_ops",
+      "description": "Token usage analysis for files and directories (portmanteau)."
+    },
+    {
+      "name": "toolchain_ops",
+      "description": "Toolchain preset management (portmanteau)."
+    },
+    {
+      "name": "validate_tool_schema",
+      "description": "Validate tool parameters."
+    },
+    {
+      "name": "verify_exploit",
+      "description": "Grounded exploit verification tool."
+    }
   ]
 }
-
