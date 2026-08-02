@@ -335,6 +335,7 @@ requires-python = ">=3.11"
 dependencies = [
     "fastmcp[tasks]>=3.4.4,<4",
     "prefab-ui>=0.14.0",
+    "fastapi>=0.115",
     "uvicorn[standard]>=0.30",
     "httpx>=0.27",
     "APScheduler>=3.10,<4",
@@ -359,6 +360,7 @@ select = ["E", "F", "W", "I", "UP", "B"]
 ignore = ["E501"]
 
 [tool.pytest.ini_options]
+pythonpath = ["src"]
 asyncio_mode = "auto"
 testpaths = ["tests"]
 '@
@@ -2866,4 +2868,6 @@ Write-Host "Backend: http://127.0.0.1:$BackendPort/docs"
 Write-Host "Frontend: http://127.0.0.1:$FrontendPort"
 Write-Host ""
 Write-Host "Features: AI=$IncludeAI MCP=$IncludeMCP Upload=$IncludeFileUpload Voice=$IncludeVoice PWA=$IncludePWA Email=$IncludeEmail Realtime=$IncludeRealtime Scheduler=$IncludeScheduler Tauri=$IncludeTauri CI=$IncludeCI Tests=$IncludeTesting" -ForegroundColor Gray
+
+
 
