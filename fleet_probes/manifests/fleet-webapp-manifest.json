@@ -902,7 +902,7 @@
     "proxyHealthPath": "/api/v1/health"
   },
   {
-    "repo": "qbt-mcp",
+    "repo": "rtorrent-mcp",
     "startPath": "web_sota/start.ps1",
     "port": 10910,
     "healthPath": "/health",

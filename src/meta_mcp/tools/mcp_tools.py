@@ -369,7 +369,7 @@ def register_analysis_tools(app: FastMCP):
             if not repo_paths:
                 repo_paths = [
                     "d:\\Dev\\repos\\mcp-central-docs",
-                    "d:\\Dev\\repos\\qbt-mcp",
+                    "d:\\Dev\\repos\\rtorrent-mcp",
                 ]
 
             analysis_results = []

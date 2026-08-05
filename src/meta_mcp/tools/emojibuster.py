@@ -336,7 +336,7 @@ def register_emojibuster_tools(app: FastMCP):
         if repo_path == "*":
             # Discover repositories (simplified - in real implementation,
             # this would use the discovery tools)
-            repo_paths = ["d:\\Dev\\repos\\mcp-central-docs", "d:\\Dev\\repos\\qbt-mcp"]
+            repo_paths = ["d:\\Dev\\repos\\mcp-central-docs", "d:\\Dev\\repos\\rtorrent-mcp"]
             result = await emoji_buster.scan_multiple_repositories(repo_paths, scan_mode)
         else:
             result = await emoji_buster.scan_repository(repo_path, scan_mode)

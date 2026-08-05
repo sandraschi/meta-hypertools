@@ -1407,7 +1407,7 @@
         "note":  ""
     },
     {
-        "repo":  "qbt-mcp",
+        "repo":  "rtorrent-mcp",
         "installPath":  "INSTALL.md",
         "installOptions":  "C",
         "githubOwner":  "sandraschi",
