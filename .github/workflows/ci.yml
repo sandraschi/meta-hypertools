@@ -1,0 +1,8 @@
+name: CI
+on:
+  push:
+  pull_request:
+
+jobs:
+  ci:
+    uses: sandraschi/fleet-ci/.github/workflows/ci.yml@v1
