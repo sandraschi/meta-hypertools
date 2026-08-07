@@ -18,6 +18,7 @@ import { ClientsPage } from "./pages/Clients";
 import { ConfigAuditPage } from "./pages/ConfigAudit";
 import { DashboardPage } from "./pages/Dashboard";
 import { FleetDashboard } from "./pages/FleetDashboard";
+import { FleetOps } from "./pages/FleetOps";
 import { HarnessPage } from "./pages/Harness";
 import { HelpPage } from "./pages/Help";
 import { JustfilePage } from "./pages/JustfilePage";
@@ -191,6 +192,8 @@ function App() {
         return <HarnessPage />;
       case "fleet":
         return <FleetDashboard />;
+      case "fleet-ops":
+        return <FleetOps />;
       case "agent-hub":
         return <AgentHubPage />;
       case "servers":

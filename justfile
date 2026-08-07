@@ -4,13 +4,13 @@ import 'scripts/just/fleet.just'
 REPO := justfile_directory()
 NAME := "meta_mcp"
 
-# ── Dashboard ─────────────────────────────────────────────────────────────────
+# --- Dashboard ---
 
 # Open the interactive recipe dashboard in the browser
 default:
     @powershell.exe -NoProfile -ExecutionPolicy Bypass -File ../mcp-central-docs/scripts/just-industrial-dashboard.ps1 -Path . -Title meta-hypertools -Version 0.5.1 -Subtitle "meta-hypertools Orchestrator"
 
-# ── Sovereign ─────────────────────────────────────────────────────────────────
+# --- Sovereign ---
 
 # Load Tier 1 + 2 (High Priority / Pro Mode)
 pro:
@@ -32,7 +32,7 @@ swapper *tiers:
 tiers:
     uv run py scripts/mcp-swapper.py --list
 
-# ── Maintenance ───────────────────────────────────────────────────────────────
+# --- Maintenance ---
 
 # Check repository for SOTA Industrial Standards
 health:
@@ -47,7 +47,7 @@ cleanup:
     if (Test-Path "scripts/kill-zombies.ps1") { pwsh scripts/kill-zombies.ps1 }
     uv run py scripts/meta-ops.py emoji-buster .
 
-# ── Discovery ─────────────────────────────────────────────────────────────────
+# --- Discovery ---
 
 # Analyze MCP fleet and find "runts" (outdated servers)
 analyze:
@@ -61,9 +61,9 @@ deep-scan:
 tools:
     uv run py scripts/dump_mcp_tools.py
 
-# ── MCPB (Claude Desktop bundle) ─────────────────────────────────────────────
+# --- MCPB  Claude Desktop bundle ---
 
-# ── Quality ───────────────────────────────────────────────────────────────────
+# --- Quality ---
 
 # Execute Ruff linting
 lint:
@@ -101,7 +101,7 @@ e2e:
 # Run all test suites: backend + frontend + e2e
 test-all: test vitest e2e
 
-# ── Operations ────────────────────────────────────────────────────────────────
+# --- Operations ---
 
 # Launch the full stack (API + Frontend) via the fleet start script
 serve:
@@ -115,13 +115,13 @@ mcp-stdio:
 sync:
     uv sync --group dev
 
-# ── Utilities ─────────────────────────────────────────────────────────────────
+# --- Utilities ---
 
 # Pack repository for large context sharing
 pack path=".":
     uv run py scripts/meta-ops.py pack {{path}}
 
-# ── Native ─────────────────────────────────────────────────────────────────────
+# --- Native ---
 
 # Full Tauri release: Vite + PyInstaller sidecar + NSIS/MSI installer (see docs/TAURI.md)
 build-native:

@@ -21,6 +21,7 @@ from meta_mcp.services.discovery_service import DiscoveryService
 # Dynamic routing service (lazy-loading fleet proxy)
 from meta_mcp.services.dynamic_router_service import DynamicRouterService
 from meta_mcp.services.fleet_cold_install_service import FleetColdInstallService
+from meta_mcp.services.fleet_ops_service import FleetOpsService
 from meta_mcp.services.fleet_runtime_service import FleetRuntimeService
 from meta_mcp.services.fleet_startup_probe_service import FleetStartupProbeService
 from meta_mcp.services.heartbeat_service import HeartbeatService
@@ -54,6 +55,7 @@ heartbeat_service = HeartbeatService()
 fleet_runtime = FleetRuntimeService()
 fleet_startup_probe = FleetStartupProbeService()
 fleet_cold_install = FleetColdInstallService()
+fleet_ops = FleetOpsService()
 local_llm = LocalLLMService()
 agent_hub = AgentHubService()
 dynamic_router = DynamicRouterService()
@@ -157,6 +159,13 @@ class FleetAppRequest(BaseModel):
     """Request model for fleet app operations."""
 
     app_id: str = Field(..., description="ID of the fleet app")
+
+
+class FleetOpsRunRequest(BaseModel):
+    """Request model for running a curated fleet ops script."""
+
+    script_id: str = Field(..., description="Catalog script id (see GET /fleet/ops/catalog)")
+    params: dict[str, Any] = Field(default_factory=dict, description="Script parameter values by name")
 
 
 # API Endpoints
@@ -850,6 +859,43 @@ class FleetStartupProbeRequest(BaseModel):
         description="Re-probe repos that failed in the last report (not stack_ok or skip)",
     )
     background: bool = Field(True, description="Run all repos in background (recommended)")
+
+
+@router.get("/fleet/ops/catalog", summary="Fleet ops script catalog (UI forms)")
+async def fleet_ops_catalog():
+    """Curated fleet scripts with parameter schemas - the UI renders forms from this."""
+    return fleet_ops.catalog()
+
+
+@router.post("/fleet/ops/jobs", summary="Start a fleet ops script job")
+async def fleet_ops_start(request: FleetOpsRunRequest):
+    """Start a curated script as a tracked background job (log tail via GET .../jobs/{id})."""
+    return fleet_ops.start_job(request.script_id, request.params)
+
+
+@router.get("/fleet/ops/jobs", summary="List fleet ops jobs")
+async def fleet_ops_list():
+    return fleet_ops.list_jobs()
+
+
+@router.get("/fleet/ops/jobs/{job_id}", summary="Fleet ops job status + log tail")
+async def fleet_ops_status(job_id: str):
+    return fleet_ops.job_status(job_id)
+
+
+@router.post("/fleet/ops/jobs/{job_id}/kill", summary="Kill a fleet ops job")
+async def fleet_ops_kill(job_id: str):
+    return fleet_ops.kill_job(job_id)
+
+
+@router.get("/fleet/ops/reports", summary="List fleet ops reports (mcd scripts/out)")
+async def fleet_ops_reports():
+    return fleet_ops.list_reports()
+
+
+@router.get("/fleet/ops/reports/{filename:path}", summary="Read a fleet ops report file")
+async def fleet_ops_report(filename: str):
+    return fleet_ops.report_content(filename)
 
 
 @router.get("/fleet/startup-probe/report", summary="Fleet cold-start probe report")

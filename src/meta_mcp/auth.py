@@ -34,6 +34,7 @@ async def wurst_auth_middleware(request: Request, call_next):
         "/api/v1/fleet/start",
         "/api/v1/fleet/stop",
         "/api/v1/fleet/restart",
+        "/api/v1/fleet/ops",
     ]
 
     requires_auth = any(request.url.path.startswith(p) for p in protected_paths)
