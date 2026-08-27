@@ -1,0 +1,20 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.sandraschi/meta_mcp",
+  "description": "Fleet MCP orchestrator: lifecycle, sandboxed cold-install probes, GitHub repo inspiration, diagno...",
+  "version": "0.5.0",
+  "repository": {
+    "url": "https://github.com/sandraschi/meta-hypertools",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "mcpb",
+      "identifier": "https://github.com/sandraschi/meta-hypertools/releases/download/v0.5.0/meta_mcp-v0.5.0.mcpb",
+      "fileSha256": "82fd032812425e4ce5c0cd37305937e65b71849af3acf79dbe7e48c39b39a28d",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}
