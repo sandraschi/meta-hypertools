@@ -1,6 +1,6 @@
 """FastMCP 3.4 fleet SOTA templates for scaffold_mcp_server."""
 
-# ruff: noqa: E501, F821  — code generator templates; placeholders are template variables
+# ruff: noqa: E501, F821  - code generator templates; placeholders are template variables
 
 from __future__ import annotations
 
@@ -31,7 +31,7 @@ def generate_sota_package_files(
 
     files[f"src/{package_name}/__init__.py"] = f'"""{description}"""\n\n__version__ = "0.1.0"\n'
 
-    files[f"src/{package_name}/config.py"] = f'''"""Multi-provider LLM configuration — local + cloud."""
+    files[f"src/{package_name}/config.py"] = f'''"""Multi-provider LLM configuration - local + cloud."""
 
 from __future__ import annotations
 
@@ -104,10 +104,10 @@ def get_llm_config() -> LLMProvider:
     """Get the active LLM provider from env vars or auto-detection.
 
     Environment variables:
-        {env_prefix}_LLM_PROVIDER   — ollama | lmstudio | openai | anthropic | google
-        {env_prefix}_LLM_BASE_URL   — override API base URL
-        {env_prefix}_LLM_MODEL      — override model name
-        {env_prefix}_LLM_API_KEY    — API key (required for cloud providers)
+        {env_prefix}_LLM_PROVIDER   - ollama | lmstudio | openai | anthropic | google
+        {env_prefix}_LLM_BASE_URL   - override API base URL
+        {env_prefix}_LLM_MODEL      - override model name
+        {env_prefix}_LLM_API_KEY    - API key (required for cloud providers)
     """
     provider_name = os.getenv("{env_prefix}_LLM_PROVIDER", "").lower()
 
@@ -130,7 +130,7 @@ def get_llm_config() -> LLMProvider:
     return PRESETS["ollama"]
 '''
 
-    files[f"src/{package_name}/sampling.py"] = f'''"""FastMCP sampling handler — delegates to LLM client."""
+    files[f"src/{package_name}/sampling.py"] = f'''"""FastMCP sampling handler - delegates to LLM client."""
 
 from __future__ import annotations
 
@@ -180,9 +180,9 @@ class SamplingHandler:
             return response.json()
 '''
 
-    files[f"src/{package_name}/llm_client.py"] = f'''"""Unified LLM client — routes to local or cloud providers."""
+    files[f"src/{package_name}/llm_client.py"] = f'''"""Unified LLM client - routes to local or cloud providers."""
 
-# ruff: noqa: E501  — generated payload lines exceed 120 chars
+# ruff: noqa: E501  - generated payload lines exceed 120 chars
 
 from __future__ import annotations
 
@@ -345,7 +345,7 @@ class LLMClient:
             return {{"reachable": False, "provider": self.provider.provider, "error": str(e)}}
 '''
 
-    files[f"src/{package_name}/web.py"] = f'''"""FastAPI REST API — health, diagnostics, tools, chat."""
+    files[f"src/{package_name}/web.py"] = f'''"""FastAPI REST API - health, diagnostics, tools, chat."""
 
 from __future__ import annotations
 
@@ -395,7 +395,7 @@ async def health():
 
 @app.get("/api/v1/diagnostics")
 async def diagnostics():
-    """Full system diagnostics — LLM, tools, system info."""
+    """Full system diagnostics - LLM, tools, system info."""
     llm_config = get_llm_config()
     client = LLMClient(llm_config)
     llm_health = await client.health()
@@ -505,7 +505,7 @@ async def list_providers():
     }}
 '''
 
-    files[f"src/{package_name}/mcp_instance.py"] = f'''"""FastMCP singleton — single initialization point."""
+    files[f"src/{package_name}/mcp_instance.py"] = f'''"""FastMCP singleton - single initialization point."""
 
 from __future__ import annotations
 
@@ -589,7 +589,7 @@ def register_all_tools(mcp=None) -> None:
 
         mcp = get_mcp()
 
-    # Tool imports trigger decorator registration — keep in order
+    # Tool imports trigger decorator registration - keep in order
     import {package_name}.tools.agentic_workflow as _aw  # noqa: F401, I001
     import {package_name}.tools.help_tools as _ht  # noqa: F401
     import {package_name}.tools.chat_tool as _ct  # noqa: F401
@@ -616,7 +616,7 @@ def build_status_card(payload: dict) -> Card:
             Row(
                 children=[
                     Metric(label="Version", value=str(payload.get("version", "0.1.0"))),
-                    Metric(label="Tools", value=str(payload.get("tool_count", "—"))),
+                    Metric(label="Tools", value=str(payload.get("tool_count", "-"))),
                 ]
             )
         ],
@@ -694,7 +694,7 @@ logger = logging.getLogger(__name__)
 
 
 def _parse_args(server_name: str) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description=f"{{server_name}} — FastMCP 3.4")
+    parser = argparse.ArgumentParser(description=f"{{server_name}} - FastMCP 3.4")
     group = parser.add_mutually_exclusive_group()
     group.add_argument("--stdio", action="store_true", help="STDIO mode (default)")
     group.add_argument("--http", action="store_true", help="HTTP streamable mode")
@@ -764,7 +764,7 @@ if __name__ == "__main__":
     main()
 '''
 
-    files[f"src/{package_name}/tools/__init__.py"] = '"""Tool modules — imported by tool_registration."""\n'
+    files[f"src/{package_name}/tools/__init__.py"] = '"""Tool modules - imported by tool_registration."""\n'
 
     files[f"src/{package_name}/tools/help_tools.py"] = f'''"""Core help and status tools."""
 
@@ -803,9 +803,9 @@ async def status() -> dict:
 
     files[
         f"src/{package_name}/tools/chat_tool.py"
-    ] = f'''"""LLM chat tool — local or cloud provider via unified client."""
+    ] = f'''"""LLM chat tool - local or cloud provider via unified client."""
 
-# ruff: noqa: E501  — Field descriptions are verbose by design
+# ruff: noqa: E501  - Field descriptions are verbose by design
 
 from __future__ import annotations
 
@@ -947,7 +947,7 @@ async def agentic_{package_name}_workflow(
 
     return {{
         "success": True,
-        "message": "Structured fallback — use a sampling-capable MCP host for full agentic loops",
+        "message": "Structured fallback - use a sampling-capable MCP host for full agentic loops",
         "sampling_used": False,
         "suggested_tools": tools,
         "workflow_prompt": workflow_prompt,

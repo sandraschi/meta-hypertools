@@ -316,190 +316,12 @@ async def get_detailed_health():
 async def list_available_tools():
     """Get a comprehensive list of all available MCP tools."""
     try:
-        tools = {
-            "diagnostics": {
-                "emojibuster": {
-                    "description": "Unicode safety scanner and fixer",
-                    "operations": ["scan", "fix"],
-                    "parameters": ["repo_path", "scan_mode", "auto_fix", "backup"],
-                },
-                "powershell_tools": {
-                    "description": "PowerShell validation and management",
-                    "operations": ["validate", "profile"],
-                    "parameters": ["repo_path", "scan_mode", "include_aliases"],
-                },
-                "justfile_tools": {
-                    "description": "Justfile fleet standard validation",
-                    "operations": ["validate"],
-                    "parameters": ["repo_path", "fix"],
-                },
-            },
-            "analysis": {
-                "runt_analyzer": {
-                    "description": "Repository health and SOTA compliance",
-                    "operations": ["analyze", "status"],
-                    "parameters": ["repo_path", "scan_mode", "include_dependencies"],
-                },
-                "repo_status": {
-                    "description": "Detailed repository status",
-                    "operations": ["status", "health"],
-                    "parameters": ["repo_path"],
-                },
-            },
-            "discovery": {
-                "servers": {
-                    "description": "MCP server discovery",
-                    "operations": ["scan", "list"],
-                    "parameters": ["client_type"],
-                },
-                "client_integration": {
-                    "description": "Client integration health",
-                    "operations": ["check", "diagnose"],
-                    "parameters": ["client_type"],
-                },
-            },
-            "scaffolding": {
-                "create": {
-                    "description": "Project scaffolding generation",
-                    "operations": [
-                        "mcp_server",
-                        "landing_page",
-                        "fullstack",
-                        "webshop",
-                        "game",
-                        "wisdom_tree",
-                    ],
-                    "parameters": [
-                        "template_type",
-                        "project_name",
-                        "output_path",
-                        "features",
-                    ],
-                }
-            },
-            "server_management": {
-                "start_server": {
-                    "description": "Start MCP server processes",
-                    "operations": ["start"],
-                    "parameters": ["server_path", "server_type"],
-                },
-                "stop_server": {
-                    "description": "Stop running MCP servers",
-                    "operations": ["stop"],
-                    "parameters": ["server_id"],
-                },
-                "list_servers": {
-                    "description": "List running MCP servers",
-                    "operations": ["list"],
-                    "parameters": [],
-                },
-                "server_status": {
-                    "description": "Get server status and health",
-                    "operations": ["status"],
-                    "parameters": ["server_id"],
-                },
-            },
-            "tool_execution": {
-                "execute_tool": {
-                    "description": "Execute tools on MCP servers",
-                    "operations": ["execute"],
-                    "parameters": ["server_id", "tool_name", "parameters"],
-                },
-                "list_server_tools": {
-                    "description": "List tools available on servers",
-                    "operations": ["list"],
-                    "parameters": ["server_id"],
-                },
-                "validate_parameters": {
-                    "description": "Validate tool parameters",
-                    "operations": ["validate"],
-                    "parameters": ["server_id", "tool_name", "parameters"],
-                },
-                "tool_history": {
-                    "description": "Get tool execution history",
-                    "operations": ["history"],
-                    "parameters": ["server_id", "tool_name", "limit"],
-                },
-            },
-            "repository_analysis": {
-                "scan_repository": {
-                    "description": "Deep repository analysis",
-                    "operations": ["scan"],
-                    "parameters": ["repo_path", "deep_analysis"],
-                },
-            },
-            "client_management": {
-                "read_config": {
-                    "description": "Read client MCP configuration",
-                    "operations": ["read"],
-                    "parameters": ["client_name"],
-                },
-                "update_config": {
-                    "description": "Update client MCP configuration",
-                    "operations": ["update"],
-                    "parameters": ["client_name", "updates", "backup"],
-                },
-                "add_server": {
-                    "description": "Add server to client config",
-                    "operations": ["add"],
-                    "parameters": ["client_name", "server_name", "server_config"],
-                },
-                "remove_server": {
-                    "description": "Remove server from client config",
-                    "operations": ["remove"],
-                    "parameters": ["client_name", "server_name"],
-                },
-                "validate_config": {
-                    "description": "Validate client configuration",
-                    "operations": ["validate"],
-                    "parameters": ["client_name"],
-                },
-                "list_configs": {
-                    "description": "List all client configurations",
-                    "operations": ["list"],
-                    "parameters": [],
-                },
-            },
-            "token_analysis": {
-                "analyze_file_tokens": {
-                    "description": "Analyze token usage in specific files",
-                    "operations": ["analyze"],
-                    "parameters": ["file_path"],
-                },
-                "analyze_directory_tokens": {
-                    "description": "Analyze token usage across directories",
-                    "operations": ["analyze"],
-                    "parameters": ["dir_path", "extensions"],
-                },
-                "estimate_context_limits": {
-                    "description": "Estimate LLM context limit compatibility",
-                    "operations": ["estimate"],
-                    "parameters": ["token_count"],
-                },
-            },
-            "repo_packing": {
-                "pack_repository": {
-                    "description": "Pack repository into AI-friendly formats",
-                    "operations": ["pack"],
-                    "parameters": [
-                        "repo_path",
-                        "output_format",
-                        "include_patterns",
-                        "exclude_patterns",
-                    ],
-                },
-                "pack_repository_for_ai": {
-                    "description": "Pack repository optimized for AI consumption",
-                    "operations": ["pack"],
-                    "parameters": ["repo_path", "max_tokens"],
-                },
-            },
-        }
-
+        catalog = await tool_service.get_mcp_catalog()
         return {
             "success": True,
             "message": "Available tools retrieved successfully",
-            "data": tools,
+            "data": catalog.get("tools", []),
+            "total_tools": len(catalog.get("tools", [])),
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Tool listing failed: {e!s}") from e
@@ -824,13 +646,16 @@ async def ping_heartbeat_fleet():
 @router.post("/heartbeat/proactive", summary="Configure Proactive Heartbeat")
 async def configure_proactive_heartbeat(request: HeartbeatConfigureRequest):
     """Schedule a recurring proactive heartbeat pulse."""
-    # This requires the global scheduler instance which we might not have conveniently here
-    # but we can call it through the tool which we just added.
-    # For now, let's keep it consistent with the tool implementation.
-    return {
-        "success": False,
-        "message": "Please use the 'heartbeat_configure_proactive' tool directly.",
-    }
+    interval_seconds = max(1, request.interval_hours) * 3600
+    result = await scheduler_service.register_task(
+        name="Proactive Heartbeat",
+        interval_seconds=interval_seconds,
+        server_id="metaops",
+        tool_name="heartbeat_ops",
+        parameters={"operation": "pulse", "detailed": True},
+        description=f"Automated proactive heartbeat pulse every {request.interval_hours}h",
+    )
+    return result
 
 
 # Fleet Management Endpoints

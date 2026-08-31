@@ -124,22 +124,22 @@ meta-hypertools is a single local hub for operations otherwise spread across a d
 | Area | Summary |
 |------|---------|
 | **Scaffolding** | Generate MCP servers, fullstack apps, landing pages, games, and **Spec Kit SDD projects** -- `scaffold_ops` |
-| **Fleet lifecycle** | Start, stop, probe, and audit fleet apps -- `fleet_ops` |
+| **Fleet lifecycle** | Start, stop, probe, audit, and launch curated fleet & maintenance scripts with live progress -- `fleet_ops` / Fleet Ops UI |
 | **Repo inspiration** | Study public GitHub repos without cloning -- `inspire_repo` |
 | **Harness generation** | AST-analyze source code, generate FastMCP servers -- `harness_analyze`, `harness_generate` |
 | **Config audit** | Scan fleet for CLAUDE.md, llms.txt, glama.json, .cursorrules -- `fleet_config_audit` |
 | **Analysis** | SOTA compliance, runt detection, depot -- `analysis_ops` |
-| **Diagnostics** | Tool discovery, Unicode/PowerShell/justfile validation -- `diagnostics_ops` |
+| **Diagnostics** | Tool discovery, Unicode/PowerShell/justfile validation, log watchdog -- `diagnostics_ops` |
 | **Client management** | IDE config read/update/add/remove -- `client_ops` |
 | **Server management** | MCP server start/stop/list/status -- `server_ops` |
-| **Heartbeat** | Fleet health, ping, liveness checks -- `heartbeat_ops` |
+| **Heartbeat** | Fleet health, ping, liveness checks, scheduled proactive heartbeat -- `heartbeat_ops` |
 | **Token analysis** | File/dir token counting, context limit checks -- `token_ops` |
 | **Toolchains** | Preset management (list/create/delete/apply) -- `toolchain_ops` |
 | **Scheduler** | Recurring task management -- `scheduler_ops` |
 | **Meta dev** | Fleet helpers: diff, snippet, orphan detection, redact -- `meta_dev_ops` |
 | **Repo packing** | LLM-optimized repo packing -- `pack_ops` |
-| **Discovery** | Local server discovery, IDE audit -- `discovery_ops` |
-| **Dashboard** | Tool Lab, Builders (incl. Spec Kit SDD), Analysis, Repo Inspiration, Config Audit, Fleet tabs |
+| **Discovery** | Local server discovery, IDE audit, dynamic tool catalog -- `discovery_ops` |
+| **Dashboard** | Modernized webapp with collapsible navigation (6 groups), Fleet Ops & Script Center with real-time console and artifact elucidator, Tool Lab, Builders (incl. Spec Kit SDD), Analysis, Repo Inspiration |
 
 ### Portmanteau tools (16)
 

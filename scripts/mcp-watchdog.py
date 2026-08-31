@@ -27,7 +27,6 @@ EXAMPLES:
 
 import argparse
 import json
-import os
 import re
 import shutil
 import subprocess
@@ -41,11 +40,12 @@ from pathlib import Path
 # ---------------------------------------------------------------------------
 
 IDE_LOG_PATHS = {
-    "claude": r"C:\Users\{user}\AppData\Roaming\Claude\logs",
-    "cursor": r"C:\Users\{user}\AppData\Roaming\Cursor\logs",
-    "windsurf": r"C:\Users\{user}\AppData\Roaming\Windsurf\logs",
-    "antigravity": r"C:\Users\{user}\.gemini\antigravity\logs",
-    "zed": r"C:\Users\{user}\AppData\Roaming\Zed\logs",
+    "claude": Path.home() / "AppData" / "Roaming" / "Claude" / "logs",
+    "cursor": Path.home() / "AppData" / "Roaming" / "Cursor" / "logs",
+    "windsurf": Path.home() / "AppData" / "Roaming" / "Windsurf" / "logs",
+    "antigravity": Path.home() / ".gemini" / "antigravity" / "logs",
+    "zed": Path.home() / "AppData" / "Roaming" / "Zed" / "logs",
+    "opencode": Path.home() / ".config" / "opencode" / "logs",
 }
 
 IDE_ALIASES = {
@@ -85,8 +85,7 @@ def resolve_logs_dir(ide: str, logs_dir: str | None) -> Path:
     if ide not in IDE_LOG_PATHS:
         print(f"[warn] Unknown IDE '{ide}', falling back to claude", file=sys.stderr)
         ide = "claude"
-    user = os.environ.get("USERNAME") or os.environ.get("USER") or "user"
-    return Path(IDE_LOG_PATHS[ide].replace("{user}", user))
+    return IDE_LOG_PATHS[ide]
 
 
 def read_tail(path: Path, n_lines: int = 100) -> list[str]:
@@ -249,6 +248,10 @@ def cmd_scan(args, log_out):
     log_files = sorted(f for f in logs_dir.glob("mcp-server-*.log") if not re.search(r"\d+\.log$", f.name))
 
     results = [analyse_log(f, staleness_min=args.stale, hung_timeout_sec=args.hung_timeout) for f in log_files]
+
+    if getattr(args, "filter", None):
+        allowed = {s.strip().upper() for s in args.filter.split(",") if s.strip()}
+        results = [r for r in results if r["status"].upper() in allowed]
 
     counts = {s: 0 for s in [STATUS_OK, STATUS_STALE, STATUS_HUNG, STATUS_CRASHED, STATUS_EMPTY, STATUS_NO_START]}
     for r in results:

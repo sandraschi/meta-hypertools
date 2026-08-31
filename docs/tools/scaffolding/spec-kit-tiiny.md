@@ -8,8 +8,7 @@ GitHub's Spec-Driven Development toolkit integration. Scaffolds a project
 with `/speckit.*` slash commands for structured planning.
 
 ```python
-scaffold_ops(operation="spec_kit", name="my-project",
-             config={"ai_integration": "opencode"})
+scaffold_ops(operation="spec_kit", name="my-project", config={"ai_integration": "opencode"})
 ```
 
 | Parameter | Meaning |

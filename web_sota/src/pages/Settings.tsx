@@ -38,9 +38,9 @@ function LLMSettingsSection() {
         const list = d.providers || [];
         setProviders(list);
         const map: Record<string, LLMProviderInfo> = {};
-        list.forEach((p: LLMProviderInfo) => {
+        for (const p of list) {
           map[p.id] = p;
-        });
+        }
         setProviderMap(map);
       })
       .catch((e) =>

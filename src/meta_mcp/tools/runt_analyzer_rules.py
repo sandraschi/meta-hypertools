@@ -579,7 +579,7 @@ SOTA_RULES: list[Rule] = [
         category=RuleCategory.QUALITY,
         severity=RuleSeverity.CRITICAL,
         description="Bare except clauses (>=3)",
-        recommendation="Use specific exception types, never bare except:",
+        recommendation="Use specific exception types, never bare except Exception:",
         check=lambda i: i.get("bare_except_count", 0) >= 3,
         score_deduction=10,
         message_template="{bare_except_count} bare except clauses",

@@ -194,4 +194,3 @@ export function Topbar({ title, onShowLogger, onShowHelp }: TopbarProps) {
     </div>
   );
 }
-

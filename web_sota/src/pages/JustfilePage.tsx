@@ -144,7 +144,10 @@ export function JustfilePage() {
         r.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         r.doc.toLowerCase().includes(searchQuery.toLowerCase())
       ) {
-        (acc[r.category] = acc[r.category] || []).push(r);
+        if (!acc[r.category]) {
+          acc[r.category] = [];
+        }
+        acc[r.category].push(r);
       }
       return acc;
     }, {}),

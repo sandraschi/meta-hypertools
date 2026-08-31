@@ -76,7 +76,6 @@ export function SkeletonGrid({ count = 4, className = "" }: SkeletonGridProps) {
     <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 ${className}`}>
       {Array.from({ length: count }, (_, i) => (
         <motion.div
-          // biome-ignore lint/suspicious/noArrayIndexKey: Purely decorative skeleton items
           key={`skeleton-grid-item-${i}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

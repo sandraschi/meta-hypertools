@@ -13,6 +13,7 @@ src/meta_mcp/logging_config.py
 src/meta_mcp/logs_router.py
 src/meta_mcp/main.py
 src/meta_mcp/mcp_server.py
+src/meta_mcp/ops_catalog.py
 src/meta_mcp/registry.py
 src/meta_mcp/router_index.py
 src/meta_mcp/server.py
@@ -47,6 +48,7 @@ src/meta_mcp/services/dynamic_router.py
 src/meta_mcp/services/dynamic_router_service.py
 src/meta_mcp/services/emoji_buster.py
 src/meta_mcp/services/fleet_cold_install_service.py
+src/meta_mcp/services/fleet_ops_service.py
 src/meta_mcp/services/fleet_runtime_service.py
 src/meta_mcp/services/fleet_startup_probe_service.py
 src/meta_mcp/services/heartbeat_service.py

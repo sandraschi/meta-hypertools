@@ -1,4 +1,4 @@
-"""Demo capture — plan, record, render, and help for fleet webapp walkthrough videos."""
+"""Demo capture - plan, record, render, and help for fleet webapp walkthrough videos."""
 
 from __future__ import annotations
 
@@ -38,7 +38,7 @@ def register_demo_capture_tools(mcp: FastMCP) -> None:
         - **help**: Explain the demo capture pipeline and prerequisites
         - **plan**: Scan routes/testids and build demo config.json
         - **record**: Start stack (or reuse), run Playwright capture, return artifact paths
-        - **render**: Remotion post-production — Playwright .webm → MP4 with title card
+        - **render**: Remotion post-production - Playwright .webm → MP4 with title card
         - **health**: Wait until manifest backend + frontend ports are ready
 
         ## Examples
@@ -53,9 +53,9 @@ def register_demo_capture_tools(mcp: FastMCP) -> None:
                 "message": "Demo capture: Playwright record + optional Remotion MP4 render.",
                 "data": {
                     "pipeline": [
-                        "1. demo_ops(plan) — scan routes + data-testid → config.json",
-                        "2. demo_ops(record) — start/reuse stack, Playwright → .webm + PNGs",
-                        "3. demo_ops(render) — Remotion title overlay → docs/screenshots/{repo}-demo.mp4",
+                        "1. demo_ops(plan) - scan routes + data-testid → config.json",
+                        "2. demo_ops(record) - start/reuse stack, Playwright → .webm + PNGs",
+                        "3. demo_ops(render) - Remotion title overlay → docs/screenshots/{repo}-demo.mp4",
                         "4. Or record(render_mp4=True) to run steps 2+3 in one call",
                     ],
                     "bundled_template": "meta_mcp/demo_capture_templates/",
@@ -131,5 +131,5 @@ def register_demo_capture_tools(mcp: FastMCP) -> None:
 
     @mcp.tool(name="demo_capture_help")
     async def demo_capture_help() -> dict[str, Any]:
-        """Explain how the demo capture system works (legacy alias — prefer demo_ops help)."""
+        """Explain how the demo capture system works (legacy alias - prefer demo_ops help)."""
         return await demo_ops(operation="help")

@@ -15,11 +15,18 @@
     "enabled": true,
     "rules": {
       "recommended": true,
+      "a11y": {
+        "useButtonType": "off",
+        "noLabelWithoutControl": "off",
+        "noSvgWithoutTitle": "off",
+        "useKeyWithClickEvents": "off"
+      },
       "style": {
         "useBlockStatements": "off",
         "useNamingConvention": "off"
       },
       "suspicious": {
+        "noArrayIndexKey": "off",
         "noExplicitAny": "warn",
         "noConsole": "warn"
       }

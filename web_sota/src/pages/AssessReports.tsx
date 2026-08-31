@@ -58,7 +58,6 @@ export function AssessReportsPage() {
         setStats(data);
       }
     } catch (err) {
-      console.error("Failed to fetch assess reports", err);
     } finally {
       setLoading(false);
     }

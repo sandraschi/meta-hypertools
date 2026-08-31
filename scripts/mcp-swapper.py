@@ -13,7 +13,9 @@ import os
 import sys
 from pathlib import Path
 
-DEFAULT_CONFIG = Path(os.environ.get("ANTIGRAVITY_MCP_CONFIG", r"C:\Users\sandr\.gemini\antigravity\mcp_config.json"))
+DEFAULT_CONFIG = Path(
+    os.environ.get("ANTIGRAVITY_MCP_CONFIG", Path.home() / ".gemini" / "antigravity" / "mcp_config.json")
+)
 
 TIERS = {
     "tier1": {"advanced-memory-mcp", "speech-mcp", "clawops", "davinci", "beyondcompare", "brightdata", "context7"},

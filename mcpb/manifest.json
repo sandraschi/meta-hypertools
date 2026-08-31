@@ -1,212 +1,175 @@
 {
-  "manifest_version": "0.3",
-  "name": "meta-hypertools",
+  "manifest_version": "0.2",
+  "name": "meta_mcp",
   "version": "0.5.0",
-  "description": "MCP fleet orchestrator: scaffolding, remote GitHub inspiration, fleet probes, harness generation, config audit, portmanteau tool management, and analysis tools.",
-  "author": {
-    "name": "Sandra Schipal",
-    "url": "https://github.com/sandraschi"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/sandraschi/meta-hypertools.git"
-  },
-  "homepage": "https://github.com/sandraschi/meta-hypertools",
-  "license": "MIT",
-  "keywords": [
-    "mcp",
-    "fastmcp",
-    "fleet",
-    "scaffolding",
-    "harness",
-    "github-inspiration",
-    "config-audit",
-    "devtools"
-  ],
+  "description": "Fleet MCP orchestrator: lifecycle, sandboxed cold-install probes, GitHub repo inspiration, diagnostics, and web dashboard",
+  "author": { "name": "sandraschi" },
   "server": {
     "type": "python",
-    "entry_point": "src/meta_mcp/__main__.py",
+    "entry_point": "run_server.py",
     "mcp_config": {
       "command": "uv",
-      "args": [
-        "--directory",
-        "${__dirname}",
-        "run",
-        "meta-mcp-server"
-      ],
+      "args": ["run","--directory","${PWD}","run_server.py"],
       "env": {
+        "PYTHONPATH": "${PWD}/src",
         "PYTHONUNBUFFERED": "1"
       }
     }
   },
   "tools": [
-    {
-      "name": "analysis_ops",
-      "description": "Repository analysis and SOTA compliance (portmanteau)."
-    },
-    {
-      "name": "assess_reports_ops",
-      "description": "Scan and read assess-fix reports across all fleet repos."
-    },
-    {
-      "name": "benny_handshake",
-      "description": "The \"Benny\" Protocol: Physical Interrupt for critical operations."
-    },
-    {
-      "name": "client_ops",
-      "description": "IDE client configuration management (portmanteau)."
-    },
-    {
-      "name": "deep_scan_repo",
-      "description": "Deep repository scan."
-    },
-    {
-      "name": "demo_capture_help",
-      "description": "Explain how the demo capture system works (legacy alias ù prefer demo_ops help)."
-    },
-    {
-      "name": "demo_ops",
-      "description": "Fleet webapp demo capture (portmanteau)."
-    },
-    {
-      "name": "diagnostics_ops",
-      "description": "Diagnostics, tool discovery, and standards validation (portmanteau)."
-    },
-    {
-      "name": "discovery_ops",
-      "description": "MCP server and IDE integration discovery (portmanteau)."
-    },
-    {
-      "name": "execute_mcp_tool",
-      "description": "Execute server tool."
-    },
-    {
-      "name": "fleet_config_audit",
-      "description": "Scan all fleet repos for config files (CLAUDE.md, AGENTS.md, .cursorrules, llms.txt, glama.json, etc.)."
-    },
-    {
-      "name": "fleet_ops",
-      "description": "Fleet application lifecycle and probing (portmanteau)."
-    },
-    {
-      "name": "generate_demo_script",
-      "description": "Generate a config.json for the fleet demo-capture template (legacy alias for demo_ops plan)."
-    },
-    {
-      "name": "generate_patch",
-      "description": "Generate a security patch for a verified exploit."
-    },
-    {
-      "name": "harness_analyze",
-      "description": "Analyse a codebase and produce a structured tool surface specification."
-    },
-    {
-      "name": "harness_generate",
-      "description": "Generate a fleet-conformant FastMCP server from a ToolSurfaceSpec."
-    },
-    {
-      "name": "harness_refine",
-      "description": "Iteratively improve a harness-generated MCP server."
-    },
-    {
-      "name": "heartbeat_ops",
-      "description": "System health monitoring (portmanteau)."
-    },
-    {
-      "name": "inspire_repo",
-      "description": "Study a public GitHub repo without cloning (portmanteau)."
-    },
-    {
-      "name": "inspire_repo_files",
-      "description": "Read source files from a GitHub repository for design inspiration."
-    },
-    {
-      "name": "inspire_repo_help",
-      "description": "Parameter reference for inspire_repo and related inspiration tools."
-    },
-    {
-      "name": "inspire_repo_patterns",
-      "description": "Build an architecture study pack for a GitHub repository."
-    },
-    {
-      "name": "inspire_repo_structure",
-      "description": "Get a filtered file tree of a GitHub repository."
-    },
-    {
-      "name": "inspire_repo_structure_card",
-      "description": "GitHub repo structure as a Prefab card (fleet list/status surface)."
-    },
-    {
-      "name": "inspire_repo_workflow",
-      "description": "Agentic multi-step repo study: structure  pick paths  files  patterns  synthesis."
-    },
-    {
-      "name": "list_mcp_tools",
-      "description": "List server tools."
-    },
-    {
-      "name": "meta_dev_ops",
-      "description": "Fleet developer and meta-operation helpers (portmanteau)."
-    },
-    {
-      "name": "meta_route_tool",
-      "description": "Route a tool call to any MCP server in the fleet."
-    },
-    {
-      "name": "meta_routing_reindex",
-      "description": "Force a full fleet capability re-index."
-    },
-    {
-      "name": "meta_routing_servers",
-      "description": "List all fleet servers discovered by the capability index."
-    },
-    {
-      "name": "meta_routing_status",
-      "description": "Report the capability index health and fleet routing status."
-    },
-    {
-      "name": "meta_search_capabilities",
-      "description": "Search the fleet capability index for tools matching a query."
-    },
-    {
-      "name": "ollama_ops",
-      "description": "Manage the local Ollama engine -- status, kill, start, restart."
-    },
-    {
-      "name": "pack_ops",
-      "description": "Repository packing for LLM context (portmanteau)."
-    },
-    {
-      "name": "scaffold_ops",
-      "description": "Project scaffolding and code generation (portmanteau)."
-    },
-    {
-      "name": "scheduler_ops",
-      "description": "Background task scheduling (portmanteau)."
-    },
-    {
-      "name": "server_ops",
-      "description": "MCP server process lifecycle (portmanteau)."
-    },
-    {
-      "name": "show_tool_history",
-      "description": "Get execution history."
-    },
-    {
-      "name": "token_ops",
-      "description": "Token usage analysis for files and directories (portmanteau)."
-    },
-    {
-      "name": "toolchain_ops",
-      "description": "Toolchain preset management (portmanteau)."
-    },
-    {
-      "name": "validate_tool_schema",
-      "description": "Validate tool parameters."
-    },
-    {
-      "name": "verify_exploit",
-      "description": "Grounded exploit verification tool."
-    }
+    { "name": "inspire_repo_structure_card", "description": "inspire_repo_structure_card" },
+    { "name": "query_logs", "description": "query_logs" },
+    { "name": "log_stats", "description": "log_stats" },
+    { "name": "export_logs", "description": "export_logs" },
+    { "name": "clear_logs", "description": "clear_logs" },
+    { "name": "health_check", "description": "Health check endpoint." },
+    { "name": "get_llm_providers", "description": "get_llm_providers" },
+    { "name": "list_session_docs", "description": "list_session_docs" },
+    { "name": "read_session_doc", "description": "read_session_doc" },
+    { "name": "get_system_status", "description": "Public health and version status." },
+    { "name": "_detect_server_command", "description": "_detect_server_command" },
+    { "name": "status", "description": "status" },
+    { "name": "emojibuster_scan", "description": "emojibuster_scan" },
+    { "name": "emojibuster_fix", "description": "emojibuster_fix" },
+    { "name": "emojibuster_success_stories", "description": "emojibuster_success_stories" },
+    { "name": "discover_mcp_servers", "description": "discover_mcp_servers" },
+    { "name": "get_server_info", "description": "get_server_info" },
+    { "name": "create_mcp_server", "description": "create_mcp_server" },
+    { "name": "analyze_runts", "description": "analyze_runts" },
+    { "name": "list_directory_contents", "description": "list_directory_contents" },
+    { "name": "validate_json_structure", "description": "validate_json_structure" },
+    { "name": "list_fleet_apps", "description": "List all available fleet web applications and their current status." },
+    { "name": "launch_fleet_app", "description": "Launch a fleet web application by ID." },
+    { "name": "create_powershell_profile", "description": "create_powershell_profile" },
+    { "name": "check_powershell_profile_status", "description": "check_powershell_profile_status" },
+    { "name": "remove_powershell_profile", "description": "remove_powershell_profile" },
+    { "name": "validate_powershell_syntax", "description": "validate_powershell_syntax" },
+    { "name": "fix_powershell_syntax", "description": "fix_powershell_syntax" },
+    { "name": "get_powershell_equivalents", "description": "get_powershell_equivalents" },
+    { "name": "evaluate_rules", "description": "evaluate_rules" },
+    { "name": "_parse_args", "description": "_parse_args" },
+    { "name": "help", "description": "help" },
+    { "name": "chat", "description": "Chat with the configured LLM provider." },
+    { "name": "agentic_", "description": "agentic_" },
+    { "name": "health", "description": "Basic health check." },
+    { "name": "diagnostics", "description": "Full system diagnostics - LLM, tools, system info." },
+    { "name": "list_tools", "description": "List all registered MCP tools with their schemas." },
+    { "name": "list_providers", "description": "List available LLM providers with their presets." },
+    { "name": "my_tool", "description": "my_tool" },
+    { "name": "domain_ops", "description": "domain_ops" },
+    { "name": "example_portmanteau", "description": "example_portmanteau" },
+    { "name": "_kebab_to_snake_list", "description": "_kebab_to_snake(list)" },
+    { "name": "_kebab_to_snake_get", "description": "_kebab_to_snake(get)" },
+    { "name": "_kebab_to_snake_create", "description": "_kebab_to_snake(create)" },
+    { "name": "watchdog_scan", "description": "watchdog_scan" },
+    { "name": "watchdog_status_summary", "description": "watchdog_status_summary" },
+    { "name": "watchdog_known_ide_paths", "description": "watchdog_known_ide_paths" },
+    { "name": "analysis_ops", "description": "analysis_ops" },
+    { "name": "register_analysis_tools_runts", "description": "register_analysis_tools(runts)" },
+    { "name": "register_analysis_tools_status", "description": "register_analysis_tools(status)" },
+    { "name": "register_analysis_tools_codebase", "description": "register_analysis_tools(codebase)" },
+    { "name": "register_analysis_tools_list_depot", "description": "register_analysis_tools(list_depot)" },
+    { "name": "register_analysis_tools_get_depot_run", "description": "register_analysis_tools(get_depot_run)" },
+    { "name": "register_analysis_tools_publish_mcd", "description": "register_analysis_tools(publish_mcd)" },
+    { "name": "assess_reports_ops", "description": "assess_reports_ops" },
+    { "name": "_find_timestamp_list", "description": "_find_timestamp(list)" },
+    { "name": "_find_timestamp_get", "description": "_find_timestamp(get)" },
+    { "name": "_find_timestamp_stats", "description": "_find_timestamp(stats)" },
+    { "name": "meta_route_scan", "description": "meta_route_scan" },
+    { "name": "meta_route_tool", "description": "meta_route_tool" },
+    { "name": "meta_route_list", "description": "meta_route_list" },
+    { "name": "meta_route_status", "description": "meta_route_status" },
+    { "name": "register_capability_router_tools_list", "description": "register_capability_router_tools(list)" },
+    { "name": "register_capability_router_tools_lookup", "description": "register_capability_router_tools(lookup)" },
+    { "name": "client_ops", "description": "client_ops" },
+    { "name": "register_client_management_tools_read", "description": "register_client_management_tools(read)" },
+    { "name": "register_client_management_tools_update", "description": "register_client_management_tools(update)" },
+    { "name": "register_client_management_tools_add_server", "description": "register_client_management_tools(add_server)" },
+    { "name": "register_client_management_tools_remove_server", "description": "register_client_management_tools(remove_server)" },
+    { "name": "register_client_management_tools_validate", "description": "register_client_management_tools(validate)" },
+    { "name": "register_client_management_tools_list", "description": "register_client_management_tools(list)" },
+    { "name": "fleet_config_audit", "description": "fleet_config_audit" },
+    { "name": "demo_ops", "description": "demo_ops" },
+    { "name": "generate_demo_script", "description": "generate_demo_script" },
+    { "name": "demo_capture_help", "description": "demo_capture_help" },
+    { "name": "register_demo_capture_tools_help", "description": "register_demo_capture_tools(help)" },
+    { "name": "register_demo_capture_tools_plan", "description": "register_demo_capture_tools(plan)" },
+    { "name": "register_demo_capture_tools_record", "description": "register_demo_capture_tools(record)" },
+    { "name": "register_demo_capture_tools_render", "description": "register_demo_capture_tools(render)" },
+    { "name": "register_demo_capture_tools_health", "description": "register_demo_capture_tools(health)" },
+    { "name": "diagnostics_ops", "description": "diagnostics_ops" },
+    { "name": "register_diagnostics_tools_help", "description": "register_diagnostics_tools(help)" },
+    { "name": "register_diagnostics_tools_overview", "description": "register_diagnostics_tools(overview)" },
+    { "name": "register_diagnostics_tools_unicode", "description": "register_diagnostics_tools(unicode)" },
+    { "name": "register_diagnostics_tools_pwsh", "description": "register_diagnostics_tools(pwsh)" },
+    { "name": "register_diagnostics_tools_justfile", "description": "register_diagnostics_tools(justfile)" },
+    { "name": "register_diagnostics_tools_audit_impl", "description": "register_diagnostics_tools(audit_impl)" },
+    { "name": "register_diagnostics_tools_launcher", "description": "register_diagnostics_tools(launcher)" },
+    { "name": "register_diagnostics_tools_refresh", "description": "register_diagnostics_tools(refresh)" },
+    { "name": "discovery_ops", "description": "discovery_ops" },
+    { "name": "register_discovery_tools_servers", "description": "register_discovery_tools(servers)" },
+    { "name": "register_discovery_tools_ide", "description": "register_discovery_tools(ide)" },
+    { "name": "routing_ops", "description": "routing_ops" },
+    { "name": "fleet_ops", "description": "fleet_ops" },
+    { "name": "harness_analyze", "description": "harness_analyze" },
+    { "name": "harness_generate", "description": "harness_generate" },
+    { "name": "harness_refine", "description": "harness_refine" },
+    { "name": "_dict_to_spec_local", "description": "_dict_to_spec(local)" },
+    { "name": "_dict_to_spec_github", "description": "_dict_to_spec(github)" },
+    { "name": "heartbeat_portmanteau", "description": "heartbeat_portmanteau" },
+    { "name": "register_heartbeat_tools_pulse", "description": "register_heartbeat_tools(pulse)" },
+    { "name": "register_heartbeat_tools_ping", "description": "register_heartbeat_tools(ping)" },
+    { "name": "register_heartbeat_tools_liveness", "description": "register_heartbeat_tools(liveness)" },
+    { "name": "register_heartbeat_tools_proactive", "description": "register_heartbeat_tools(proactive)" },
+    { "name": "meta_dev_ops", "description": "meta_dev_ops" },
+    { "name": "ollama_ops", "description": "ollama_ops" },
+    { "name": "inspire_repo", "description": "inspire_repo" },
+    { "name": "inspire_repo_structure", "description": "inspire_repo_structure" },
+    { "name": "inspire_repo_files", "description": "inspire_repo_files" },
+    { "name": "inspire_repo_patterns", "description": "inspire_repo_patterns" },
+    { "name": "inspire_repo_workflow", "description": "inspire_repo_workflow" },
+    { "name": "inspire_repo_help", "description": "inspire_repo_help" },
+    { "name": "register_repo_inspiration_tools_structure", "description": "register_repo_inspiration_tools(structure)" },
+    { "name": "register_repo_inspiration_tools_files", "description": "register_repo_inspiration_tools(files)" },
+    { "name": "register_repo_inspiration_tools_patterns", "description": "register_repo_inspiration_tools(patterns)" },
+    { "name": "register_repo_inspiration_tools_help", "description": "register_repo_inspiration_tools(help)" },
+    { "name": "pack_portmanteau", "description": "pack_portmanteau" },
+    { "name": "register_repo_packing_tools_pack", "description": "register_repo_packing_tools(pack)" },
+    { "name": "register_repo_packing_tools_pack_ai", "description": "register_repo_packing_tools(pack_ai)" },
+    { "name": "scan_repository_deep", "description": "scan_repository_deep" },
+    { "name": "verify_exploit_tool", "description": "verify_exploit_tool" },
+    { "name": "generate_patch_tool", "description": "generate_patch_tool" },
+    { "name": "benny_handshake_tool", "description": "benny_handshake_tool" },
+    { "name": "meta_search_capabilities", "description": "meta_search_capabilities" },
+    { "name": "meta_routing_status", "description": "meta_routing_status" },
+    { "name": "meta_routing_reindex", "description": "meta_routing_reindex" },
+    { "name": "meta_routing_servers", "description": "meta_routing_servers" },
+    { "name": "scaffold_ops", "description": "scaffold_ops" },
+    { "name": "scheduler_portmanteau", "description": "scheduler_portmanteau" },
+    { "name": "register_scheduler_tools_schedule", "description": "register_scheduler_tools(schedule)" },
+    { "name": "register_scheduler_tools_list", "description": "register_scheduler_tools(list)" },
+    { "name": "register_scheduler_tools_cancel", "description": "register_scheduler_tools(cancel)" },
+    { "name": "server_portmanteau", "description": "server_portmanteau" },
+    { "name": "register_server_management_tools_start", "description": "register_server_management_tools(start)" },
+    { "name": "register_server_management_tools_stop", "description": "register_server_management_tools(stop)" },
+    { "name": "register_server_management_tools_list", "description": "register_server_management_tools(list)" },
+    { "name": "register_server_management_tools_status", "description": "register_server_management_tools(status)" },
+    { "name": "token_portmanteau", "description": "token_portmanteau" },
+    { "name": "register_token_analysis_tools_analyze_file", "description": "register_token_analysis_tools(analyze_file)" },
+    { "name": "register_token_analysis_tools_analyze_dir", "description": "register_token_analysis_tools(analyze_dir)" },
+    { "name": "register_token_analysis_tools_context_limits", "description": "register_token_analysis_tools(context_limits)" },
+    { "name": "execute_server_tool", "description": "execute_server_tool" },
+    { "name": "list_server_tools", "description": "list_server_tools" },
+    { "name": "validate_tool_parameters", "description": "validate_tool_parameters" },
+    { "name": "get_tool_execution_history", "description": "get_tool_execution_history" },
+    { "name": "toolchain_portmanteau", "description": "toolchain_portmanteau" },
+    { "name": "register_toolchain_tools_list", "description": "register_toolchain_tools(list)" },
+    { "name": "register_toolchain_tools_create", "description": "register_toolchain_tools(create)" },
+    { "name": "register_toolchain_tools_delete", "description": "register_toolchain_tools(delete)" },
+    { "name": "register_toolchain_tools_apply", "description": "register_toolchain_tools(apply)" },
+    { "name": "register_toolchain_tools_available", "description": "register_toolchain_tools(available)" },
+    { "name": "_generate_tool_registration", "description": "_generate_tool_registration" },
+    { "name": "_generate_skill_md", "description": "_generate_skill_md" },
+    { "name": "_generate_backend_strategy", "description": "_generate_backend_strategy" }
   ]
 }

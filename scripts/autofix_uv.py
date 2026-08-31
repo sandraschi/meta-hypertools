@@ -2,14 +2,27 @@ import os
 import subprocess
 from pathlib import Path
 
-REPOS_DIR = Path(os.environ.get("REPOS_DIR", Path.home() / "repos"))
+
+def _resolve_repos_dir() -> Path:
+    env_dir = os.environ.get("FLEET_REPOS_ROOT") or os.environ.get("REPOS_DIR") or os.environ.get("REPOS_ROOT")
+    if env_dir:
+        return Path(env_dir)
+    default_d = Path(r"D:\Dev\repos")
+    if default_d.exists():
+        return default_d
+    return Path.home() / "repos"
 
 
-def run_cmd(cmd, cwd):
+REPOS_DIR = _resolve_repos_dir()
+
+
+def run_cmd(cmd, cwd, timeout=120):
     # Run a command and return (success, output)
     try:
-        result = subprocess.run(cmd, cwd=cwd, shell=True, capture_output=True, text=True, check=False)
+        result = subprocess.run(cmd, cwd=cwd, shell=True, capture_output=True, text=True, check=False, timeout=timeout)
         return result.returncode == 0, result.stdout + result.stderr
+    except subprocess.TimeoutExpired:
+        return False, f"Command timed out after {timeout}s"
     except Exception as e:
         return False, str(e)
 

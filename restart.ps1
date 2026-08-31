@@ -1,2 +1,4 @@
 Write-Host "Restarting MetaMCP..." -ForegroundColor Yellow
-.\web_sota\start-dev.ps1
+$StartScript = Join-Path $PSScriptRoot "start.ps1"
+& $StartScript
+

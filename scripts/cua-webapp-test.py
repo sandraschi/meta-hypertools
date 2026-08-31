@@ -105,8 +105,8 @@ def kill_stale():
     try:
         with os.fdopen(fd, "w", encoding="utf-8") as f:
             f.write(ps)
-        subprocess.run(  # noqa: S603 - fixed literal command array, local test script
-            ["powershell.exe", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", path],  # noqa: S607 - powershell on PATH by fleet standard
+        subprocess.run(
+            ["powershell.exe", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", path],
             capture_output=True,
             timeout=15,
         )
@@ -133,12 +133,12 @@ def start_stack():
                 env.pop(v, None)
             env["FLEET_PROBE_RUN"] = "1"
             env["FLEET_PROBE_LOG_DIR"] = str(repo_root / "cua-reports" / "logs")
-            subprocess.Popen(  # noqa: S603 - fixed literal command array, local test script
+            subprocess.Popen(
                 [
                     "powershell.exe",
                     "-NoProfile",
                     "-ExecutionPolicy",
-                    "Bypass",  # noqa: S607 - powershell on PATH by fleet standard
+                    "Bypass",
                     "-File",
                     str(start_ps1),
                     "-Headless",
@@ -158,11 +158,11 @@ def start_stack():
         log("No backend_module in config — cannot direct-spawn backend")
         return False
     log(f"Direct spawn fallback: python -m {module}")
-    subprocess.Popen(  # noqa: S603 - fixed literal command array, local test script
+    subprocess.Popen(
         [
             "powershell.exe",
             "-NoProfile",
-            "-Command",  # noqa: S607 - powershell on PATH by fleet standard
+            "-Command",
             f"Set-Location '{repo_root}'; $env:BACKEND_PORT='{BACKEND_PORT}'; uv run python -m {module}",
         ],
         cwd=str(repo_root),
@@ -178,11 +178,11 @@ def wait_backend():
     deadline = time.time() + int(cfg("backend_timeout", 30))
     while time.time() < deadline:
         try:
-            r = urllib.request.urlopen(url, timeout=3)  # noqa: S310 - localhost health poll from config
+            r = urllib.request.urlopen(url, timeout=3)
             if r.status == 200:
                 log(f"Backend ready ({url})")
                 return True
-        except Exception:  # noqa: S110 - poll loop, backoff handled by time.sleep below
+        except Exception:
             pass
         time.sleep(2)
     log(f"Backend not reachable at {url}")
@@ -202,7 +202,7 @@ def wait_frontend():
             if r.status == 200:
                 log(f"Frontend ready ({url})")
                 return True
-        except Exception:  # noqa: S110 - poll loop, backoff handled by time.sleep below
+        except Exception:
             pass
         time.sleep(2)
     log(f"Frontend not reachable at {url}")
@@ -215,7 +215,7 @@ def open_browser():
         return True
     url = f"http://127.0.0.1:{FRONTEND_PORT}"
     try:
-        subprocess.Popen(["cmd", "/c", "start", "", url])  # noqa: S603, S607 - fixed literal, cmd.exe on PATH by design
+        subprocess.Popen(["cmd", "/c", "start", "", url])
         log(f"Opened browser: {url}")
         return True
     except Exception as e:
@@ -242,7 +242,7 @@ def find_webapp_window():
             try:
                 if w.descendants(control_type="Hyperlink"):
                     return w
-            except Exception:  # noqa: S110 - try each candidate, fall through on failure
+            except Exception:
                 pass
         return candidates[0]
     except Exception:
@@ -279,7 +279,7 @@ def wait_connected_badge(timeout=None):
                 # If we see connecting text, keep waiting (not an error)
                 if any(k in text for k in CONNECTING_KEYWORDS):
                     log("  Still connecting...")
-            except Exception:  # noqa: S110 - OCR/window failures are retried by the poll loop
+            except Exception:
                 pass
         time.sleep(2)
     if win is None:
@@ -299,7 +299,7 @@ def nav_click_through(output_dir, win):
     try:
         win.maximize()
         time.sleep(1)
-    except Exception:  # noqa: S110 - maximize is best-effort
+    except Exception:
         pass
 
     nav_failures = []
@@ -333,7 +333,7 @@ def nav_click_through(output_dir, win):
 
 def check_diagnostics():
     try:
-        r = urllib.request.urlopen(f"{BACKEND_URL}/api/v1/diagnostics", timeout=5)  # noqa: S310 - localhost diagnostics check
+        r = urllib.request.urlopen(f"{BACKEND_URL}/api/v1/diagnostics", timeout=5)
         data = json.loads(r.read())
         log(f"Diagnostics: HTTP {r.status}, tools={len(data.get('tools', [])) if isinstance(data, dict) else '?'}")
         return True

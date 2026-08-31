@@ -830,7 +830,7 @@ def _analyze_repo(repo_path: Path, deep_scan: bool = False) -> dict[str, Any] | 
                                     matches = re.findall(pattern, content, re.MULTILINE)
                                     print_count += len(matches)
 
-                            # Check for bare except:, NOT except Exception: (separate count)
+                            # Check for bare except Exception:, NOT except Exception: (separate count)
                             for pattern in BARE_EXCEPT_PATTERNS:
                                 matches = re.findall(pattern, content)
                                 bare_except_count += len(matches)

@@ -1,4 +1,4 @@
-"""MCP Server Scaffolding Tool — SOTA 2026 (FastMCP 3.4+).
+"""MCP Server Scaffolding Tool - SOTA 2026 (FastMCP 3.4+).
 
 Creates new fleet-compliant MCP servers with all required components:
 - FastMCP 3.4+ dual transport (stdio + HTTP)
@@ -10,7 +10,7 @@ Creates new fleet-compliant MCP servers with all required components:
 - Optional: Tauri 2.0 + NSIS installer wrapper
 """
 
-# ruff: noqa: E501, F541 — code generator templates; line length in generated output
+# ruff: noqa: E501, F541 - code generator templates; line length in generated output
 # and f-strings with only escaped braces are inherent to the pattern.
 
 import json
@@ -99,7 +99,7 @@ ci: lint test
 
 
 def _generate_llms_txt(server_name: str, package_name: str, description: str) -> str:
-    """Generate llms.txt — LLM index file."""
+    """Generate llms.txt - LLM index file."""
     return f"""# {server_name}
 
 > {description}
@@ -127,9 +127,9 @@ def _generate_llms_txt(server_name: str, package_name: str, description: str) ->
 
 
 def _generate_llms_full_txt(server_name: str, package_name: str, description: str, author: str) -> str:
-    """Generate llms-full.txt — exhaustive LLM reference."""
+    """Generate llms-full.txt - exhaustive LLM reference."""
     pascal = _kebab_to_pascal(server_name)
-    return f"""# {pascal} — Full LLM Reference
+    return f"""# {pascal} - Full LLM Reference
 
 {description}
 
@@ -153,25 +153,25 @@ def _generate_llms_full_txt(server_name: str, package_name: str, description: st
 |----------|---------|-------------|
 | `{package_name.upper()}_SAMPLING_BASE_URL` | `http://127.0.0.1:11434/v1` | Ollama / LM Studio base URL |
 | `{package_name.upper()}_SAMPLING_MODEL` | `llama3.2` | Model name for sampling |
-| `{package_name.upper()}_SAMPLING_API_KEY` | — | Optional API key for sampling endpoint |
+| `{package_name.upper()}_SAMPLING_API_KEY` | - | Optional API key for sampling endpoint |
 | `MCP_PORT` | `10800` | HTTP transport port |
 | `MCP_HOST` | `127.0.0.1` | HTTP transport bind address |
-| `MCP_AGENTIC` | — | Set to `1` to enable CodeMode |
+| `MCP_AGENTIC` | - | Set to `1` to enable CodeMode |
 
 ## Fleet Surface
 
 ### Tools
-- `help` — List available tools and resources
-- `status` — Server health, version, tool count
-- `agentic_{package_name}_workflow` — Multi-step sampling workflow (SEP-1577)
-- `{server_name.replace("-", "_")}_status_card` — Prefab UI health card
+- `help` - List available tools and resources
+- `status` - Server health, version, tool count
+- `agentic_{package_name}_workflow` - Multi-step sampling workflow (SEP-1577)
+- `{server_name.replace("-", "_")}_status_card` - Prefab UI health card
 
 ### Resources
-- `resource://{server_name}/skills` — Agent skill instructions
-- `resource://{server_name}/capabilities` — Server capability summary
+- `resource://{server_name}/skills` - Agent skill instructions
+- `resource://{server_name}/capabilities` - Server capability summary
 
 ### Prompts
-- `{package_name}_session` — Session priming prompt
+- `{package_name}_session` - Session priming prompt
 
 ## Tool Registration Pattern
 
@@ -189,7 +189,7 @@ async def my_tool(
     param: Annotated[str, Field(description="Parameter description")],
     ctx: Context = None,
 ) -> dict:
-    \"\"\"Tool description — no Args: section needed.
+    \"\"\"Tool description - no Args: section needed.
 
     ## Return Format
     {{"success": bool, "data": {{...}}}}
@@ -262,11 +262,11 @@ def _generate_glama_json(server_name: str, description: str, author: str) -> str
 def _generate_env_example(package_name: str) -> str:
     """Generate .env.example with multi-provider LLM vars + fleet-standard env."""
     prefix = package_name.upper()
-    return f"""# {package_name} — environment configuration
+    return f"""# {package_name} - environment configuration
 
 # ── LLM Provider ──
 # Provider: ollama | lmstudio | openai | anthropic | google
-# Local providers (ollama, lmstudio) are auto-detected — no config needed
+# Local providers (ollama, lmstudio) are auto-detected - no config needed
 {prefix}_LLM_PROVIDER=
 # Override API base URL (e.g. for OpenRouter, custom endpoints)
 {prefix}_LLM_BASE_URL=
@@ -292,7 +292,7 @@ MCP_HOST=127.0.0.1
 
 def _generate_run_server_py(package_name: str, server_name: str) -> str:
     """Generate PyInstaller entry point with dual transport."""
-    return f'''"""PyInstaller entry point — dual transport (HTTP when MCP_PORT set, else stdio)."""
+    return f'''"""PyInstaller entry point - dual transport (HTTP when MCP_PORT set, else stdio)."""
 
 import os
 import sys
@@ -315,7 +315,7 @@ if __name__ == "__main__":
 
 
 def _generate_pack_ps1(server_name: str) -> str:
-    """Generate scripts/pack.ps1 — mcpb pack helper."""
+    """Generate scripts/pack.ps1 - mcpb pack helper."""
     return f"""$ErrorActionPreference = "Stop"
 $RepoRoot = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 Set-Location $RepoRoot
@@ -328,8 +328,8 @@ Write-Host "Created dist/{server_name}-v$ver.mcpb" -ForegroundColor Green
 
 
 def _generate_start_ps1(server_name: str, package_name: str) -> str:
-    """Generate start.ps1 — Windows dev launcher."""
-    return f"""# {server_name} — dev launcher
+    """Generate start.ps1 - Windows dev launcher."""
+    return f"""# {server_name} - dev launcher
 param([switch]$Headless, [switch]$NoBrowser)
 
 $ErrorActionPreference = "Stop"
@@ -352,7 +352,7 @@ uv run python -m {package_name} --http --port $port
 
 
 def _generate_start_bat(server_name: str) -> str:
-    """Generate start.bat — Windows double-click launcher."""
+    """Generate start.bat - Windows double-click launcher."""
     return '@echo off\ncd /d "%~dp0"\npowershell -ExecutionPolicy Bypass -File "%~dp0start.ps1"\n'
 
 
@@ -363,7 +363,7 @@ def _generate_start_bat(server_name: str) -> str:
 
 def _generate_example_tool() -> str:
     """Generate a SOTA 2026 example portmanteau tool."""
-    return '''"""Example portmanteau tool — demonstrates the fleet 2026 pattern."""
+    return '''"""Example portmanteau tool - demonstrates the fleet 2026 pattern."""
 
 from __future__ import annotations
 
@@ -372,7 +372,7 @@ from typing import Annotated, Literal
 
 from pydantic import Field
 
-from example_package.mcp_instance import mcp  # noqa: F811  — replaced at scaffold time
+from example_package.mcp_instance import mcp  # noqa: F811  - replaced at scaffold time
 
 logger = logging.getLogger(__name__)
 
@@ -479,7 +479,7 @@ def _generate_docs(server_name: str, description: str) -> dict[str, str]:
     """Generate fleet-accurate documentation files."""
     package_name = _kebab_to_snake(server_name)
     return {
-        "docs/TOOLS.md": f"""# {server_name} — Tool Reference
+        "docs/TOOLS.md": f"""# {server_name} - Tool Reference
 
 ## Core Tools
 
@@ -505,7 +505,7 @@ Prefab UI health card rendered in supporting MCP clients.
 | Capabilities | `resource://{server_name}/capabilities` |
 | CodeMode | `--agentic` flag or `MCP_AGENTIC=1` |
 """,
-        "docs/ARCHITECTURE.md": f"""# {server_name} — Architecture
+        "docs/ARCHITECTURE.md": f"""# {server_name} - Architecture
 
 ## Package Layout
 
@@ -529,9 +529,9 @@ src/{package_name}/
 
 ## Transport
 
-- **stdio**: Default — for Claude Desktop, Cursor, Windsurf
-- **HTTP**: Via `--http --port <port>` — for Tauri/webapp integration
-- **PyInstaller**: `run_server.py` — detects `MCP_PORT`/`PORT` for HTTP, falls back to stdio
+- **stdio**: Default - for Claude Desktop, Cursor, Windsurf
+- **HTTP**: Via `--http --port <port>` - for Tauri/webapp integration
+- **PyInstaller**: `run_server.py` - detects `MCP_PORT`/`PORT` for HTTP, falls back to stdio
 
 ## Sampling
 

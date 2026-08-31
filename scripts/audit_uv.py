@@ -1,7 +1,18 @@
 import os
 from pathlib import Path
 
-REPOS_DIR = Path(os.environ.get("REPOS_DIR", Path.home() / "repos"))
+
+def _resolve_repos_dir() -> Path:
+    env_dir = os.environ.get("FLEET_REPOS_ROOT") or os.environ.get("REPOS_DIR") or os.environ.get("REPOS_ROOT")
+    if env_dir:
+        return Path(env_dir)
+    default_d = Path(r"D:\Dev\repos")
+    if default_d.exists():
+        return default_d
+    return Path.home() / "repos"
+
+
+REPOS_DIR = _resolve_repos_dir()
 
 
 def audit_uv_setup():

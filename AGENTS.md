@@ -32,15 +32,16 @@ just serve                    # full stack via start.ps1
 - `scripts/check-repo-standards.ps1` - SOTA checker v2 (synced with
   mcp-central-docs/sota-scripts/repo-standards/).
 
-## Key files
-
 | File | Purpose |
 |------|---------|
-| `src/meta_mcp/main.py` | FastAPI app + auth middleware |
-| `src/meta_mcp/auth.py` | X-Wurst-Auth protection (fleet start/stop) |
+| `src/meta_mcp/main.py` | FastAPI app + FastMCP HTTP mounting + auth middleware |
+| `src/meta_mcp/api_router.py` | REST API routes & fleet endpoints |
+| `src/meta_mcp/ops_catalog.py` | Curated fleet and local script schemas & argument builders |
+| `src/meta_mcp/services/fleet_ops_service.py` | Background process runner, job tracking, and report reader |
+| `src/meta_mcp/services/dynamic_router.py` | Capabilities router with hot-start & process-tree termination |
 | `src/meta_mcp/mcp_server.py` | FastMCP tool suites |
 | `mcpb/` | MCPB bundle dir (pack.ps1 syncs src in) |
-| `web_sota/` | React dashboard (10719) |
+| `web_sota/` | React dashboard (10719) with collapsible navigation & Fleet Ops |
 | `fleet_probes/` | Probe scripts (cold-start, cold-install) |
 
 ## Demo capture

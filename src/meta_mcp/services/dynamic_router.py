@@ -18,6 +18,8 @@ from typing import Any
 
 import structlog
 
+from meta_mcp.fleet_manifest import load_runtime_apps
+from meta_mcp.fleet_paths import repos_root
 from meta_mcp.models.routing import IndexStats, RouteRequest, RouteResult, ServerEndpoint, ToolMapping
 from meta_mcp.services.capability_index import CapabilityIndex
 
@@ -93,10 +95,22 @@ class ServerProcess:
 
     def kill(self) -> None:
         try:
-            self.proc.terminate()
-            self.proc.wait(timeout=5)
-        except subprocess.TimeoutExpired:
-            self.proc.kill()
+            if os.name == "nt" and self.pid:
+                # Terminate entire process tree on Windows
+                subprocess.run(
+                    ["taskkill.exe", "/F", "/T", "/PID", str(self.pid)],
+                    capture_output=True,
+                    timeout=5,
+                    check=False,
+                )
+            else:
+                self.proc.terminate()
+                self.proc.wait(timeout=5)
+        except (subprocess.TimeoutExpired, OSError):
+            try:
+                self.proc.kill()
+            except Exception:
+                pass
         except Exception:
             pass
 
@@ -112,9 +126,24 @@ class DynamicRouter:
     ):
         self._index = index or CapabilityIndex()
         self._fleet_roots = fleet_roots or [
-            Path("D:/Dev/repos"),
+            repos_root(),
         ]
-        self._port_map = port_map or dict(_FLEET_PORT_MAP)
+
+        # Combine static fallback map with runtime manifest apps
+        combined_ports = dict(_FLEET_PORT_MAP)
+        if port_map:
+            combined_ports.update(port_map)
+        else:
+            try:
+                for app in load_runtime_apps():
+                    repo_name = app.get("repo")
+                    port = app.get("port")
+                    if repo_name and port:
+                        combined_ports[repo_name] = int(port)
+            except Exception:
+                pass
+
+        self._port_map = combined_ports
         self._running: dict[str, ServerProcess] = {}
         self._status_cache: dict[str, tuple[float, bool]] = {}
         self._indexed = False

@@ -6,8 +6,7 @@ single NSIS installer, embedded backend - no Electron.
 ## Usage
 
 ```python
-scaffold_ops(operation="tauri_nsis", repo_root="D:/Dev/repos/my-mcp",
-             repo_name="my-mcp")
+scaffold_ops(operation="tauri_nsis", repo_root="D:/Dev/repos/my-mcp", repo_name="my-mcp")
 
 # Legacy alias
 create_tauri_nsis(repo_root="D:/Dev/repos/my-mcp")

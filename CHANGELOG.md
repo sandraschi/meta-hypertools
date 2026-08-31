@@ -1,3 +1,34 @@
+## [0.5.2] -- 2026-08-31
+
+### Added
+- **Fleet Ops & Script Center (`FleetOps.tsx` & `ops_catalog.py`)**:
+  - Curated, searchable script runner with automatic parameter forms for fleet probes and local meta-mcp maintenance utilities (`mcp-watchdog`, `check-repo-standards`, `audit-uv`, `autofix-uv`, `mcp-swapper`, `repo-stats`, `kill-zombies`, `codemod-annotations`, `just-recipe`).
+  - Real-time job monitor tracking PID, elapsed runtime, live stdout/stderr console logs, and safe process termination.
+  - Elucidated report inspector with high-level summary telemetry for JSON artifacts and GitHub-flavored markdown rendering.
+- **Collapsible Navigation & Typography Overhaul (`Sidebar.tsx`)**:
+  - Replaced flat navigation list with 6 collapsible, structured categories (*Overview & AI*, *Fleet & Operations*, *MCP Registry & Tools*, *Analysis & Diagnostics*, *Builders & Dev*, *System*).
+  - Category collapse states persisted in `localStorage`.
+  - Upgraded typography to WCAG AA/AAA contrast standard (eliminated low-contrast fonts, $\ge 13\text{px}$ floor).
+- **Proactive Heartbeat Scheduler**:
+  - Wired `POST /api/v1/heartbeat/proactive` endpoint directly into `scheduler_service.register_task()`.
+- **Dynamic Tool Catalog**:
+  - Dynamic tool catalog generation in `GET /api/v1/tools/list` sourced directly from `tool_service.get_mcp_catalog()`.
+
+### Changed
+- **Windows Process Management Hardening**:
+  - `ServerProcess.kill()` in `DynamicRouter` now issues tree kills (`taskkill /F /T /PID`) preventing zombie Python worker leaks.
+  - Dynamically loads fleet server port mapping via `load_runtime_apps()` with static fallback.
+  - `kill-zombies.ps1` scoped strictly to meta-mcp ports (10718/10719) and workspace paths (removed dangerous system-wide wildcard).
+- **Telemetry Performance**:
+  - `MemoryLogHandler` migrated to thread-safe, $O(1)$ ring buffer using `collections.deque(maxlen=1000)`.
+- **Script Ergonomics & Cross-Platform Paths**:
+  - `mcp-watchdog.py`: Added status filtering `--filter` support; replaced hardcoded user paths with `Path.home()`.
+  - `audit_uv.py`, `autofix_uv.py`, `mcp-swapper.py`, `codemod_annotations.py`: Dynamic home directory and fleet repo root resolution (`FLEET_REPOS_ROOT`).
+  - Added 120s timeout to `autofix_uv.py` subprocess execution.
+- **Biome & Ruff Zero-Error Compliance**:
+  - Frontend Biome check and format passing with 0 errors across 68 files.
+  - Backend Ruff linter and formatter passing with 0 errors across 264 files.
+
 ## [0.5.1] -- 2026-08-02
 
 ### Added

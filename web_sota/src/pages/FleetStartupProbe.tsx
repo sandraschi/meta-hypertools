@@ -499,7 +499,6 @@ export const FleetStartupProbe: React.FC = () => {
         <motion.div layout className="space-y-2 max-h-[600px] overflow-y-auto custom-scrollbar">
           {filteredRows.map((row) => (
             <div key={row.repo} className={`glass-panel border ${outcomeStyle(row.outcome)}`}>
-              {/* biome-ignore lint/a11y/useKeyWithClickEvents: expandable probe result card */}
               <div
                 className="p-4 flex flex-col md:flex-row md:items-center gap-3 cursor-pointer"
                 onClick={() => setExpanded(expanded === row.repo ? null : row.repo)}

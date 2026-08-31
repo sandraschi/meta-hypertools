@@ -401,7 +401,6 @@ export const FleetColdInstall: React.FC = () => {
           </thead>
           <tbody>
             {filteredRows.map((row) => (
-              // biome-ignore lint/a11y/useKeyWithClickEvents: expandable probe result row
               <tr
                 key={row.repo}
                 className="border-t border-white/5 hover:bg-white/[0.02] cursor-pointer"

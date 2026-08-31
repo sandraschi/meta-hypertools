@@ -490,7 +490,7 @@ export function AnalysisPage() {
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-3 min-w-0">
                     <div
-                      className={`p-2.5 rounded-xl bg-slate-800 border border-slate-700 shrink-0`}
+                      className={"p-2.5 rounded-xl bg-slate-800 border border-slate-700 shrink-0"}
                     >
                       <Icon size={20} className="text-slate-300" />
                     </div>

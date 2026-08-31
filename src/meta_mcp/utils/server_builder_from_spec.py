@@ -45,7 +45,7 @@ def _backed_op_impl(op: dict[str, Any]) -> str:
         return {{
             "success": True,
             "operation": "{name}",
-            "message": "{name} stub — implement backend integration",
+            "message": "{name} stub - implement backend integration",
             "params": {{{param_dict}}},
         }}'''
 
@@ -61,7 +61,7 @@ def _generate_portmanteau_tool(
     operations = group.get("operations", [])
 
     if not operations:
-        return f'''"""{domain} operations — no operations found."""
+        return f'''"""{domain} operations - no operations found."""
 
 from {package_name}.mcp_instance import mcp
 '''
@@ -108,7 +108,7 @@ from {package_name}.mcp_instance import mcp
     dispatch_body = "\n\n".join(dispatch_blocks)
     op_names[0] if op_names else "unknown"
 
-    return f'''"""{domain} portmanteau — auto-generated from source analysis.
+    return f'''"""{domain} portmanteau - auto-generated from source analysis.
 
 [RATIONALE]
 Consolidates {len(operations)} {domain.lower()} operations into a single tool
@@ -163,7 +163,7 @@ async def {tool_name}(
 def _generate_tool_registration(package_name: str, group_names: list[str]) -> str:
     """Generate tool_registration.py that imports all domain tools."""
     imports = "\n".join(f"from {package_name}.tools.{g} import {g}" for g in group_names)
-    return f'''"""Auto-generated tool registration — imports trigger decorator registration."""
+    return f'''"""Auto-generated tool registration - imports trigger decorator registration."""
 
 {imports}
 
@@ -180,11 +180,11 @@ def _generate_skill_md(server_name: str, spec: ToolSurfaceSpec) -> str:
         op_details += f"\n### {g.domain}\n"
         for op in g.operations:
             doc = (op.docstring or "(no description)").split("\n")[0][:100]
-            op_details += f"- `{op.name}` — {doc}\n"
+            op_details += f"- `{op.name}` - {doc}\n"
 
     return f"""# {_pascal(server_name)} Agent Skill
 
-{spec.software_name} harness — auto-generated from source analysis.
+{spec.software_name} harness - auto-generated from source analysis.
 
 **Backend:** {spec.backend_engine} | **State:** {spec.state_model} | **Language:** {spec.language}
 
@@ -256,7 +256,7 @@ def _generate_backend_strategy(package_name: str, engine: str, details: dict[str
     if engine == "subprocess":
         files[
             f"src/{package_name}/backend.py"
-        ] = '''"""Subprocess backend — execute commands against the target application."""
+        ] = '''"""Subprocess backend - execute commands against the target application."""
 
 from __future__ import annotations
 
@@ -317,7 +317,7 @@ def run_command(
         }
 '''
     elif engine == "rest_api":
-        files[f"src/{package_name}/backend.py"] = '''"""REST API backend — httpx async client for the target service."""
+        files[f"src/{package_name}/backend.py"] = '''"""REST API backend - httpx async client for the target service."""
 
 from __future__ import annotations
 
@@ -370,7 +370,7 @@ async def api_post(endpoint: str, payload: dict, *, timeout: float = 10.0) -> di
         return {"success": False, "error": str(exc)}
 '''
     else:
-        files[f"src/{package_name}/backend.py"] = '''"""Direct import backend — call the target package directly."""
+        files[f"src/{package_name}/backend.py"] = '''"""Direct import backend - call the target package directly."""
 
 from __future__ import annotations
 
@@ -414,7 +414,7 @@ def generate_server_from_spec(
     if not spec.tool_groups:
         return {
             "success": False,
-            "message": "No tool groups in spec — run harness_analyze first",
+            "message": "No tool groups in spec - run harness_analyze first",
             "error_type": "invalid_input",
             "data": {},
         }

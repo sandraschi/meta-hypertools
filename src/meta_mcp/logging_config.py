@@ -1,6 +1,7 @@
 import datetime
 import logging
 import sys
+from collections import deque
 
 import structlog
 
@@ -42,9 +43,8 @@ def get_icon(key: str) -> str:
 
 #  Memory Telemetry
 
-_memory_logs = []
 _MAX_MEMORY_LOGS = 1000
-
+_memory_logs: deque[dict] = deque(maxlen=_MAX_MEMORY_LOGS)
 
 _entry_counter = 0
 
@@ -67,15 +67,13 @@ class MemoryLogHandler(logging.Handler):
                 "meta": {"module": record.module, "lineno": record.lineno},
             }
             _memory_logs.append(entry)
-            if len(_memory_logs) > _MAX_MEMORY_LOGS:
-                _memory_logs.pop(0)
         except Exception:
             self.handleError(record)
 
 
 def get_recent_logs(limit: int = 50) -> list[dict]:
     """Return buffered logs for API telemetry (legacy compat)."""
-    return list(_memory_logs[-limit:])
+    return list(_memory_logs)[-limit:]
 
 
 #  SOTA Formatter

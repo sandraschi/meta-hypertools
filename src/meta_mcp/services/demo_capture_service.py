@@ -76,7 +76,7 @@ class DemoCaptureService(MetaMCPService):
     ) -> dict[str, Any]:
         root = self.resolve_repo_path(app_id, repo_path)
         if root is None:
-            return self.create_response(False, "Repo not found — provide app_id or repo_path")
+            return self.create_response(False, "Repo not found - provide app_id or repo_path")
 
         app = find_runtime_app(app_id) if app_id else None
         manifest_row = find_manifest_row(root.name)
@@ -254,7 +254,7 @@ class DemoCaptureService(MetaMCPService):
         video: bool,
     ) -> dict[str, Any]:
         if not shutil.which("npx"):
-            return {"success": False, "error": "npx not found on PATH — install Node.js"}
+            return {"success": False, "error": "npx not found on PATH - install Node.js"}
 
         targets: list[str] = []
         if screenshots:
@@ -390,7 +390,7 @@ class DemoCaptureService(MetaMCPService):
 
     def _ensure_npm_deps(self, screencast_dir: Path) -> dict[str, Any]:
         if not shutil.which("npm"):
-            return {"success": False, "error": "npm not found on PATH — install Node.js"}
+            return {"success": False, "error": "npm not found on PATH - install Node.js"}
         node_modules = screencast_dir / "node_modules"
         package_json = screencast_dir / "package.json"
         if not package_json.is_file():
@@ -414,7 +414,7 @@ class DemoCaptureService(MetaMCPService):
 
     def _run_remotion_render(self, screencast_dir: Path, output_mp4: Path, props_path: Path) -> dict[str, Any]:
         if not shutil.which("npx"):
-            return {"success": False, "error": "npx not found on PATH — install Node.js"}
+            return {"success": False, "error": "npx not found on PATH - install Node.js"}
         source_webm = screencast_dir / "public" / "source.webm"
         if not source_webm.is_file():
             return {"success": False, "error": f"Missing source video: {source_webm}"}
@@ -462,7 +462,7 @@ class DemoCaptureService(MetaMCPService):
     ) -> dict[str, Any]:
         root = self.resolve_repo_path(app_id, repo_path)
         if root is None:
-            return self.create_response(False, "Repo not found — provide app_id or repo_path")
+            return self.create_response(False, "Repo not found - provide app_id or repo_path")
 
         source: Path | None = Path(video_path).expanduser() if video_path else None
         if source is None or not source.is_file():
@@ -472,10 +472,10 @@ class DemoCaptureService(MetaMCPService):
         if source is None or not source.is_file():
             return self.create_response(
                 False,
-                "No Playwright .webm found — run demo_ops(record) first or pass video_path",
+                "No Playwright .webm found - run demo_ops(record) first or pass video_path",
             )
 
-        display_title = title or f"{root.name} — Fleet Demo"
+        display_title = title or f"{root.name} - Fleet Demo"
         materialized = self.materialize_screencast(
             root,
             title=display_title,
@@ -519,7 +519,7 @@ class DemoCaptureService(MetaMCPService):
     ) -> dict[str, Any]:
         root = self.resolve_repo_path(app_id, repo_path)
         if root is None:
-            return self.create_response(False, "Repo not found — provide app_id or repo_path")
+            return self.create_response(False, "Repo not found - provide app_id or repo_path")
 
         resolved_app_id = app_id or root.name
         plan = self.plan_config(app_id=resolved_app_id, repo_path=str(root), description=description)

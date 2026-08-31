@@ -140,8 +140,6 @@ export function ChatPage({ onNavigateToSettings }: ChatPageProps) {
   }, [refreshLlmStatus]);
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages.length]);
-  useEffect(() => {
     saveHistory(messages);
   }, [messages]);
   useEffect(() => {

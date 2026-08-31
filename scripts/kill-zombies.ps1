@@ -15,23 +15,21 @@
     Runs via `just cleanup`. Only touches fleet dev processes.
 #>
 $ports = @(10718, 10719)
-$patterns = @("*meta_mcp*", "*uvicorn*", "*watchfiles*", "*vite*", "*node*")
+$repoRoot = (Split-Path -Parent $PSScriptRoot)
 
 Write-Host "🧟 Checking for zombie processes on ports $ports..." -ForegroundColor Cyan
 
-# 1. Kill by port (Listener focus)
+# 1. Kill by port (Listener focus with process tree termination)
 foreach ($port in $ports) {
     try {
-        $conns = Get-NetTCPConnection -LocalPort $port -ErrorAction SilentlyContinue | Where-Object { $_.State -eq "Listen" }
+        $conns = Get-NetTCPConnection -LocalPort $port -ErrorAction SilentlyContinue | Where-Object { $_.State -eq "Listen" -and $_.OwningProcess -gt 4 }
         if ($conns) {
             foreach ($conn in $conns) {
                 $procId = $conn.OwningProcess
-                if ($procId -gt 0) {
-                    $process = Get-Process -Id $procId -ErrorAction SilentlyContinue
-                    if ($process) {
-                        Write-Host "💥 Terminating squatter: $($process.ProcessName) (PID: $procId) on port $port" -ForegroundColor Red
-                        Stop-Process -Id $procId -Force -ErrorAction SilentlyContinue
-                    }
+                $process = Get-Process -Id $procId -ErrorAction SilentlyContinue
+                if ($process) {
+                    Write-Host "💥 Terminating squatter: $($process.ProcessName) (PID: $procId) on port $port" -ForegroundColor Red
+                    taskkill.exe /F /T /PID $procId 2>$null | Out-Null
                 }
             }
         }
@@ -41,21 +39,21 @@ foreach ($port in $ports) {
     }
 }
 
-# 2. Kill by pattern (General cleanup)
-foreach ($pattern in $patterns) {
-    $processes = Get-Process | Where-Object { $_.CommandLine -like $pattern -or $_.ProcessName -like $pattern -or $_.Path -like $pattern } -ErrorAction SilentlyContinue
-    if ($processes) {
-        foreach ($p in $processes) {
-            try {
-                $id = $p.Id
-                $name = $p.ProcessName
-                Write-Host "💨 Cleaning up $name (PID: $id) matching '$pattern'" -ForegroundColor Red
-                Stop-Process -Id $id -Force -ErrorAction SilentlyContinue
-            }
-            catch { }
+# 2. Kill by repo path (Target only processes spawned for this repo)
+try {
+    $repoWmiProcs = Get-CimInstance Win32_Process -ErrorAction SilentlyContinue | Where-Object {
+        $_.CommandLine -and ($_.CommandLine -like "*$repoRoot*" -or $_.CommandLine -like "*meta_mcp*") -and
+        $_.ProcessId -ne $PID
+    }
+    foreach ($p in $repoWmiProcs) {
+        try {
+            Write-Host "💨 Cleaning up $($p.Name) (PID: $($p.ProcessId)) matching repo context" -ForegroundColor Red
+            taskkill.exe /F /T /PID $p.ProcessId 2>$null | Out-Null
         }
+        catch { }
     }
 }
+catch { }
 
 Write-Host "✨ Ready for a clean start." -ForegroundColor Green
 

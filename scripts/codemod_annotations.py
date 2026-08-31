@@ -9,11 +9,12 @@ Usage: uv run python scripts/codemod_annotations.py repo1 repo2 ...
        uv run python scripts/codemod_annotations.py --fleet
 """
 
+import os
 import re
 import sys
 from pathlib import Path
 
-REPOS_ROOT = r"D:\Dev\repos"
+REPOS_ROOT = os.environ.get("FLEET_REPOS_ROOT", os.environ.get("REPOS_ROOT", r"D:\Dev\repos"))
 
 SPEC = {
     "_READ_ONLY": '{"readOnlyHint": True, "destructiveHint": False, "idempotentHint": True, "openWorldHint": False}',

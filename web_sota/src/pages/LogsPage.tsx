@@ -140,7 +140,7 @@ export function LogsPage() {
       }
     }, 2000);
     return () => clearInterval(interval);
-  }, [liveTail, limit, level, kind, search, sort, entries, userScrolled, fetchLogs]);
+  }, [liveTail, limit, level, kind, search, entries, userScrolled, fetchLogs]);
 
   const handleSearch = (val: string) => {
     setSearch(val);

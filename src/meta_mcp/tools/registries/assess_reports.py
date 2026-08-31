@@ -1,5 +1,5 @@
 """
-Assess reports tool suite — scan fleet repos for assess-fix reports.
+Assess reports tool suite - scan fleet repos for assess-fix reports.
 
 Operations:
   list:  Scan all repos for .assess-fix-timestamp + latest docs/assess-reports/

@@ -33,6 +33,7 @@ $WindowStyle = if ($Headless) { 'Hidden' } else { 'Normal' }
 $env:FASTMCP_LOG_LEVEL = 'WARNING'
 $WebPort = 10719
 $BackendPort = 10718
+$ProjectRoot = $PSScriptRoot
 $FleetStartPath = Join-Path $ProjectRoot "scripts\FleetStartMode.ps1"
 if (-not (Test-Path -LiteralPath $FleetStartPath)) {
     Write-Host "ERROR: Missing vendored launcher helper: $FleetStartPath" -ForegroundColor Red
@@ -40,29 +41,24 @@ if (-not (Test-Path -LiteralPath $FleetStartPath)) {
 }
 . $FleetStartPath
 
-
 Write-Host 'Starting meta_mcp...' -ForegroundColor Cyan
 
-# 1. Kill port squatters
-Write-Host "Checking for port squatters on $BackendPort and $WebPort..." -ForegroundColor Yellow
-$pids = Get-NetTCPConnection -LocalPort $BackendPort, $WebPort -ErrorAction SilentlyContinue | Where-Object { $_.OwningProcess -gt 4 } | Select-Object -ExpandProperty OwningProcess -Unique
-foreach ($p in $pids) {
-    Write-Host "Found squatter (PID: $p). Terminating..." -ForegroundColor Red
-    try { Stop-Process -Id $p -Force -ErrorAction Stop } catch { Write-Host "Warning: Could not terminate PID $p." -ForegroundColor Gray }
-}
+# 1. Kill port squatters using fleet standard helper
+Stop-FleetPortSquatters -Ports @($BackendPort, $WebPort) -Label "meta_mcp"
 
 # 2. Launch backend
-Set-Location $PSScriptRoot
+Set-Location $ProjectRoot
 Write-Host "Starting backend on port $BackendPort ..." -ForegroundColor Green
-Start-Process pwsh -ArgumentList '-NoProfile', '-Command', "uv run -m meta_mcp $BackendPort" -WindowStyle Hidden
+Start-Process pwsh -ArgumentList '-NoProfile', '-Command', "uv run -m meta_mcp $BackendPort" -WindowStyle $WindowStyle
 
 # 3. Launch frontend
-Set-Location web_sota
+$webPath = Join-Path $ProjectRoot "web_sota"
+Set-Location $webPath
 Write-Host "Starting frontend on port $WebPort ..." -ForegroundColor Cyan
 
 # 4. Auto-open browser when frontend is ready
 $frontendUrl = "http://127.0.0.1:$WebPort/"
-if (-not $NoBrowser) {
+if (-not $NoBrowser -and -not $Headless) {
     $pollAndOpen = "for (`$i = 0; `$i -lt 60; `$i++) { try { `$null = Invoke-WebRequest -Uri '$frontendUrl' -TimeoutSec 2 -UseBasicParsing -ErrorAction Stop; Start-Process '$frontendUrl'; exit } catch { Start-Sleep -Seconds 1 } }"
     Start-Process powershell -ArgumentList "-NoProfile", "-WindowStyle", "Hidden", "-Command", $pollAndOpen
     Write-Host "Browser will open automatically when Vite is ready." -ForegroundColor Gray
