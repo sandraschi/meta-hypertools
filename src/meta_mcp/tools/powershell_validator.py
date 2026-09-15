@@ -466,7 +466,8 @@ class PowerShellSyntaxValidator:
         try:
             # Try to parse the command
             pwsh_path = shutil.which("powershell") or shutil.which("pwsh") or "powershell"
-            result = subprocess.run(
+            result = await asyncio.to_thread(
+                subprocess.run,
                 [pwsh_path, "-Command", "Get-Command", powershell_command],
                 capture_output=True,
                 text=True,

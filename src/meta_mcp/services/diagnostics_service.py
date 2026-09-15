@@ -1,3 +1,4 @@
+import asyncio
 import os
 import re
 import subprocess
@@ -96,7 +97,8 @@ class DiagnosticsService(MetaMCPService):
         try:
             env = os.environ.copy()
             env["JUST_UNSTABLE"] = "1"
-            result = subprocess.run(
+            result = await asyncio.to_thread(
+                subprocess.run,
                 ["just", "--fmt", "--check", "--justfile", str(justfile)],
                 capture_output=True,
                 text=True,

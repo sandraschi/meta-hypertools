@@ -5,6 +5,7 @@ Integration with repomix MCP server for repository analysis and optimization.
 Provides tools to analyze codebases using repomix capabilities.
 """
 
+import asyncio
 import os
 import shutil
 from pathlib import Path
@@ -35,6 +36,7 @@ class RepomixAnalysisService(MetaMCPService):
             import subprocess
 
             repomix_path = shutil.which("repomix") or "repomix"
+            # NOTE: sync context (availability probe at init) — fast --version, no loop to block.
             result = subprocess.run([repomix_path, "--version"], capture_output=True, text=True, timeout=10)
             return result.returncode == 0
         except (
@@ -117,10 +119,11 @@ class RepomixAnalysisService(MetaMCPService):
             repomix_path = shutil.which("repomix") or "repomix"
             cmd_args[0] = repomix_path
 
-            # Execute repomix
+            # Execute repomix (minutes-long on large repos — off the loop)
             import subprocess
 
-            result = subprocess.run(
+            result = await asyncio.to_thread(
+                subprocess.run,
                 cmd_args,
                 capture_output=True,
                 text=True,

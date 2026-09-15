@@ -88,7 +88,8 @@ def register_ollama_tools(mcp: FastMCP):
             for proc in processes:
                 pid = proc["pid"]
                 try:
-                    subprocess.run(
+                    await asyncio.to_thread(
+                        subprocess.run,
                         ["taskkill", "/F", "/PID", str(pid)],
                         capture_output=True,
                         text=True,

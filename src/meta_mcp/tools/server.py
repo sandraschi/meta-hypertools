@@ -752,7 +752,8 @@ async def _is_server_active(server_info: dict[str, Any]) -> bool:
         if server_info["type"] == "python":
             # Quick syntax check for Python servers
             # sys.executable is already an absolute path
-            result = subprocess.run(
+            result = await asyncio.to_thread(
+                subprocess.run,
                 [sys.executable, "-m", "py_compile", server_info["path"]],
                 capture_output=True,
                 timeout=5,
@@ -765,7 +766,9 @@ async def _is_server_active(server_info: dict[str, Any]) -> bool:
             node_path = shutil.which("node")
             if not node_path:
                 return False
-            result = subprocess.run([node_path, "--check", server_info["path"]], capture_output=True, timeout=5)
+            result = await asyncio.to_thread(
+                subprocess.run, [node_path, "--check", server_info["path"]], capture_output=True, timeout=5
+            )
             return result.returncode == 0
 
         elif server_info["type"] == "docker":
@@ -773,7 +776,9 @@ async def _is_server_active(server_info: dict[str, Any]) -> bool:
             docker_path = shutil.which("docker")
             if not docker_path:
                 return False
-            result = subprocess.run([docker_path, "--version"], capture_output=True, timeout=5)
+            result = await asyncio.to_thread(
+                subprocess.run, [docker_path, "--version"], capture_output=True, timeout=5
+            )
             return result.returncode == 0
 
         return True  # Default to active for other types

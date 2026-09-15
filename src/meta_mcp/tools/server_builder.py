@@ -13,6 +13,7 @@ Creates new fleet-compliant MCP servers with all required components:
 # ruff: noqa: E501, F541 - code generator templates; line length in generated output
 # and f-strings with only escaped braces are inherent to the pattern.
 
+import asyncio
 import json
 import shutil
 import subprocess
@@ -1283,9 +1284,14 @@ async def create_mcp_server(
         if final_make_git:
             try:
                 git_path = shutil.which("git") or "git"
-                subprocess.run([git_path, "init"], cwd=server_dir, check=True, capture_output=True)
-                subprocess.run([git_path, "add", "."], cwd=server_dir, check=True, capture_output=True)
-                subprocess.run(
+                await asyncio.to_thread(
+                    subprocess.run, [git_path, "init"], cwd=server_dir, check=True, capture_output=True
+                )
+                await asyncio.to_thread(
+                    subprocess.run, [git_path, "add", "."], cwd=server_dir, check=True, capture_output=True
+                )
+                await asyncio.to_thread(
+                    subprocess.run,
                     [git_path, "commit", "-m", f"Initial scaffold: {server_name} (FastMCP 3.4+ fleet 2026)"],
                     cwd=server_dir,
                     check=True,
@@ -1300,13 +1306,16 @@ async def create_mcp_server(
         mcpb_built = False
         if include_mcpb and build_mcpb:
             try:
-                subprocess.run(
+                await asyncio.to_thread(
+                    subprocess.run,
                     [sys.executable, "-m", "pip", "install", "mcpb"],
                     check=True,
                     capture_output=True,
                 )
                 mcpb_path = shutil.which("mcpb") or "mcpb"
-                subprocess.run([mcpb_path, "build"], cwd=server_dir, check=True, capture_output=True)
+                await asyncio.to_thread(
+                    subprocess.run, [mcpb_path, "build"], cwd=server_dir, check=True, capture_output=True
+                )
                 mcpb_built = True
                 files_created.append("dist/*.mcpb")
                 logger.info(f"MCP bundle built for {server_name}")

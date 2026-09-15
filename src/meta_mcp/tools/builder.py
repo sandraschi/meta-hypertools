@@ -2,6 +2,7 @@
 Tool for scaffolding new MCP servers.
 """
 
+import asyncio
 import logging
 import shutil
 import subprocess
@@ -96,7 +97,9 @@ class ServerBuilder:
             if make_git:
                 try:
                     git_path = shutil.which("git") or "git"
-                    subprocess.run([git_path, "init"], cwd=str(root_dir), capture_output=True)
+                    await asyncio.to_thread(
+                        subprocess.run, [git_path, "init"], cwd=str(root_dir), capture_output=True
+                    )
                     (root_dir / ".cursorrules").write_text(self._generate_cursorrules(), encoding="utf-8")
                 except Exception as e:
                     self.logger.warning(f"Failed to initialize git: {e}")
