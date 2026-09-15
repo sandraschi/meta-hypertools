@@ -375,8 +375,13 @@ class FleetRuntimeService(MetaMCPService):
                 return self.create_response(False, f"No port registered for {app_id}")
 
             try:
-                output = subprocess.check_output(f'netstat -ano | findstr ":{port}"', shell=True).decode()
-                lines = [line.strip() for line in output.splitlines() if "LISTENING" in line]
+                output = await asyncio.to_thread(subprocess.check_output, ["netstat", "-ano"])
+                output = output.decode()
+                lines = [
+                    line.strip()
+                    for line in output.splitlines()
+                    if "LISTENING" in line and f":{port}" in line
+                ]
                 if not lines:
                     return self.create_response(
                         True,
@@ -385,7 +390,7 @@ class FleetRuntimeService(MetaMCPService):
 
                 pid = lines[0].split()[-1]
                 self.logger.info("Killing process %s on port %s for %s", pid, port, app_id)
-                subprocess.run(f"taskkill /F /PID {pid}", shell=True, check=True)
+                await asyncio.to_thread(subprocess.run, ["taskkill", "/F", "/PID", pid], check=True)
 
                 return self.create_response(True, f"Stopped {app_id} (Killed PID {pid} on port {port})")
             except subprocess.CalledProcessError:

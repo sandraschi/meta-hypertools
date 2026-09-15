@@ -366,7 +366,7 @@ def register_diagnostics_tools(mcp: FastMCP):
             while time.time() < deadline:
                 if _health_ok():
                     break
-                time.sleep(1)
+                await asyncio.sleep(1)
 
         try:
             os.startfile(url)  # type: ignore[attr-defined]  # noqa: S606
