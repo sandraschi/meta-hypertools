@@ -142,11 +142,7 @@ ollama-restart:
 
 # Tauri dev (Vite on :10719, stub sidecar if missing)
 tauri-dev:
-    Set-Location '{{justfile_directory()}}\native'
-    $env:Path = "$env:USERPROFILE\.cargo\bin;$env:Path"
-    powershell.exe -NoProfile -File ensure-sidecar-stub.ps1
-    npm install
-    npx @tauri-apps/cli dev
+    Set-Location '{{justfile_directory()}}\native'; $env:Path = "$env:USERPROFILE\.cargo\bin;$env:Path"; powershell.exe -NoProfile -File ensure-sidecar-stub.ps1; npm install; npx @tauri-apps/cli dev
 
 # PyInstaller sidecar only
 tauri-sidecar:
@@ -154,11 +150,7 @@ tauri-sidecar:
 
 # Tauri bundle only (requires prior frontend + sidecar builds)
 build-native-debug:
-	Set-Location '{{justfile_directory()}}\native'
-	$env:Path = "$env:USERPROFILE\.cargo\bin;$env:Path"
-	powershell.exe -NoProfile -File ensure-sidecar-stub.ps1
-	npm install
-	npx @tauri-apps/cli build --debug
+	Set-Location '{{justfile_directory()}}\native'; $env:Path = "$env:USERPROFILE\.cargo\bin;$env:Path"; powershell.exe -NoProfile -File ensure-sidecar-stub.ps1; npm install; npx @tauri-apps/cli build --debug
 
 
 # Bootstrap: install dev deps + pre-commit hook
