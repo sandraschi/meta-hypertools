@@ -23,11 +23,6 @@ from meta_mcp.fleet_paths import repos_root
 from meta_mcp.models.routing import IndexStats, RouteRequest, RouteResult, ServerEndpoint, ToolMapping
 from meta_mcp.services.capability_index import CapabilityIndex
 
-try:
-    import httpx
-except ImportError:
-    httpx = None  # type: ignore[assignment]
-
 logger = structlog.get_logger(__name__)
 
 # ---------------------------------------------------------------------------
@@ -365,51 +360,42 @@ class DynamicRouter:
 
     async def _probe_server_tools(self, server_name: str, host: str, port: int) -> None:
         """Connect to a running server and discover its tool list."""
-        if httpx is None:
-            return
         url = f"http://{host}:{port}{_MCP_PATH}"
         try:
-            async with httpx.AsyncClient(timeout=10.0) as client:
-                # MCP JSON-RPC initialize + tools/list
-                init_rpc = {
-                    "jsonrpc": "2.0",
-                    "id": 1,
-                    "method": "tools/list",
-                    "params": {},
-                }
-                resp = await client.post(url, json=init_rpc)
-                if resp.status_code != 200:
-                    return
+            from fastmcp import Client
 
-                body = resp.json()
-                tools = body.get("result", {}).get("tools", [])
-                if not tools:
-                    return
+            # fastmcp.Client performs the initialize handshake, captures the
+            # Mcp-Session-Id, and sets the Accept header required by FastMCP 3.x
+            async with Client(url, timeout=10.0) as client:
+                tools = await client.list_tools()
 
-                mappings: list[ToolMapping] = []
-                for t in tools:
-                    tool_name = t.get("name", "")
-                    if not tool_name:
-                        continue
-                    mappings.append(
-                        ToolMapping(
-                            tool_name=tool_name,
-                            server=ServerEndpoint(
-                                server_name=server_name,
-                                host=host,
-                                port=port,
-                                transport="http",
-                            ),
-                            description=t.get("description", ""),
-                            input_schema=t.get("inputSchema"),
-                            status="online",
-                        )
+            if not tools:
+                return
+
+            mappings: list[ToolMapping] = []
+            for t in tools:
+                tool_name = t.name
+                if not tool_name:
+                    continue
+                mappings.append(
+                    ToolMapping(
+                        tool_name=tool_name,
+                        server=ServerEndpoint(
+                            server_name=server_name,
+                            host=host,
+                            port=port,
+                            transport="http",
+                        ),
+                        description=t.description or "",
+                        input_schema=t.inputSchema,
+                        status="online",
                     )
+                )
 
-                if mappings:
-                    self._index.purge_server(server_name)
-                    self._index.upsert_batch(mappings)
-                    logger.debug("probed_server_tools", server=server_name, tool_count=len(mappings))
+            if mappings:
+                self._index.purge_server(server_name)
+                self._index.upsert_batch(mappings)
+                logger.debug("probed_server_tools", server=server_name, tool_count=len(mappings))
 
         except Exception:
             self._index.update_status(server_name, "offline")
@@ -425,23 +411,14 @@ class DynamicRouter:
         if cached and (now - cached[0]) < _STATUS_CACHE_TTL:
             return cached[1]
 
-        if httpx is None:
-            return self._tcp_probe(host, port)
-
         try:
-            async with httpx.AsyncClient(timeout=3.0) as client:
-                init_rpc = {
-                    "jsonrpc": "2.0",
-                    "id": 1,
-                    "method": "initialize",
-                    "params": {
-                        "protocolVersion": "2024-11-05",
-                        "capabilities": {},
-                        "clientInfo": {"name": "meta-mcp-router", "version": "0.5.0"},
-                    },
-                }
-                resp = await client.post(f"http://{host}:{port}{_MCP_PATH}", json=init_rpc)
-                alive = resp.status_code == 200
+            from fastmcp import Client
+
+            # fastmcp.Client performs the initialize handshake + session tracking
+            # that live FastMCP 3.x servers require before accepting any call.
+            async with Client(f"http://{host}:{port}{_MCP_PATH}", timeout=3.0) as client:
+                await client.ping()
+            alive = True
         except Exception:
             alive = False
 
@@ -493,10 +470,7 @@ class DynamicRouter:
             return False
 
     async def _call_tool(self, mapping: ToolMapping, arguments: dict[str, Any]) -> Any:
-        """Execute a tool call via HTTP POST to the server's /mcp endpoint."""
-        if httpx is None:
-            raise RuntimeError("httpx required for HTTP tool calls (add to dependencies)")
-
+        """Execute a tool call via the MCP streamable HTTP endpoint."""
         server = mapping.server
         if server.transport != "http" or not server.port:
             raise RuntimeError(
@@ -505,24 +479,24 @@ class DynamicRouter:
             )
 
         url = f"http://{server.host}:{server.port}{_MCP_PATH}"
-        payload = {
-            "jsonrpc": "2.0",
-            "id": int(time.time() * 1000) % 100000,
-            "method": "tools/call",
-            "params": {
-                "name": mapping.tool_name,
-                "arguments": arguments,
-            },
-        }
 
-        async with httpx.AsyncClient(timeout=_DEFAULT_TOOL_TIMEOUT) as client:
-            resp = await client.post(url, json=payload)
-            if resp.status_code != 200:
-                raise RuntimeError(f"Server returned HTTP {resp.status_code}: {resp.text[:500]}")
-            body = resp.json()
-            if "error" in body:
-                raise RuntimeError(json.dumps(body["error"]))
-            return body.get("result", body)
+        from fastmcp import Client
+
+        # fastmcp.Client performs the initialize handshake, captures the
+        # Mcp-Session-Id, and sets the Accept header required by FastMCP 3.x
+        async with Client(url, timeout=_DEFAULT_TOOL_TIMEOUT) as client:
+            result = await client.call_tool(mapping.tool_name, arguments, raise_on_error=False)
+
+        if result.is_error:
+            texts = [getattr(block, "text", "") for block in result.content or []]
+            raise RuntimeError("\n".join(t for t in texts if t) or "Tool call failed")
+
+        if result.data is not None:
+            return result.data
+        if result.structured_content:
+            return result.structured_content
+        texts = [getattr(block, "text", "") for block in result.content or []]
+        return "\n".join(t for t in texts if t)
 
     @staticmethod
     def _tcp_probe(host: str, port: int) -> bool:

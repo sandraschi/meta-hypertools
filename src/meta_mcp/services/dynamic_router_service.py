@@ -403,45 +403,46 @@ class DynamicRouterService(MetaMCPService):
         arguments: dict[str, Any],
     ) -> dict[str, Any]:
         """Proxy a tool call to the target MCP server via HTTP."""
-        session = await self._get_session()
+        from fastmcp import Client
 
-        # Standard MCP call_tool JSON-RPC over HTTP
-        payload = {
-            "jsonrpc": "2.0",
-            "method": "tools/call",
-            "params": {"name": tool_name, "arguments": arguments},
-            "id": 1,
-        }
-
-        # Try streamable HTTP /mcp first
+        # Try streamable HTTP /mcp first, then legacy SSE paths.
+        # fastmcp.Client performs the initialize handshake, captures the
+        # Mcp-Session-Id, and sets the Accept header required by FastMCP 3.x.
         for path in ("/mcp", "/sse", "/mcp/sse"):
             url = f"http://{host}:{port}{path}"
             try:
-                async with session.post(url, json=payload) as resp:
-                    if resp.status == 200:
-                        data = await resp.json()
-                        result = data.get("result") or data.get("data") or data
-                        content = result.get("content", [])
-                        text_result = content[0].get("text", "") if content else str(result)
-                        return {
-                            "success": True,
-                            "message": f"Routed {tool_name} to {repo}:{port}",
-                            "data": {
-                                "server": repo,
-                                "tool": tool_name,
-                                "result": text_result[:10000],
-                                "raw": result,
-                            },
-                        }
-                    elif resp.status == 404:
-                        continue  # try next path
-                    elif resp.status in (405, 406):
-                        continue
-                    else:
-                        text = await resp.text()
-                        logger.warning("mcp_proxy_error", url=url, status=resp.status, body=text[:200])
-            except (TimeoutError, aiohttp.ClientError, json.JSONDecodeError):
+                async with Client(url, timeout=30.0) as client:
+                    result = await client.call_tool(tool_name, arguments, raise_on_error=False)
+
+                if result.is_error:
+                    texts = [getattr(block, "text", "") for block in result.content or []]
+                    logger.warning("mcp_proxy_tool_error", url=url, body="\n".join(t for t in texts if t)[:200])
+                    continue
+
+                if result.data is not None:
+                    raw_result: Any = result.data
+                elif result.structured_content:
+                    raw_result = result.structured_content
+                else:
+                    raw_result = None
+                texts = [getattr(block, "text", "") for block in result.content or []]
+                text_result = "\n".join(t for t in texts if t) or str(raw_result)
+
+                return {
+                    "success": True,
+                    "message": f"Routed {tool_name} to {repo}:{port}",
+                    "data": {
+                        "server": repo,
+                        "tool": tool_name,
+                        "result": text_result[:10000],
+                        "raw": raw_result if raw_result is not None else text_result,
+                    },
+                }
+            except Exception as exc:
+                logger.warning("mcp_proxy_error", url=url, error=str(exc)[:200])
                 continue
+
+        session = await self._get_session()
 
         # Fallback: try the REST tool execution endpoint (if the server is FastAPI + FastMCP)
         rest_url = f"http://{host}:{port}/api/v1/tools/execute"

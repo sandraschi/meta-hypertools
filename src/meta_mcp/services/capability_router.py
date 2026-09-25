@@ -546,30 +546,35 @@ class CapabilityRouter(MetaMCPService):
         if not start_result.get("success"):
             return start_result
 
-        client = await self._get_client()
         try:
-            resp = await client.post(
-                f"http://127.0.0.1:{capability.port}/mcp",
-                json={
-                    "jsonrpc": "2.0",
-                    "id": 1,
-                    "method": "tools/call",
-                    "params": {"name": tool_name, "arguments": arguments},
-                },
-                timeout=30.0,
-            )
-            resp.raise_for_status()
-            result = resp.json()
+            from fastmcp import Client
+
+            url = f"http://127.0.0.1:{capability.port}/mcp"
+            # fastmcp.Client performs the initialize handshake, captures the
+            # Mcp-Session-Id, and sets the Accept header required by FastMCP 3.x
+            async with Client(url, timeout=30.0) as client:
+                result = await client.call_tool(tool_name, arguments, raise_on_error=False)
+
+            if result.is_error:
+                texts = [getattr(block, "text", "") for block in result.content or []]
+                return {
+                    "success": False,
+                    "message": f"Server {capability.server_name} returned a tool error for {tool_name}",
+                    "data": {"body": "\n".join(t for t in texts if t)[:500]},
+                }
+
+            if result.data is not None:
+                payload = result.data
+            elif result.structured_content:
+                payload = result.structured_content
+            else:
+                texts = [getattr(block, "text", "") for block in result.content or []]
+                payload = "\n".join(t for t in texts if t)
+
             return {
                 "success": True,
                 "message": f"Routed {tool_name} via {capability.server_name}:{capability.port}",
-                "data": result,
-            }
-        except httpx.HTTPStatusError as e:
-            return {
-                "success": False,
-                "message": f"Server {capability.server_name} returned HTTP {e.response.status_code}",
-                "data": {"status_code": e.response.status_code, "body": e.response.text[:500]},
+                "data": payload,
             }
         except Exception as e:
             return {
