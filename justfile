@@ -36,7 +36,7 @@ tiers:
 
 # Check repository for SOTA Industrial Standards
 health:
-    pwsh scripts/check-repo-standards.ps1
+    powershell.exe scripts/check-repo-standards.ps1
 
 # Apply automated repository fixes
 doctor:
@@ -105,7 +105,7 @@ test-all: test vitest e2e
 
 # Launch the full stack (API + Frontend) via the fleet start script
 serve:
-    pwsh -NoProfile -File start.ps1
+    powershell.exe -NoProfile -File start.ps1
 
 # MCP stdio transport
 mcp-stdio:
