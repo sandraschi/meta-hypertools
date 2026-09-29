@@ -56,6 +56,15 @@ export interface AgentReply {
   reply: string;
   trace: ChatTraceEntry[];
   iterations: number;
+  needs_confirmation?: boolean;
+  run_id?: string;
+  pending?: PendingCall[];
+}
+
+export interface PendingCall {
+  id: string;
+  name: string;
+  arguments: unknown;
 }
 
 const DEFAULT_CONFIG: LLMConfig = {
@@ -245,9 +254,40 @@ class LLMService {
         reply: typeof d.reply === "string" ? d.reply : "",
         trace: Array.isArray(d.trace) ? d.trace : [],
         iterations: Number(d.iterations ?? 0),
+        needs_confirmation: d.needs_confirmation === true,
+        run_id: typeof d.run_id === "string" ? d.run_id : undefined,
+        pending: Array.isArray(d.pending) ? d.pending : [],
       };
     } catch (error) {
       logger.error("Agent chat failed", { error });
+      throw error;
+    }
+  }
+
+  async confirmAgent(runId: string, approved: string[]): Promise<AgentReply> {
+    try {
+      const response = await fetch(chatApiUrl("/agent/confirm"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ run_id: runId, approved }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        const detail =
+          typeof data?.detail === "string" ? data.detail : data?.message || response.statusText;
+        throw new Error(detail);
+      }
+      const d = (data?.data ?? data) as Partial<AgentReply>;
+      return {
+        reply: typeof d.reply === "string" ? d.reply : "",
+        trace: Array.isArray(d.trace) ? d.trace : [],
+        iterations: Number(d.iterations ?? 0),
+        needs_confirmation: d.needs_confirmation === true,
+        run_id: typeof d.run_id === "string" ? d.run_id : undefined,
+        pending: Array.isArray(d.pending) ? d.pending : [],
+      };
+    } catch (error) {
+      logger.error("Agent confirm failed", { error });
       throw error;
     }
   }

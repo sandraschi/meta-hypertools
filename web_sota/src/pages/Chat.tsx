@@ -8,7 +8,12 @@ import {
   Trash2,
 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { type ChatMessage as LLMChatMessage, type ChatPersonality, llmService } from "../services/llm";
+import {
+  type ChatMessage as LLMChatMessage,
+  type ChatPersonality,
+  type PendingCall,
+  llmService,
+} from "../services/llm";
 import { logger } from "../utils/logger";
 
 const LS_KEY = "meta-mcp-chat-history";
@@ -142,6 +147,8 @@ export function ChatPage({ onNavigateToSettings }: ChatPageProps) {
   const [personalities, setPersonalities] = useState<ChatPersonality[]>(FALLBACK_PERSONALITIES);
   const [orientation, setOrientation] = useState(FALLBACK_ORIENTATION);
   const [toolCount, setToolCount] = useState(0);
+  const [pending, setPending] = useState<{ runId: string; calls: PendingCall[]; draft: string } | null>(null);
+  const [approvedIds, setApprovedIds] = useState<string[]>([]);
   const [agentMode, setAgentMode] = useState(() => {
     try {
       return localStorage.getItem(AGENT_KEY) !== "off";
@@ -221,7 +228,13 @@ export function ChatPage({ onNavigateToSettings }: ChatPageProps) {
           .filter((m) => m.role === "user" || m.role === "assistant")
           .map(({ role, content }) => ({ role, content }));
         const res = await llmService.agent(clean, personalityId);
-        setMessages((prev) => [...prev, { role: "assistant", content: res.reply, trace: res.trace }]);
+        if (res.needs_confirmation && res.run_id) {
+          setPending({ runId: res.run_id, calls: res.pending ?? [], draft: res.reply });
+          setApprovedIds((res.pending ?? []).map((c) => c.id));
+          setMessages((prev) => [...prev, { role: "assistant", content: res.reply, trace: res.trace }]);
+        } else {
+          setMessages((prev) => [...prev, { role: "assistant", content: res.reply, trace: res.trace }]);
+        }
       } else {
         const persona = personalities.find((p) => p.id === personalityId) ?? personalities[0];
         const system: LLMChatMessage = {
@@ -236,6 +249,28 @@ export function ChatPage({ onNavigateToSettings }: ChatPageProps) {
       const msg = err instanceof Error ? err.message : "Request failed";
       setError(msg);
       logger.error("Chat request failed", { error: err });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleConfirm = async (approved: string[]) => {
+    if (!pending || isLoading) return;
+    const runId = pending.runId;
+    setPending(null);
+    setIsLoading(true);
+    setError(null);
+    try {
+      const res = await llmService.confirmAgent(runId, approved);
+      if (res.needs_confirmation && res.run_id) {
+        setPending({ runId: res.run_id, calls: res.pending ?? [], draft: res.reply });
+        setApprovedIds((res.pending ?? []).map((c) => c.id));
+      }
+      setMessages((prev) => [...prev, { role: "assistant", content: res.reply, trace: res.trace }]);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Request failed";
+      setError(msg);
+      logger.error("Chat confirm failed", { error: err });
     } finally {
       setIsLoading(false);
     }
@@ -398,6 +433,58 @@ export function ChatPage({ onNavigateToSettings }: ChatPageProps) {
               <div className="bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 flex items-center gap-2">
                 <Loader2 className="animate-spin" size={16} />
                 <span className="text-slate-300 text-sm">Thinking...</span>
+              </div>
+            </div>
+          )}
+          {pending && (
+            <div className="rounded-xl border border-amber-700/50 bg-amber-950/30 p-4">
+              <div className="text-sm font-semibold text-amber-200 mb-1">
+                Agent wants to run {pending.calls.length} mutating call
+                {pending.calls.length === 1 ? "" : "s"}
+              </div>
+              {pending.draft && (
+                <p className="text-xs text-slate-400 mb-3 whitespace-pre-wrap">{pending.draft}</p>
+              )}
+              <div className="space-y-1.5 mb-3">
+                {pending.calls.map((c) => (
+                  <label
+                    key={c.id}
+                    className="flex items-start gap-2 rounded-lg bg-slate-950/70 border border-slate-800 p-2.5 cursor-pointer text-xs font-mono"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={approvedIds.includes(c.id)}
+                      onChange={(e) =>
+                        setApprovedIds((prev) =>
+                          e.target.checked ? [...prev, c.id] : prev.filter((id) => id !== c.id),
+                        )
+                      }
+                      className="mt-0.5 accent-amber-500"
+                    />
+                    <span className="min-w-0">
+                      <span className="text-blue-300">{c.name}</span>{" "}
+                      <span className="text-slate-500 break-all">{JSON.stringify(c.arguments)}</span>
+                    </span>
+                  </label>
+                ))}
+              </div>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => handleConfirm(approvedIds)}
+                  disabled={isLoading || approvedIds.length === 0}
+                  className="px-4 py-2 rounded-lg text-sm font-semibold bg-amber-600 hover:bg-amber-500 text-white transition-colors disabled:opacity-50"
+                >
+                  Approve selected ({approvedIds.length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleConfirm([])}
+                  disabled={isLoading}
+                  className="px-4 py-2 rounded-lg text-sm text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
+                >
+                  Deny all
+                </button>
               </div>
             </div>
           )}
