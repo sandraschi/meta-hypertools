@@ -63,6 +63,10 @@ tools:
 
 # --- MCPB  Claude Desktop bundle ---
 
+# Bundle for Claude Desktop (MCPB) — wipe+recopy src -> mcpb/src first (in-script)
+mcpb-pack:
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File '{{REPO}}/mcpb/pack.ps1'
+
 # --- Quality ---
 
 # Execute Ruff linting
