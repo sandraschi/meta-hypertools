@@ -27,6 +27,7 @@ from meta_mcp.services.fleet_runtime_service import FleetRuntimeService
 from meta_mcp.services.fleet_startup_probe_service import FleetStartupProbeService
 from meta_mcp.services.heartbeat_service import HeartbeatService
 from meta_mcp.services.local_llm_service import LocalLLMService
+from meta_mcp.services.repo_discovery_service import RepoDiscoveryService
 from meta_mcp.services.repo_packing_service import RepoPackingService
 from meta_mcp.services.repo_scanner_service import RepoScannerService
 from meta_mcp.services.scaffolding_service import ScaffoldingService
@@ -47,6 +48,7 @@ scaffolding = ScaffoldingService()
 server_service = ServerService()
 tool_service = ToolService()
 repo_scanner = RepoScannerService()
+repo_discovery = RepoDiscoveryService()
 client_manager = ClientSettingsManager()
 token_analyzer = TokenAnalysisService()
 repo_packer = RepoPackingService()
@@ -388,6 +390,29 @@ async def get_mcp_tool_catalog():
     result = await tool_service.get_mcp_catalog()
     if not result.get("success"):
         raise HTTPException(status_code=500, detail=result.get("message"))
+    return result
+
+
+@router.get("/inspire/presets", summary="Repo discovery presets")
+async def inspire_presets():
+    """Curated GitHub search presets for the Repo Inspiration page."""
+    return repo_discovery.presets()
+
+
+@router.get("/inspire/search", summary="Search GitHub repos with popularity markers")
+async def inspire_search(
+    q: str = "",
+    language: str = "",
+    topic: str = "",
+    min_stars: int = 0,
+    sort: str = "stars",
+    order: str = "desc",
+    per_page: int = 12,
+):
+    """GitHub repository search proxy (token stays server-side)."""
+    result = await repo_discovery.search(q, language, topic, min_stars, sort, order, per_page)
+    if not result.get("success"):
+        raise HTTPException(status_code=502, detail=result.get("message"))
     return result
 
 
@@ -876,6 +901,20 @@ async def chat_agent_run(request: ChatAgentRequest):
         request.personality_id,
         request.max_iterations,
     )
+    if not result.get("success"):
+        raise HTTPException(status_code=502, detail=result.get("message"))
+    return result
+
+
+class ChatAgentConfirmRequest(BaseModel):
+    run_id: str = Field(...)
+    approved: list[str] = Field(default_factory=list, description="Call ids approved for execution")
+
+
+@router.post("/chat/agent/confirm", summary="Confirm paused mutating tool calls")
+async def chat_agent_confirm(request: ChatAgentConfirmRequest):
+    """Resume a paused agent run: approved calls execute, denied are fed back."""
+    result = await chat_agent.resume(request.run_id, request.approved)
     if not result.get("success"):
         raise HTTPException(status_code=502, detail=result.get("message"))
     return result

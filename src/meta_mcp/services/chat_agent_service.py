@@ -11,6 +11,8 @@ This is the first real agent loop in the fleet: earlier chat surfaces
 from __future__ import annotations
 
 import json
+import secrets
+import time
 from datetime import datetime
 from typing import Any
 from zoneinfo import ZoneInfo
@@ -61,6 +63,36 @@ SYSTEM_BASE = (
 
 MAX_RESULT_CHARS = 4000
 TRACE_PREVIEW_CHARS = 300
+RUN_TTL_SECONDS = 1800
+
+# Portmanteau operations considered read-only. Anything else (including tools
+# without an operation parameter) needs user confirmation before execution.
+READ_ONLY_OPS = frozenset(
+    {
+        "list",
+        "get",
+        "status",
+        "probe",
+        "search",
+        "read",
+        "discover",
+        "catalog",
+        "stats",
+        "history",
+        "check",
+        "inspect",
+        "validate",
+        "ping",
+        "pulse",
+        "overview",
+        "models",
+        "help",
+    }
+)
+
+# In-memory paused runs: run_id -> loop state. Single-user control center;
+# entries older than RUN_TTL_SECONDS are dropped on access.
+_RUNS: dict[str, dict[str, Any]] = {}
 
 
 def _truncate(text: str, limit: int) -> str:
@@ -122,30 +154,72 @@ class ChatAgentService(MetaMCPService):
             },
         )
 
-    async def run(
+    @staticmethod
+    def _is_read_only(call: dict[str, Any]) -> bool:
+        """Default-deny: only known read-only portmanteau operations skip confirmation."""
+        op = (call.get("arguments") or {}).get("operation")
+        return isinstance(op, str) and op.strip().lower() in READ_ONLY_OPS
+
+    @staticmethod
+    def _prune_runs() -> None:
+        now = time.monotonic()
+        for rid in [k for k, v in _RUNS.items() if now - v["at"] > RUN_TTL_SECONDS]:
+            _RUNS.pop(rid, None)
+
+    @staticmethod
+    def _assistant_msg(reply: str, calls: list[dict[str, Any]], is_ollama: bool) -> dict[str, Any]:
+        if is_ollama:
+            return {
+                "role": "assistant",
+                "content": reply,
+                "tool_calls": [{"function": {"name": c["name"], "arguments": c["arguments"]}} for c in calls],
+            }
+        return {
+            "role": "assistant",
+            "content": reply,
+            "tool_calls": [
+                {
+                    "id": c["id"],
+                    "type": "function",
+                    "function": {"name": c["name"], "arguments": json.dumps(c["arguments"])},
+                }
+                for c in calls
+            ],
+        }
+
+    @staticmethod
+    def _tool_msg(call_id: str, result_txt: str, is_ollama: bool) -> dict[str, Any]:
+        if is_ollama:
+            return {"role": "tool", "content": result_txt}
+        return {"role": "tool", "tool_call_id": call_id, "content": result_txt}
+
+    async def _execute_one(
+        self, call: dict[str, Any], messages: list[dict[str, Any]], trace: list[dict[str, Any]], is_ollama: bool
+    ) -> None:
+        name = call.get("name", "")
+        args = call.get("arguments") or {}
+        exec_res = await self._tools.execute_tool("metaops", name, args)
+        ok = bool(exec_res.get("success"))
+        payload = exec_res.get("result") or exec_res.get("data") or exec_res
+        result_txt = _truncate(json.dumps(payload, default=str), MAX_RESULT_CHARS)
+        trace.append({"name": name, "args": args, "ok": ok, "preview": result_txt[:TRACE_PREVIEW_CHARS]})
+        messages.append(self._tool_msg(call.get("id", ""), result_txt, is_ollama))
+
+    async def _loop(
         self,
         provider: str,
         base_url: str,
         model: str,
-        history: list[dict[str, Any]],
-        personality_id: str = "mcp-expert",
-        max_iterations: int = 5,
+        messages: list[dict[str, Any]],
+        definitions: list[dict[str, Any]],
+        trace: list[dict[str, Any]],
+        is_ollama: bool,
+        start_iteration: int,
+        max_iterations: int,
     ) -> dict[str, Any]:
-        """Run the agent loop. Returns reply + trace + iterations."""
-        max_iterations = max(1, min(int(max_iterations or 5), 10))
-        catalog = await self._catalog()
-        if not catalog:
-            return self.create_response(False, "No tools registered — agent mode needs the tool catalog")
-        system = self._system_prompt(personality_id, catalog)
-        definitions = self._tool_definitions(catalog)
-        is_ollama = (provider or "ollama").strip().lower() == "ollama"
-
-        messages: list[dict[str, Any]] = [{"role": "system", "content": system}]
-        messages.extend(history or [])
-        trace: list[dict[str, Any]] = []
+        """Shared loop body. Returns final payload or a paused payload with run_id."""
         reply = ""
-
-        for iteration in range(1, max_iterations + 1):
+        for iteration in range(start_iteration, max_iterations + 1):
             res = await self._llm.chat_with_tools(provider, base_url, model, messages, definitions)
             if not res.get("success"):
                 return self.create_response(
@@ -158,44 +232,104 @@ class ChatAgentService(MetaMCPService):
                 return self.create_response(
                     True, "Agent loop complete", {"reply": reply, "trace": trace, "iterations": iteration}
                 )
-            if is_ollama:
-                messages.append(
-                    {
-                        "role": "assistant",
-                        "content": reply,
-                        "tool_calls": [{"function": {"name": c["name"], "arguments": c["arguments"]}} for c in calls],
-                    }
-                )
-            else:
-                messages.append(
-                    {
-                        "role": "assistant",
-                        "content": reply,
-                        "tool_calls": [
-                            {
-                                "id": c["id"],
-                                "type": "function",
-                                "function": {"name": c["name"], "arguments": json.dumps(c["arguments"])},
-                            }
-                            for c in calls
-                        ],
-                    }
-                )
+            messages.append(self._assistant_msg(reply, calls, is_ollama))
+            gated = [c for c in calls if not self._is_read_only(c)]
             for call in calls:
-                name = call.get("name", "")
-                args = call.get("arguments") or {}
-                exec_res = await self._tools.execute_tool("metaops", name, args)
-                ok = bool(exec_res.get("success"))
-                payload = exec_res.get("result") or exec_res.get("data") or exec_res
-                result_txt = _truncate(json.dumps(payload, default=str), MAX_RESULT_CHARS)
-                trace.append({"name": name, "args": args, "ok": ok, "preview": result_txt[:TRACE_PREVIEW_CHARS]})
-                if is_ollama:
-                    messages.append({"role": "tool", "content": result_txt})
-                else:
-                    messages.append({"role": "tool", "tool_call_id": call.get("id", ""), "content": result_txt})
+                if call in gated:
+                    continue
+                await self._execute_one(call, messages, trace, is_ollama)
+            if gated:
+                self._prune_runs()
+                run_id = secrets.token_urlsafe(12)
+                _RUNS[run_id] = {
+                    "at": time.monotonic(),
+                    "provider": provider,
+                    "base_url": base_url,
+                    "model": model,
+                    "messages": messages,
+                    "definitions": definitions,
+                    "trace": trace,
+                    "is_ollama": is_ollama,
+                    "iteration": iteration,
+                    "max_iterations": max_iterations,
+                    "pending": gated,
+                }
+                return self.create_response(
+                    True,
+                    f"{len(gated)} mutating call(s) need confirmation",
+                    {
+                        "reply": reply,
+                        "trace": trace,
+                        "iterations": iteration,
+                        "needs_confirmation": True,
+                        "run_id": run_id,
+                        "pending": [{"id": c["id"], "name": c["name"], "arguments": c["arguments"]} for c in gated],
+                    },
+                )
 
         return self.create_response(
             True,
             f"Agent loop stopped after {max_iterations} iterations",
             {"reply": reply, "trace": trace, "iterations": max_iterations},
+        )
+
+    async def run(
+        self,
+        provider: str,
+        base_url: str,
+        model: str,
+        history: list[dict[str, Any]],
+        personality_id: str = "mcp-expert",
+        max_iterations: int = 5,
+    ) -> dict[str, Any]:
+        """Run the agent loop. Mutating calls pause for confirmation (see resume)."""
+        max_iterations = max(1, min(int(max_iterations or 5), 10))
+        catalog = await self._catalog()
+        if not catalog:
+            return self.create_response(False, "No tools registered — agent mode needs the tool catalog")
+        system = self._system_prompt(personality_id, catalog)
+        definitions = self._tool_definitions(catalog)
+        is_ollama = (provider or "ollama").strip().lower() == "ollama"
+
+        messages: list[dict[str, Any]] = [{"role": "system", "content": system}]
+        messages.extend(history or [])
+        return await self._loop(provider, base_url, model, messages, definitions, [], is_ollama, 1, max_iterations)
+
+    async def resume(self, run_id: str, approved_ids: list[str]) -> dict[str, Any]:
+        """Continue a paused run: execute approved calls, feed back denials, loop on."""
+        self._prune_runs()
+        state = _RUNS.pop(run_id, None)
+        if state is None:
+            return self.create_response(False, "Run expired or unknown — start over")
+        approved = set(approved_ids or [])
+        messages = state["messages"]
+        trace = state["trace"]
+        is_ollama = state["is_ollama"]
+        for call in state["pending"]:
+            if call["id"] in approved:
+                await self._execute_one(call, messages, trace, is_ollama)
+            else:
+                trace.append(
+                    {
+                        "name": call["name"],
+                        "args": call["arguments"],
+                        "ok": False,
+                        "preview": "denied by user — skipped",
+                    }
+                )
+                messages.append(
+                    self._tool_msg(
+                        call["id"], f"Tool {call['name']} was denied by the user — adjust the plan.", is_ollama
+                    )
+                )
+        return await self._loop(
+            state["provider"],
+            state["base_url"],
+            state["model"],
+            messages,
+            state["definitions"],
+            trace,
+            is_ollama,
+            state["iteration"] + 1,
+            state["max_iterations"],
         )
