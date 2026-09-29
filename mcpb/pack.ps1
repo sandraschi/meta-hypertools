@@ -152,7 +152,9 @@ if (Test-Path $RootIgnore) {
 
 Step 4 'Required check: import isolation (only mcpb/src on sys.path)'
 $env:PYTHONDONTWRITEBYTECODE = '1'
-uv run --project $RepoRoot python $VerifyScript import $StageRoot $entryModuleOrFile $Pkg
+# NOTE: --no-sync because the live MCP stdio server holds the venv entry-point
+# lock; re-sync would fail removing it. Safe: verify steps only need imports.
+uv run --no-sync --project $RepoRoot python $VerifyScript import $StageRoot $entryModuleOrFile $Pkg
 if ($LASTEXITCODE -ne 0) { throw 'Import-isolation check failed' }
 
 Step 5 'Required check: AST call-site binding (catches missing imports)'
@@ -163,12 +165,12 @@ if ($entryRelToSrc.StartsWith('..')) {
 } else {
     $astCheckFile = Join-Path $StageRoot $entryRelToSrc
 }
-uv run --project $RepoRoot python $VerifyScript ast $astCheckFile
+uv run --no-sync --project $RepoRoot python $VerifyScript ast $astCheckFile
 if ($LASTEXITCODE -ne 0) { throw 'AST check failed' }
 Remove-Item Env:\PYTHONDONTWRITEBYTECODE -ErrorAction SilentlyContinue
 
 Step 6 'Required check: pollution, run AFTER import (which itself writes bytecode)'
-uv run --project $RepoRoot python $VerifyScript pollution $McpbDir
+uv run --no-sync --project $RepoRoot python $VerifyScript pollution $McpbDir
 if ($LASTEXITCODE -ne 0) { throw 'Pollution check failed (import step above may have written __pycache__)' }
 
 Step 7 '3-4-100 prompt check (report only -- does not block pack)'
@@ -222,6 +224,15 @@ if ($LASTEXITCODE -ne 0) { throw 'mcpb unpack failed for the launch check' }
 $launchEntry = Join-Path $LaunchDir $entryPointRel
 if (-not (Test-Path $launchEntry)) { throw "Unpacked bundle is missing its own entry point: $launchEntry" }
 
+# Entry-arg support: wrappers with required CLI flags (this repo's
+# run_server.py needs --http plus an explicit off-dev port) advertise them
+# in usage text. Pass them so the launch check exercises a serving start,
+# never port 10718 (the live backend may own it).
+$LaunchArgs = @()
+if ((Get-Content $launchEntry -Raw -ErrorAction SilentlyContinue) -match '--http') {
+    $LaunchArgs = @('--http', '--port', '39812')
+}
+
 # Launch the venv's python.exe directly, NOT `uv run python ...`. `uv run`
 # spawns python as a CHILD process on Windows rather than replacing itself,
 # so $proc from `Start-Process -FilePath uv` is the uv wrapper's PID, not
@@ -240,7 +251,7 @@ try {
     $outLog = Join-Path $LaunchDir 'launch.out.log'
     $errLog = Join-Path $LaunchDir 'launch.err.log'
     $proc = Start-Process -FilePath $VenvPython `
-        -ArgumentList @($launchEntry) `
+        -ArgumentList (@($launchEntry) + $LaunchArgs) `
         -WorkingDirectory $LaunchDir -PassThru -WindowStyle Hidden `
         -RedirectStandardOutput $outLog -RedirectStandardError $errLog
     Start-Sleep -Seconds 4

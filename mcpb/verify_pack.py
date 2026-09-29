@@ -43,6 +43,13 @@ def check_import(stage_dir: str, entry_module_or_file: str, package_name: str) -
         runpy.run_path(str(entry_path), run_name="__mcpb_verify__")
         mod = sys.modules.get(package_name)
         if mod is None:
+            # Wrapper defers the package import into main() (lazy uvicorn
+            # for Tauri sidecars). The runpy pass above already executed its
+            # top-level sys.path setup, so import the package directly and
+            # still assert it resolves under the stage: proves
+            # self-containment without launching a server.
+            mod = importlib.import_module(package_name)
+        if mod is None:
             raise SystemExit(f"FAIL import: running {entry_path} never imported {package_name!r}")
     else:
         mod = importlib.import_module(entry_module_or_file)
