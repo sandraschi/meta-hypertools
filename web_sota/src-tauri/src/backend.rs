@@ -15,7 +15,7 @@ pub struct BackendProcess(pub Mutex<Option<Child>>);
 
 // -- PER-REPO: Customize these constants --
 const BACKEND_NAME: &str = "meta-mcp-backend.exe";
-const BACKEND_PORT: u16 = 10718;
+const BACKEND_PORT: u16 = 11220;
 const BACKEND_TAG: &str = "meta-mcp-backend-x86_64-pc-windows-msvc.exe";
 const ENV_PORT: &str = "PORT";
 const ENV_HOST: &str = "HOST";
@@ -253,13 +253,13 @@ pub fn spawn_backend(app: AppHandle, state: &BackendProcess) -> Result<String, S
     if port_holder_is_responsive(BACKEND_PORT) {
         log_line(
             &app,
-            &format!("port 10718 already serving and responsive - attaching instead of spawning a second backend"),
+            &format!("port {} already serving and responsive - attaching instead of spawning a second backend", BACKEND_PORT),
         );
-        return Ok(format!("Attached to existing backend on port 10718"));
+        return Ok(format!("Attached to existing backend on port {}", BACKEND_PORT));
     }
 
     if !free_port(BACKEND_PORT) {
-        let msg = format!("Could not free port 10718 after 240s - TIME_WAIT not cleared");
+        let msg = format!("Could not free port {} after 240s - TIME_WAIT not cleared", BACKEND_PORT);
         log_line(&app, &msg);
         return Err(msg);
     }
@@ -273,8 +273,8 @@ pub fn spawn_backend(app: AppHandle, state: &BackendProcess) -> Result<String, S
 
     log_line(
         &app,
-        &format!("spawning {} (cwd {}) on port 10718",
-            backend_path.display(), workdir.display()),
+        &format!("spawning {} (cwd {}) on port {}",
+            backend_path.display(), workdir.display(), BACKEND_PORT),
     );
 
     let mut command = Command::new(&backend_path);
@@ -314,7 +314,7 @@ pub fn spawn_backend(app: AppHandle, state: &BackendProcess) -> Result<String, S
     // the primary readiness signal (stdout text-matching in
     // watch_backend_stream is a secondary/faster signal but is fragile to
     // buffering and log-format changes; the TCP poll is authoritative).
-    let addr = SocketAddr::from_str(&format!("127.0.0.1:10718")).unwrap();
+    let addr = SocketAddr::from_str(&format!("127.0.0.1:{}", BACKEND_PORT)).unwrap();
     let app_health = app.clone();
     thread::spawn(move || {
         for attempt in 0..30 {
@@ -322,7 +322,7 @@ pub fn spawn_backend(app: AppHandle, state: &BackendProcess) -> Result<String, S
             match TcpStream::connect_timeout(&addr, Duration::from_secs(2)) {
                 Ok(_) => {
                     log_line(&app_health, &format!(
-                        "Backend health check PASSED on port 10718 (attempt {})", attempt + 1));
+                        "Backend health check PASSED on port {} (attempt {})", BACKEND_PORT, attempt + 1));
                     let _ = app_health.emit("backend-status", "ready");
                     return;
                 }
@@ -333,11 +333,11 @@ pub fn spawn_backend(app: AppHandle, state: &BackendProcess) -> Result<String, S
             }
         }
         log_line(&app_health, &format!(
-            "Backend health check FAILED - not listening on port 10718 after 30 attempts"));
+            "Backend health check FAILED - not listening on port {} after 30 attempts", BACKEND_PORT));
         let _ = app_health.emit("backend-status", "error: backend not reachable");
     });
 
-    Ok(format!("Backend starting on port 10718"))
+    Ok(format!("Backend starting on port {}", BACKEND_PORT))
 }
 
 fn watch_backend_stream<R: std::io::Read + Send + 'static>(stream: R, app: AppHandle) {

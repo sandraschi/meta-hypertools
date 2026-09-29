@@ -2,7 +2,7 @@ $ErrorActionPreference = "Stop"
 # src-tauri lives under web_sota/, so the repo root is two levels up.
 $Root = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 $BackendExe = "meta-mcp-backend.exe"
-$BackendPort = 10718
+$BackendPort = 11220
 $Triple = "x86_64-pc-windows-msvc"
 $ResourceDir = "$PSScriptRoot\resources"
 $DevDir = "$PSScriptRoot\binaries"
@@ -10,17 +10,19 @@ New-Item -ItemType Directory -Force -Path $ResourceDir, $DevDir | Out-Null
 
 Write-Host "=== meta-mcp Tauri Release Build ===" -ForegroundColor Cyan
 
-# Step 0: Verify frontend API base matches the backend port (catches
-# "Failed to fetch" before spending 10 minutes on Rust).
+# Step 0: Verify the DEV frontend default still points at the dev backend
+# (10718). The installed app bakes a different port (tauri backend on
+# $BackendPort) via VITE_API_BASE_URL below, so dev default and bake
+# target intentionally differ - do not "fix" that.
 $apiFile = Join-Path $Root "web_sota\src\api\client.ts"
 if (Test-Path $apiFile) {
     $apiContent = Get-Content $apiFile -Raw
     if ($apiContent -match "127\.0\.0\.1:(\d+)") {
         $apiPort = [int]$Matches[1]
-        if ($apiPort -ne $BackendPort) {
-            throw "API base in web_sota/src/api/client.ts points to port $apiPort but backend serves on $BackendPort. Production has no Vite proxy - this gives 'Failed to fetch' in the installed app."
+        if ($apiPort -ne 10718) {
+            throw "DEV API base in web_sota/src/api/client.ts points to port $apiPort, expected the dev backend 10718."
         }
-        Write-Host "  API base port: $apiPort (matches backend) [OK]" -ForegroundColor Green
+        Write-Host "  Dev API base port: $apiPort [OK]; Tauri bake target: $BackendPort" -ForegroundColor Green
     }
 }
 
