@@ -95,7 +95,7 @@ async def discover_mcp_servers(
         str(Path.home() / "AppData" / "Roaming" / "Claude"),
         str(Path.home() / ".gemini" / "antigravity"),
         str(Path.cwd()),
-        "d:/Dev/repos",  # Keep as common dev root for current user
+        os.environ.get("FLEET_REPOS_ROOT") or os.environ.get("REPOS_DIR") or "d:/Dev/repos",
     ]
 
     for path_str in discovery_paths:
@@ -776,9 +776,7 @@ async def _is_server_active(server_info: dict[str, Any]) -> bool:
             docker_path = shutil.which("docker")
             if not docker_path:
                 return False
-            result = await asyncio.to_thread(
-                subprocess.run, [docker_path, "--version"], capture_output=True, timeout=5
-            )
+            result = await asyncio.to_thread(subprocess.run, [docker_path, "--version"], capture_output=True, timeout=5)
             return result.returncode == 0
 
         return True  # Default to active for other types

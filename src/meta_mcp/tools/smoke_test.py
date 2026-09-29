@@ -267,7 +267,7 @@ async def smoke_test_all_servers(
     Run smoke tests on all MCP servers in a directory.
 
     Args:
-        scan_path: Directory to scan for MCP servers
+        scan_path: Directory to scan for MCP servers (default: FLEET_REPOS_ROOT or ~/repos)
         max_concurrent: Max concurrent tests
 
     Returns:
@@ -275,6 +275,10 @@ async def smoke_test_all_servers(
     """
     from .runt_analyzer import _analyze_repo
 
+    if scan_path in ("D:/Dev/repos", r"D:\Dev\repos", "d:/Dev/repos"):
+        _env_root = os.environ.get("FLEET_REPOS_ROOT") or os.environ.get("REPOS_DIR")
+        if _env_root:
+            scan_path = _env_root
     results = {
         "success": True,
         "scan_path": scan_path,

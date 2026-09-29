@@ -19,9 +19,28 @@ from meta_mcp.models.routing import IndexStats, ServerEndpoint, ToolMapping
 logger = structlog.get_logger(__name__)
 
 _DEFAULT_DB_PATH = Path.home() / ".meta_mcp" / "capability_index.sqlite3"
-_DEFAULT_FLEET_ROOTS = [
-    Path("D:/Dev/repos"),
-]
+
+
+def _default_fleet_roots() -> list[Path]:
+    import os as _os
+
+    roots: list[Path] = []
+    for _env in (_os.environ.get("FLEET_REPOS_ROOT"), _os.environ.get("REPOS_DIR")):
+        if _env:
+            roots.append(Path(_env).expanduser())
+    roots.append(Path("D:/Dev/repos"))
+    # Dedupe, keep order
+    seen: set[str] = set()
+    out: list[Path] = []
+    for _p in roots:
+        _k = str(_p).lower()
+        if _k not in seen:
+            seen.add(_k)
+            out.append(_p)
+    return out
+
+
+_DEFAULT_FLEET_ROOTS = _default_fleet_roots()
 
 _DDL = """
 CREATE TABLE IF NOT EXISTS capability_index (

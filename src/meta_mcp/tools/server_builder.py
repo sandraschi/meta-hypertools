@@ -15,6 +15,7 @@ Creates new fleet-compliant MCP servers with all required components:
 
 import asyncio
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -1159,6 +1160,11 @@ async def create_mcp_server(
             return {"success": False, "error": "Server name must be alphanumeric with hyphens/underscores only"}
 
         package_name = _kebab_to_snake(server_name)
+        # Portable default: honour FLEET_REPOS_ROOT/REPOS_DIR when caller left the stock default
+        if target_path in ("D:/Dev/repos", r"D:\Dev\repos", "d:/Dev/repos", "d:\\Dev\\repos"):
+            _env_root = os.environ.get("FLEET_REPOS_ROOT") or os.environ.get("REPOS_DIR")
+            if _env_root:
+                target_path = _env_root
         target_dir = Path(target_path).expanduser().resolve()
         server_dir = target_dir / server_name
 
