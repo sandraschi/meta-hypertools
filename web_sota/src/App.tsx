@@ -28,6 +28,7 @@ import { ScrubbersPage } from "./pages/Scrubbers";
 import { ServersPage } from "./pages/Servers";
 import { SessionDocsPage } from "./pages/SessionDocs";
 import { SettingsPage } from "./pages/Settings";
+import { StandardsPage } from "./pages/Standards";
 import TauriBuildPage from "./pages/TauriBuild";
 import { ToolLabPage } from "./pages/ToolLab";
 import { ToolchainsPage } from "./pages/Toolchains";
@@ -224,6 +225,8 @@ function App() {
         return <AssfixSOPPage />;
       case "session-docs":
         return <SessionDocsPage />;
+      case "standards":
+        return <StandardsPage />;
       case "justfile":
         return <JustfilePage />;
       case "settings":

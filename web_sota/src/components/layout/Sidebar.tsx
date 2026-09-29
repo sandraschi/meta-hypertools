@@ -73,6 +73,7 @@ const NAV_GROUPS: NavGroup[] = [
       { id: "justfile", label: "Fleet Justfile", icon: ScrollText },
       { id: "assess-reports", label: "Assess Reports", icon: ClipboardList },
       { id: "assfix-sop", label: "Assfix SOP", icon: ClipboardCheck },
+      { id: "standards", label: "Fleet Standards", icon: BookOpen },
     ],
   },
   {

@@ -179,6 +179,35 @@ export const api = {
     return apiClient.get(`/api/v1/session-docs/${encodeURIComponent(name)}`);
   },
 
+  // Fleet standards (mcp-central-docs bridge)
+  async listStandards(): Promise<
+    ApiResponse<{
+      available: boolean;
+      standards: Array<{
+        path: string;
+        name: string;
+        title: string;
+        category: string;
+        status: string;
+        audience: string;
+        last_updated: string;
+        size_bytes: number;
+        modified: string;
+      }>;
+      count: number;
+      categories?: string[];
+      hint?: string;
+    }>
+  > {
+    return apiClient.get("/api/v1/standards");
+  },
+
+  async readStandard(
+    path: string,
+  ): Promise<ApiResponse<{ path: string; meta: Record<string, string>; content: string }>> {
+    return apiClient.get(`/api/v1/standards/${path}`);
+  },
+
   // Server Management
   async listRunningServers(): Promise<ApiResponse> {
     return apiClient.post("/api/v1/tools/execute", {
