@@ -174,7 +174,11 @@ export const api = {
 
   // Session docs (mcp-agent-session-summaries bridge)
   async listSessionDocs(): Promise<
-    ApiResponse<{ docs: Array<{ name: string; size_bytes: number; modified: string }> }>
+    ApiResponse<{
+      docs: Array<{ name: string; size_bytes: number; modified: string }>;
+      source?: string;
+      prune_allowed?: boolean;
+    }>
   > {
     return apiClient.get("/api/v1/session-docs");
   },

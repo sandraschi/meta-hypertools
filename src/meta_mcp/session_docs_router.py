@@ -44,10 +44,21 @@ def _docs_dir() -> Path:
     )
 
 
+def _docs_source() -> str:
+    """Where the docs dir resolved from: env override, shared handbook, or legacy."""
+    if os.environ.get("SESSION_DOCS_DIR", "").strip():
+        return "env"
+    mcd = optional_mcp_central_docs()
+    if mcd is not None and (mcd / "operations" / "session-log").is_dir():
+        return "handbook"
+    return "legacy"
+
+
 @router.get("")
 def list_session_docs() -> dict:
     """List session documentation files (name, size, modified)."""
     docs = _docs_dir()
+    source = _docs_source()
     entries = []
     for p in sorted(docs.glob("*.md")):
         st = p.stat()
@@ -58,7 +69,17 @@ def list_session_docs() -> dict:
                 "modified": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(st.st_mtime)),
             }
         )
-    return {"success": True, "data": {"docs": entries, "count": len(entries)}}
+    return {
+        "success": True,
+        "data": {
+            "docs": entries,
+            "count": len(entries),
+            "source": source,
+            # The handbook log is shared fleet history: prune UI stays off.
+            # Point SESSION_DOCS_DIR at a private archive to manage deletions.
+            "prune_allowed": source != "handbook",
+        },
+    }
 
 
 _DATE_PREFIX = re.compile(r"^(\d{4}-\d{2}-\d{2})")
@@ -79,8 +100,15 @@ def prune_session_docs(before: str = "") -> dict:
     Cutoff is mandatory and strictly enforced: docs with doc-date < before
     are deleted, everything else (including subdirectories such as aiwatcher/)
     is left alone. Returns deleted + kept counts and the deleted names.
+    Refused on the shared handbook log (set SESSION_DOCS_DIR to prune a
+    private archive instead).
     """
     docs = _docs_dir()
+    if _docs_source() == "handbook":
+        raise HTTPException(
+            status_code=403,
+            detail="Pruning the shared handbook log is disabled. Set SESSION_DOCS_DIR to manage a private archive.",
+        )
     try:
         cutoff = datetime.date.fromisoformat(before.strip())
     except ValueError:

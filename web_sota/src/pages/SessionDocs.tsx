@@ -69,6 +69,7 @@ export function SessionDocsPage() {
   const [cutoff, setCutoff] = useState(defaultCutoff);
   const [pruning, setPruning] = useState(false);
   const [pruneMsg, setPruneMsg] = useState<string | null>(null);
+  const [pruneAllowed, setPruneAllowed] = useState(true);
 
   const setViewMode = (mode: ViewMode) => {
     setView(mode);
@@ -86,6 +87,7 @@ export function SessionDocsPage() {
       const resp = await api.listSessionDocs();
       if (isSuccessResponse(resp) && resp.data) {
         setDocs(resp.data.docs ?? []);
+        setPruneAllowed(resp.data.prune_allowed !== false);
       } else {
         setError("Failed to load session docs list");
       }
@@ -369,34 +371,43 @@ export function SessionDocsPage() {
 
           <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-4">
             <div className="text-sm font-semibold text-slate-200 mb-1">Prune ancient docs</div>
-            <p className="text-xs text-slate-500 mb-3">
-              Deletes top-level docs older than the cutoff. Subdirectories are never touched.
-            </p>
-            <div className="flex items-center gap-2 flex-wrap">
-              <label htmlFor="prune-cutoff" className="text-xs text-slate-400">
-                Older than
-              </label>
-              <input
-                id="prune-cutoff"
-                type="date"
-                value={cutoff}
-                onChange={(e) => setCutoff(e.target.value)}
-                className="rounded-lg border border-slate-700 bg-slate-900/60 px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-blue-500"
-              />
-              <span className="text-xs text-slate-500">
-                {ancientCount} doc{ancientCount === 1 ? "" : "s"} match
-              </span>
-              <button
-                type="button"
-                onClick={prune}
-                disabled={pruning || ancientCount === 0}
-                className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm bg-red-600/20 text-red-300 border border-red-500/30 hover:bg-red-600/30 transition-colors disabled:opacity-40"
-              >
-                <Trash2 size={14} />
-                {pruning ? "Deleting..." : "Delete"}
-              </button>
-              {pruneMsg && <span className="text-xs text-slate-400">{pruneMsg}</span>}
-            </div>
+            {pruneAllowed ? (
+              <>
+                <p className="text-xs text-slate-500 mb-3">
+                  Deletes top-level docs older than the cutoff. Subdirectories are never touched.
+                </p>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <label htmlFor="prune-cutoff" className="text-xs text-slate-400">
+                    Older than
+                  </label>
+                  <input
+                    id="prune-cutoff"
+                    type="date"
+                    value={cutoff}
+                    onChange={(e) => setCutoff(e.target.value)}
+                    className="rounded-lg border border-slate-700 bg-slate-900/60 px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-blue-500"
+                  />
+                  <span className="text-xs text-slate-500">
+                    {ancientCount} doc{ancientCount === 1 ? "" : "s"} match
+                  </span>
+                  <button
+                    type="button"
+                    onClick={prune}
+                    disabled={pruning || ancientCount === 0}
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm bg-red-600/20 text-red-300 border border-red-500/30 hover:bg-red-600/30 transition-colors disabled:opacity-40"
+                  >
+                    <Trash2 size={14} />
+                    {pruning ? "Deleting..." : "Delete"}
+                  </button>
+                  {pruneMsg && <span className="text-xs text-slate-400">{pruneMsg}</span>}
+                </div>
+              </>
+            ) : (
+              <p className="text-xs text-slate-500">
+                Pruning is disabled for the shared handbook log. Set SESSION_DOCS_DIR to manage
+                deletions in a private archive.
+              </p>
+            )}
           </div>
         </>
       )}
