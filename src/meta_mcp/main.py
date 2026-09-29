@@ -23,6 +23,7 @@ from meta_mcp.logging_config import get_logger, setup_logging
 from meta_mcp.logs_router import router as logs_router
 from meta_mcp.mcp_server import app as mcp_app
 from meta_mcp.session_docs_router import router as session_docs_router
+from meta_mcp.standards_router import router as standards_router
 from meta_mcp.telemetry import router as telemetry_router
 
 # Use the centralized SOTA logging
@@ -149,6 +150,7 @@ def create_fastapi_app():
     app.include_router(logs_router)
     app.include_router(telemetry_router)
     app.include_router(session_docs_router)
+    app.include_router(standards_router)
 
     # Add MCP streamable HTTP route directly (no mount, avoids path prefix issues)
     app.add_route("/mcp", _mcp_asgi, methods=["POST"])

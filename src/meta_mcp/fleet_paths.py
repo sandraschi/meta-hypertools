@@ -27,6 +27,9 @@ def optional_mcp_central_docs() -> Path | None:
         path = Path(raw).expanduser()
         if path.is_dir():
             return path
+    inside = repos_root() / "mcp-central-docs"
+    if inside.is_dir():
+        return inside
     sibling = repos_root().parent / "mcp-central-docs"
     if sibling.is_dir():
         return sibling
