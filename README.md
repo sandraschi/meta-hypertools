@@ -60,7 +60,7 @@ uv sync --group dev
 |---------|---------|-----|
 | Dashboard | http://127.0.0.1:10719 | People - point and click |
 | REST API | http://127.0.0.1:10718 | Scripts, other services |
-| MCP stdio | `uv run python -m meta_mcp.server` in client config | Claude Desktop, Cursor, other IDEs |
+| MCP stdio | `uv run meta-mcp-server` in client config | Claude Desktop, Cursor, other IDEs |
 
 Full install paths (per-IDE config, MCPB bundle, troubleshooting):
 [INSTALL.md](INSTALL.md).

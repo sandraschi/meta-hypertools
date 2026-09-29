@@ -1,4 +1,4 @@
-## [Unreleased]
+## [0.5.1] -- 2026-09-29
 
 ### Added
 - **Agentic chat loop** (dashboard Chat, agent mode on by default): system
@@ -28,6 +28,10 @@
   and Standards pages upgraded to match.
 - `scripts/install-hooks.ps1`: pre-commit hook installer (ruff + biome
   lint; formatting advisory).
+- Dual-mode bundle entry (`mcpb/run_server.py`): MCP stdio by default for
+  Claude Desktop, `--http` bridge for Tauri sidecar/dashboard backend.
+- MCPB prompts at the 3-4-100 gate (`assets/prompts/`: system 3004w, user
+  4003w, 106 tool examples) with refreshed manifest tool list.
 - `docs/WORKFLOWS.md`: mission tables moved out of the README.
 
 ### Changed

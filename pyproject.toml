@@ -1,6 +1,6 @@
 [project]
 name = "meta_mcp"
-version = "0.5.0"
+version = "0.5.1"
 description = "Fleet MCP orchestrator: lifecycle, sandboxed cold-install probes, GitHub repo inspiration, diagnostics, and web dashboard"
 authors = [
     { name = "Sandra Schipal" }
