@@ -24,6 +24,38 @@ export interface LLMModel {
 export interface ChatMessage {
   role: "user" | "assistant" | "system";
   content: string;
+  trace?: ChatTraceEntry[];
+}
+
+export interface ChatTraceEntry {
+  name: string;
+  args: unknown;
+  ok: boolean;
+  preview: string;
+}
+
+export interface ChatPersonality {
+  id: string;
+  label: string;
+  prompt: string;
+}
+
+export interface ChatToolInfo {
+  name: string;
+  description: string;
+}
+
+export interface ChatContext {
+  personalities: ChatPersonality[];
+  tools: ChatToolInfo[];
+  tool_count: number;
+  orientation: string;
+}
+
+export interface AgentReply {
+  reply: string;
+  trace: ChatTraceEntry[];
+  iterations: number;
 }
 
 const DEFAULT_CONFIG: LLMConfig = {
@@ -39,6 +71,11 @@ const API_BASE_URL =
 function llmApiUrl(path: string): string {
   const base = API_BASE_URL.replace(/\/$/, "");
   return base ? `${base}/api/v1/llm${path}` : `/api/v1/llm${path}`;
+}
+
+function chatApiUrl(path: string): string {
+  const base = API_BASE_URL.replace(/\/$/, "");
+  return base ? `${base}/api/v1/chat${path}` : `/api/v1/chat${path}`;
 }
 
 class LLMService {
@@ -151,6 +188,66 @@ class LLMService {
       return typeof content === "string" ? content : "";
     } catch (error) {
       logger.error("LLM chat failed", { error });
+      throw error;
+    }
+  }
+
+  async getChatContext(): Promise<ChatContext | null> {
+    try {
+      const response = await fetch(chatApiUrl("/context"));
+      if (!response.ok) return null;
+      const data = await response.json();
+      const ctx = (data?.data ?? data) as Partial<ChatContext>;
+      if (!Array.isArray(ctx.personalities)) return null;
+      return {
+        personalities: ctx.personalities,
+        tools: Array.isArray(ctx.tools) ? ctx.tools : [],
+        tool_count: Number(ctx.tool_count ?? ctx.tools?.length ?? 0),
+        orientation: typeof ctx.orientation === "string" ? ctx.orientation : "",
+      };
+    } catch (error) {
+      logger.error("Failed to load chat context", { error });
+      return null;
+    }
+  }
+
+  async agent(
+    messages: ChatMessage[],
+    personalityId: string,
+    maxIterations = 5,
+  ): Promise<AgentReply> {
+    if (!this.isConfigured()) {
+      throw new Error(
+        "No model selected. Open Settings → Local LLM, run Discovery, pick a model, and save.",
+      );
+    }
+    try {
+      const response = await fetch(chatApiUrl("/agent"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          provider: this.config.provider,
+          base_url: this.config.baseUrl,
+          model: this.config.model,
+          messages: messages.map(({ role, content }) => ({ role, content })),
+          personality_id: personalityId,
+          max_iterations: maxIterations,
+        }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        const detail =
+          typeof data?.detail === "string" ? data.detail : data?.message || response.statusText;
+        throw new Error(detail);
+      }
+      const d = (data?.data ?? data) as Partial<AgentReply>;
+      return {
+        reply: typeof d.reply === "string" ? d.reply : "",
+        trace: Array.isArray(d.trace) ? d.trace : [],
+        iterations: Number(d.iterations ?? 0),
+      };
+    } catch (error) {
+      logger.error("Agent chat failed", { error });
       throw error;
     }
   }

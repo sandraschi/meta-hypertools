@@ -8,34 +8,38 @@ import {
   Trash2,
 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { type ChatMessage as LLMChatMessage, llmService } from "../services/llm";
+import { type ChatMessage as LLMChatMessage, type ChatPersonality, llmService } from "../services/llm";
 import { logger } from "../utils/logger";
 
 const LS_KEY = "meta-mcp-chat-history";
 const PERS_KEY = "meta-mcp-chat-personality";
+const AGENT_KEY = "meta-mcp-chat-agent";
+
+const FALLBACK_ORIENTATION =
+  "You are MetaMCP, the fleet control-center assistant. Answer from evidence, be concise.";
+
+const FALLBACK_PERSONALITIES: ChatPersonality[] = [
+  {
+    id: "mcp-expert",
+    label: "MCP Expert",
+    prompt:
+      "You are an expert on MCP servers and this fleet. Explain what tools do and teach as you go.",
+  },
+  {
+    id: "fleet-operator",
+    label: "Fleet Operator",
+    prompt: "You are a fleet operator. Act first, explain briefly after. Keep answers terse.",
+  },
+  {
+    id: "analyst",
+    label: "Analyst",
+    prompt: "You are a careful analyst. Gather evidence before concluding. Cite tool names and scores.",
+  },
+];
 
 interface ChatPageProps {
   onNavigateToSettings?: () => void;
 }
-
-const PERSONALITIES = [
-  {
-    id: "mcp-expert",
-    label: "MCP Expert",
-    prompt: "You are a MetaMCP expert. Explain MCP architecture and tools.",
-  },
-  {
-    id: "developer",
-    label: "Developer",
-    prompt: "You are a developer. Focus on practical code and integration.",
-  },
-  {
-    id: "quick-summarizer",
-    label: "Quick Summarizer",
-    prompt: "Keep responses brief and to the point.",
-  },
-  { id: "custom", label: "Custom", prompt: "" },
-];
 
 const EXAMPLE_PROMPTS = [
   {
@@ -81,7 +85,15 @@ function loadPersonality(): string {
   }
 }
 
-function MessageBubble({ role, content }: { role: LLMChatMessage["role"]; content: string }) {
+function MessageBubble({
+  role,
+  content,
+  trace,
+}: {
+  role: LLMChatMessage["role"];
+  content: string;
+  trace?: LLMChatMessage["trace"];
+}) {
   const isUser = role === "user";
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
@@ -93,6 +105,27 @@ function MessageBubble({ role, content }: { role: LLMChatMessage["role"]; conten
         }`}
       >
         <p className="text-sm whitespace-pre-wrap break-words">{content}</p>
+        {!isUser && trace && trace.length > 0 && (
+          <details className="mt-2 text-xs">
+            <summary className="cursor-pointer text-slate-400 hover:text-slate-200">
+              Used {trace.length} tool{trace.length === 1 ? "" : "s"}
+            </summary>
+            <div className="mt-1.5 space-y-1.5">
+              {trace.map((t, i) => (
+                <div key={i} className="rounded bg-slate-950/70 border border-slate-800 p-2 font-mono">
+                  <div className="flex items-center gap-1.5">
+                    <span className={`inline-block w-1.5 h-1.5 rounded-full ${t.ok ? "bg-green-400" : "bg-red-400"}`} />
+                    <span className="text-blue-300">{t.name}</span>
+                  </div>
+                  <div className="text-slate-500 truncate mt-0.5">
+                    {JSON.stringify(t.args)}
+                  </div>
+                  <div className="text-slate-400 whitespace-pre-wrap break-words mt-0.5">{t.preview}</div>
+                </div>
+              ))}
+            </div>
+          </details>
+        )}
       </div>
     </div>
   );
@@ -106,9 +139,28 @@ export function ChatPage({ onNavigateToSettings }: ChatPageProps) {
   const [llmReady, setLlmReady] = useState(llmService.isConfigured());
   const [statusNote, setStatusNote] = useState<string | null>(null);
   const [personalityId, setPersonalityId] = useState(() => loadPersonality());
+  const [personalities, setPersonalities] = useState<ChatPersonality[]>(FALLBACK_PERSONALITIES);
+  const [orientation, setOrientation] = useState(FALLBACK_ORIENTATION);
+  const [toolCount, setToolCount] = useState(0);
+  const [agentMode, setAgentMode] = useState(() => {
+    try {
+      return localStorage.getItem(AGENT_KEY) !== "off";
+    } catch {
+      return true;
+    }
+  });
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const config = llmService.getConfig();
+
+  const setAgentModeStored = (on: boolean) => {
+    setAgentMode(on);
+    try {
+      localStorage.setItem(AGENT_KEY, on ? "on" : "off");
+    } catch {
+      // ignore localstorage errors
+    }
+  };
 
   const refreshLlmStatus = useCallback(async () => {
     const cfg = llmService.getConfig();
@@ -137,6 +189,12 @@ export function ChatPage({ onNavigateToSettings }: ChatPageProps) {
 
   useEffect(() => {
     void refreshLlmStatus();
+    void llmService.getChatContext().then((ctx) => {
+      if (!ctx) return;
+      if (ctx.personalities.length > 0) setPersonalities(ctx.personalities);
+      if (ctx.orientation) setOrientation(ctx.orientation);
+      setToolCount(ctx.tool_count);
+    });
   }, [refreshLlmStatus]);
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -153,13 +211,27 @@ export function ChatPage({ onNavigateToSettings }: ChatPageProps) {
     setInput("");
     setError(null);
     const userMsg: LLMChatMessage = { role: "user", content: text };
-    setMessages((prev) => [...prev, userMsg]);
+    const nextMessages = [...messages, userMsg];
+    setMessages(nextMessages);
     setIsLoading(true);
 
     try {
-      const nextMessages = [...messages, userMsg];
-      const reply = await llmService.chat(nextMessages);
-      setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
+      if (agentMode) {
+        const clean = nextMessages
+          .filter((m) => m.role === "user" || m.role === "assistant")
+          .map(({ role, content }) => ({ role, content }));
+        const res = await llmService.agent(clean, personalityId);
+        setMessages((prev) => [...prev, { role: "assistant", content: res.reply, trace: res.trace }]);
+      } else {
+        const persona = personalities.find((p) => p.id === personalityId) ?? personalities[0];
+        const system: LLMChatMessage = {
+          role: "system",
+          content: `${orientation}\n\n## Role\n${persona?.prompt ?? ""}`,
+        };
+        const clean = nextMessages.map(({ role, content }) => ({ role, content }));
+        const reply = await llmService.chat([system, ...clean]);
+        setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
+      }
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Request failed";
       setError(msg);
@@ -200,11 +272,25 @@ export function ChatPage({ onNavigateToSettings }: ChatPageProps) {
           <span
             className="text-xs text-purple-400 bg-purple-900/30 px-2 py-0.5 rounded border border-purple-800/50"
             data-testid="skill-badge"
+            title={toolCount > 0 ? `${toolCount} fleet tools available to the agent` : "Tool catalog not loaded yet"}
           >
-            meta-mcp
+            meta-mcp{toolCount > 0 ? ` · ${toolCount} tools` : ""}
           </span>
         </div>
         <div className="flex items-center gap-3 text-sm" data-testid="chat-controls">
+          <button
+            type="button"
+            onClick={() => setAgentModeStored(!agentMode)}
+            title={agentMode ? "Agent mode: model can call fleet tools" : "Plain chat: no tool calls"}
+            className={`text-xs px-2 py-1 rounded-md border transition-colors ${
+              agentMode
+                ? "text-emerald-300 bg-emerald-900/30 border-emerald-800/50"
+                : "text-slate-400 bg-slate-800 border-slate-700 hover:text-white"
+            }`}
+            data-testid="agent-toggle"
+          >
+            {agentMode ? "Agent on" : "Agent off"}
+          </button>
           <span
             className={`inline-block w-2 h-2 rounded-full ${llmReady ? "bg-green-500" : "bg-red-500"}`}
             data-testid="backend-dot"
@@ -219,7 +305,7 @@ export function ChatPage({ onNavigateToSettings }: ChatPageProps) {
             className="rounded-md border border-slate-700 bg-slate-950 px-2 py-1 text-xs text-slate-200"
             data-testid="personality-select"
           >
-            {PERSONALITIES.map((p) => (
+            {personalities.map((p) => (
               <option key={p.id} value={p.id}>
                 {p.label}
               </option>
@@ -289,7 +375,11 @@ export function ChatPage({ onNavigateToSettings }: ChatPageProps) {
             <div className="flex flex-col items-center justify-center h-full text-slate-400 text-center py-12">
               <MessageCircle size={48} className="mb-4 opacity-50" />
               {llmReady ? (
-                <p className="text-sm">Ask anything — replies use your selected local model.</p>
+                <p className="text-sm">
+                  {agentMode
+                    ? "Ask anything — the agent can call fleet tools to find out."
+                    : "Ask anything — replies use your selected local model."}
+                </p>
               ) : (
                 <p className="text-sm max-w-md">Configure a model in Settings before chatting.</p>
               )}
@@ -300,6 +390,7 @@ export function ChatPage({ onNavigateToSettings }: ChatPageProps) {
               key={`${m.role}-${i}-${m.content.substring(0, 10)}`}
               role={m.role}
               content={m.content}
+              trace={m.trace}
             />
           ))}
           {isLoading && (
