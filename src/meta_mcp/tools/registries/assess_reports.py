@@ -17,7 +17,8 @@ from typing import Any, Literal
 
 from fastmcp import FastMCP
 
-FLEET_ROOT = Path("D:/Dev/repos")
+_FLEET_ENV_ROOT = os.environ.get("FLEET_REPOS_ROOT") or os.environ.get("REPOS_DIR")
+FLEET_ROOT = Path(_FLEET_ENV_ROOT or str(Path.home() / "repos")).expanduser()
 
 
 def _find_timestamp(repo: Path) -> dict[str, Any] | None:

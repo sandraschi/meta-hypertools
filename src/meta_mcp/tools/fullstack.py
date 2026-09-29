@@ -4,6 +4,7 @@ Wraps the SOTA Fullstack App Builder PowerShell script.
 """
 
 import asyncio
+import os
 from pathlib import Path
 from typing import Any
 
@@ -56,8 +57,15 @@ class FullstackAppBuilder:
     """
 
     def __init__(self, script_path: Path | None = None):
-        # Default to the known location if not provided
-        self.script_path = script_path or Path("d:/Dev/repos/meta_mcp/scripts/fullstack-builder.ps1")
+        # Portable default: <repo-root>/scripts/fullstack-builder.ps1 (env override OK)
+        if script_path is not None:
+            self.script_path = script_path
+        else:
+            raw = os.environ.get("META_MCP_FULLSTACK_SCRIPT", "").strip()
+            if raw:
+                self.script_path = Path(raw).expanduser()
+            else:
+                self.script_path = Path(__file__).resolve().parents[3] / "scripts" / "fullstack-builder.ps1"
 
     async def create_app(
         self,

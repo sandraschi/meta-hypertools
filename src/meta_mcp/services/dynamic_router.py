@@ -429,7 +429,9 @@ class DynamicRouter:
     async def _hot_start_server(self, server_name: str, server: Any) -> bool:
         """Launch a fleet server via uv run if it has a registered command."""
         command = getattr(server, "command", None)
-        cwd = getattr(server, "cwd", None) or str(Path("D:/Dev/repos") / server_name)
+        fallback_root = os.environ.get("FLEET_REPOS_ROOT") or os.environ.get("REPOS_DIR")
+        fallback_base = Path(fallback_root).expanduser() if fallback_root else Path.home() / "repos"
+        cwd = getattr(server, "cwd", None) or str(fallback_base / server_name)
         port = getattr(server, "port", None)
 
         if not command:

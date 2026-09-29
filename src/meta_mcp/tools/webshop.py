@@ -4,6 +4,7 @@ Supports MedusaJS and Next.js Commerce templates.
 """
 
 import asyncio
+import os
 from pathlib import Path
 from typing import Any
 
@@ -14,7 +15,14 @@ class WebshopBuilder:
     """
 
     def __init__(self, script_path: Path | None = None):
-        self.script_path = script_path or Path("d:/Dev/repos/meta_mcp/scripts/webshop-builder.ps1")
+        if script_path is not None:
+            self.script_path = script_path
+        else:
+            raw = os.environ.get("META_MCP_WEBSHOP_SCRIPT", "").strip()
+            if raw:
+                self.script_path = Path(raw).expanduser()
+            else:
+                self.script_path = Path(__file__).resolve().parents[3] / "scripts" / "webshop-builder.ps1"
 
     async def create_shop(
         self,

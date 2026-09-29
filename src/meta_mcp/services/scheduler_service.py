@@ -1,5 +1,6 @@
 import asyncio
 import json
+import os
 import time
 from datetime import datetime
 from pathlib import Path
@@ -21,7 +22,12 @@ class SchedulerService(MetaMCPService):
 
     def __init__(self):
         super().__init__()
-        self.tasks_file = Path("D:/dev/repos/meta_mcp/data/tasks.json")
+        raw = os.environ.get("META_MCP_TASKS_FILE", "").strip()
+        if raw:
+            self.tasks_file = Path(raw).expanduser()
+        else:
+            # Portable default: <repo-root>/data/tasks.json (works on any checkout)
+            self.tasks_file = Path(__file__).resolve().parents[3] / "data" / "tasks.json"
         self.tasks_file.parent.mkdir(parents=True, exist_ok=True)
         self.tasks: dict[str, dict[str, Any]] = self._load_tasks()
         self.tool_service = ToolService()
