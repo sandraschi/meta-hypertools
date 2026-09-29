@@ -5,4 +5,4 @@ on:
 
 jobs:
   ci:
-    uses: sandraschi/fleet-ci/.github/workflows/ci.yml@v1
+    uses: sandraschi/fleet-ci/.github/workflows/hybrid.yml@v1

@@ -43,6 +43,12 @@ if (-not (Test-Path -LiteralPath $FleetStartPath)) {
 
 Write-Host 'Starting meta_mcp...' -ForegroundColor Cyan
 
+# 0. Ensure the relaxed pre-commit hook is installed (idempotent, silent if present)
+$hookInstaller = Join-Path $ProjectRoot 'scripts\install-hooks.ps1'
+if (Test-Path $hookInstaller) {
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File $hookInstaller | Out-Null
+}
+
 # 1. Kill port squatters using fleet standard helper
 Stop-FleetPortSquatters -Ports @($BackendPort, $WebPort) -Label "meta_mcp"
 
