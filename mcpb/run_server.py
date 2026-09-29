@@ -11,6 +11,7 @@ imports stay deferred inside each branch.
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 from pathlib import Path
 
@@ -22,8 +23,19 @@ sys.path.insert(0, str(ROOT / "src"))
 import _datetime  # noqa: E402, F401
 import _strptime  # noqa: E402, F401
 
+# Eager package bootstrap: freeze the `mcp` import chain before fastmcp
+# touches it (frozen `mcp/__init__.py` lazy imports fail silently).
+import mcp.types  # noqa: E402, F401
+
 
 def main() -> None:
+    # Frozen exe (PyInstaller/Tauri): sys.argv holds frozen paths, not CLI
+    # flags, so translate spawn env into args BEFORE argparse. Without this
+    # the entry falls through to stdio and the backend never serves HTTP.
+    if getattr(sys, "frozen", False):
+        port = os.environ.get("MCP_PORT") or os.environ.get("PORT")
+        if port:
+            sys.argv = ["run_server.py", "--http", "--port", str(port)]
     parser = argparse.ArgumentParser(description="MetaMCP dual-mode entry: stdio MCP (default) or HTTP bridge")
     parser.add_argument("--http", action="store_true", help="Run HTTP instead of MCP stdio")
     parser.add_argument("--port", type=int, default=10718)

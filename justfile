@@ -84,6 +84,14 @@ fix:
 install-hooks:
     powershell.exe -NoProfile -ExecutionPolicy Bypass -File '{{REPO}}/scripts/install-hooks.ps1'
 
+# Build the PyInstaller backend .exe and copy to Tauri resources
+build-sidecar:
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File '{{REPO}}/web_sota/src-tauri/build.ps1'
+
+# Build Tauri NSIS desktop installer (frontend → PyInstaller → Rust → NSIS)
+build-native:
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File '{{REPO}}/web_sota/src-tauri/build.ps1'
+
 # Run all tests
 test:
     uv run pytest tests/ -v
