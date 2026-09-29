@@ -1,3 +1,53 @@
+## [Unreleased]
+
+### Added
+- **Agentic chat loop** (dashboard Chat, agent mode on by default): system
+  preprompt with live tool catalog (42 tools), bounded function-call loop
+  over in-process fleet tools, Ollama-native + OpenAI-compatible wire
+  formats, per-turn tool trace UI, working personalities (mcp-expert,
+  fleet-operator, analyst). REST: `GET /api/v1/chat/context`,
+  `POST /api/v1/chat/agent`.
+- **Confirm gate for mutating agent calls**: known read-only portmanteau
+  operations run through, everything else pauses for approval (approve
+  selected / deny all); denials are fed back so the model replans. Paused
+  runs kept in memory with 30-min TTL. REST: `POST /api/v1/chat/agent/confirm`.
+- **Fleet Standards page**: card grid/list toggle, search, category filter,
+  detail view (143 handbook standards; honest empty state without handbook).
+- **Repo Inspiration Discover tab**: GitHub search proxy with popularity
+  markers (stars/forks/issues/cadence/rocket/archived/license/topics),
+  8 server-side presets, localStorage faves + fave picker, one-click study.
+  REST: `GET /api/v1/inspire/presets`, `GET /api/v1/inspire/search`
+  (optional `GITHUB_TOKEN` stays server-side).
+- **Session docs prune-by-cutoff** with shared-handbook guard (UI hides the
+  panel and the endpoint 403s on handbook source; private archives prune
+  normally). REST: `DELETE /api/v1/session-docs?before=YYYY-MM-DD`.
+- **Shared JsonView** (Pretty/Raw toggle, persisted) across 7 JSON surfaces
+  (tool modals, Tool Lab, Agent Hub, Fleet Ops preview, Assfix result).
+- **List-page standard** (search/filter/sort/paginate/count) in webapp SOTA
+  standards plus an assfix leporello check; Assess Reports, Session Docs,
+  and Standards pages upgraded to match.
+- `scripts/install-hooks.ps1`: pre-commit hook installer (ruff + biome
+  lint; formatting advisory).
+- `docs/WORKFLOWS.md`: mission tables moved out of the README.
+
+### Changed
+- README rewritten (86 lines): dual-audience hero (dashboard for people,
+  MCP/REST for agents), mermaid diagram, reading ladder.
+- Settings hero flattened to the standard compact header.
+- GitHub repo is now public (`meta-hypertools`, `meta-mcp` redirects).
+- Contrast pass: slate-400/500 body copy to slate-300 on five pages.
+
+### Fixed
+- Portable installs: `D:/Dev/repos` hardcodes replaced with env
+  (`FLEET_REPOS_ROOT`, `REPOS_DIR`) + repo-relative defaults (10 files).
+- Assess Reports scanned a `~/repos` fallback that never exists: now uses
+  the central `repos_root()` default.
+- Session docs default pointed at a nonexistent directory: falls back to
+  the handbook session-log.
+- Handbook resolution missed clones inside the repos root (sibling-only).
+- Pre-commit biome gate blocked every webapp commit on CRLF formatting:
+  relaxed to `biome lint`.
+
 ## [0.5.2] -- 2026-08-31
 
 ### Added

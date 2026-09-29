@@ -9,6 +9,7 @@
 ## Quick links
 
 - [README.md](README.md) -- overview and quick start
+- [docs/WORKFLOWS.md](docs/WORKFLOWS.md) -- missions: build, learn, certify, operate
 - [docs/INSTALL.md](docs/INSTALL.md) -- install, IDE snippets, ports
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) -- server, API, MCP, UI
 - [docs/TOOLS.md](docs/TOOLS.md) -- tool suite index
@@ -46,6 +47,29 @@ uv run meta-mcp-server   # stdio MCP for IDE
 ```
 
 Regenerate tool list: `uv run python scripts/dump_mcp_tools.py`
+
+---
+
+## REST API (2026-09 additions)
+
+Chat (agentic loop with confirm gate for mutating calls):
+
+- `GET /api/v1/chat/context` -- personalities + compact tool catalog
+- `POST /api/v1/chat/agent` -- system preprompt + bounded tool loop, trace
+- `POST /api/v1/chat/agent/confirm` -- approve/deny paused mutating calls
+
+Repo discovery (GitHub search proxy, token stays server-side):
+
+- `GET /api/v1/inspire/presets` -- 8 curated searches
+- `GET /api/v1/inspire/search?q=&language=&topic=&min_stars=&sort=` -- repos
+  with stars/forks/issues/cadence/rocket/archived/license/topics markers
+
+Docs and standards:
+
+- `GET /api/v1/standards` / `GET /api/v1/standards/{path}` -- handbook browser
+- `GET /api/v1/session-docs` (+ `source`/`prune_allowed`) and
+  `DELETE /api/v1/session-docs?before=YYYY-MM-DD` (private archives only;
+  403 on the shared handbook log)
 
 ---
 

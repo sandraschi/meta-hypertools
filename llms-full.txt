@@ -2,7 +2,29 @@
 
 > Version `0.5.0` (see `pyproject.toml`). Fleet MCP orchestrator: scaffolding, analysis, runtime, diagnostics, repo inspiration, cold-start and cold-install probes, routing, harness generation. **Curated manifest** -- no live MCP configs or machine paths. Privacy: [docs/PRIVACY.md](docs/PRIVACY.md).
 
-Generated: 2026-08-02 (hand-maintained; refresh after tool or env changes)
+Generated: 2026-09-29 (hand-maintained; refresh after tool or env changes)
+
+## 2026-09 additions (unreleased)
+
+- **Agentic chat** - `services/chat_agent_service.py`: orientation +
+  personality + live tool catalog preprompt, bounded loop (max 10),
+  Ollama/OpenAI tool-call formats, in-process execution via ToolService,
+  4k result truncation with trace preview. Default-deny confirm gate on
+  18 read-only portmanteau operations; paused runs in memory (30-min TTL).
+- **New REST endpoints** - chat/context, chat/agent, chat/agent/confirm,
+  inspire/presets, inspire/search, standards, session-docs DELETE (see
+  llms.txt REST API block).
+- **New pages** - Fleet Standards (143 handbook docs, grid/list), Repo
+  Inspiration Discover tab (presets, faves, markers), agent-mode Chat with
+  trace + approval card, Assess Reports and Session Docs upgraded to the
+  list-page standard (search/filter/sort/paginate/count).
+- **Portability** - `FLEET_REPOS_ROOT`/`REPOS_DIR` env + repo-relative
+  defaults replace hardcoded dev paths; handbook resolution covers clones
+  inside the repos root; relaxed pre-commit biome gate (lint only).
+- **Docs** - README split (86-line welcome + `docs/WORKFLOWS.md` missions);
+  repo is public (`meta-hypertools`).
+
+---
 
 ## 2026-08 modernization (v0.5.1)
 
