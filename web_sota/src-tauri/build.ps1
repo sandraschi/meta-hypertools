@@ -20,7 +20,7 @@ if (Test-Path $apiFile) {
         if ($apiPort -ne $BackendPort) {
             throw "API base in web_sota/src/api/client.ts points to port $apiPort but backend serves on $BackendPort. Production has no Vite proxy - this gives 'Failed to fetch' in the installed app."
         }
-        Write-Host "  API base port: $apiPort (matches backend) ✓" -ForegroundColor Green
+        Write-Host "  API base port: $apiPort (matches backend) [OK]" -ForegroundColor Green
     }
 }
 
@@ -74,17 +74,31 @@ Pop-Location
 $frozenExe = "$Root\dist\$BackendExe"
 Write-Host "  Smoke-testing frozen binary..." -ForegroundColor Yellow
 $testPort = 11999
+$prevMcpPort = $env:MCP_PORT
+$prevMcpHost = $env:MCP_HOST
+$env:MCP_PORT = "$testPort"
+$env:MCP_HOST = "127.0.0.1"
 $testProc = Start-Process -FilePath $frozenExe -NoNewWindow -PassThru `
-    -RedirectStandardError "$Root\dist\pyi-crash.log" `
-    -EnvironmentVariables @{ MCP_PORT = "$testPort"; MCP_HOST = "127.0.0.1" }
-Start-Sleep -Seconds 12
+    -RedirectStandardError "$Root\dist\pyi-crash.log"
+# Frozen imports (fastmcp + tool registration) take a while: poll /health
+# up to ~90s instead of a fixed sleep.
+$health = $null
+for ($i = 0; $i -lt 18; $i++) {
+    Start-Sleep -Seconds 5
+    if ($testProc.HasExited) { break }
+    try {
+        $health = Invoke-WebRequest "http://127.0.0.1:$testPort/health" -UseBasicParsing -TimeoutSec 5
+        if ($health.StatusCode -eq 200) { break }
+    } catch {
+        $health = $null
+    }
+}
 try {
     if ($testProc.HasExited) {
         $crash = Get-Content "$Root\dist\pyi-crash.log" -Raw -ErrorAction SilentlyContinue
         throw "Frozen binary crashed on launch (exit $($testProc.ExitCode)):`n$crash"
     }
-    $health = Invoke-WebRequest "http://127.0.0.1:$testPort/health" -UseBasicParsing -TimeoutSec 10
-    if ($health.StatusCode -ne 200) { throw "Frozen /health returned $($health.StatusCode)" }
+    if (-not $health -or $health.StatusCode -ne 200) { throw "Frozen /health never answered on $testPort" }
     $ctx = Invoke-WebRequest "http://127.0.0.1:$testPort/api/v1/chat/context" -UseBasicParsing -TimeoutSec 15
     if ($ctx.StatusCode -ne 200) { throw "Frozen chat/context returned $($ctx.StatusCode)" }
     $errText = Get-Content "$Root\dist\pyi-crash.log" -Raw -ErrorAction SilentlyContinue
@@ -94,6 +108,8 @@ try {
     Write-Host "  Frozen binary smoke test PASSED (/health + chat/context)" -ForegroundColor Green
 } finally {
     if (-not $testProc.HasExited) { $testProc.Kill(); $testProc.Dispose() }
+    if ($null -eq $prevMcpPort) { Remove-Item Env:\MCP_PORT -ErrorAction SilentlyContinue } else { $env:MCP_PORT = $prevMcpPort }
+    if ($null -eq $prevMcpHost) { Remove-Item Env:\MCP_HOST -ErrorAction SilentlyContinue } else { $env:MCP_HOST = $prevMcpHost }
     Remove-Item "$Root\dist\pyi-crash.log" -Force -ErrorAction SilentlyContinue
 }
 
