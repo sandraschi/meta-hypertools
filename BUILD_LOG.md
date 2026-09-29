@@ -12,6 +12,12 @@ operator's free_port would kill dev). Claimed `meta-mcp-native`
 backend now spawns on 11220 with the frontend baked to match, CSP
 updated, dev default untouched. Rebuilt + re-uploaded below.
 
+Result: GREEN 2026-09-29 ~16:59. Full pipeline re-ran clean
+(Step-0 dev/bake split check, tsc, vite bake to :11220, PyInstaller,
+frozen smoke PASSED, 31.9 MB backend, 34.2 MB installer).
+`Meta Hypertools_0.5.1_x64-setup.exe` re-uploaded to v0.5.1 with
+--clobber. Install-verify on a clean box still pending (same reason).
+
 Phase 1 audit (TAURI_PRODUCTION_PITFALLS A-J) before building:
 
 - A ports/naming: backend 10718, `META_MCP_TAURI=1` + `PORT` spawn env,
