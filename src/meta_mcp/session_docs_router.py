@@ -1,14 +1,17 @@
 """
-MetaMCP Session Docs Router - browse/read mcp-agent-session-summaries docs.
+MetaMCP Session Docs Router - browse/read/prune session docs.
 
-Read-only bridge to the session-docs MCP server's data directory
-(D:/Dev/repos/mcp-agent-session-summaries/data/sessions). Override the
-directory with the SESSION_DOCS_DIR env var.
+Read bridge to the session-docs data directory (SESSION_DOCS_DIR env,
+handbook operations/session-log, or legacy mcp-agent-session-summaries).
+Pruning is cutoff-only (DELETE ?before=YYYY-MM-DD), top-level *.md files:
+subdirectories such as aiwatcher/ are never touched.
 """
 
 from __future__ import annotations
 
+import datetime
 import os
+import re
 import time
 from pathlib import Path
 
@@ -56,6 +59,50 @@ def list_session_docs() -> dict:
             }
         )
     return {"success": True, "data": {"docs": entries, "count": len(entries)}}
+
+
+_DATE_PREFIX = re.compile(r"^(\d{4}-\d{2}-\d{2})")
+
+
+def _doc_date(p: Path) -> str:
+    """Doc date: YYYY-MM-DD filename prefix when present, else mtime date."""
+    m = _DATE_PREFIX.match(p.name)
+    if m:
+        return m.group(1)
+    return datetime.date.fromtimestamp(p.stat().st_mtime).isoformat()
+
+
+@router.delete("")
+def prune_session_docs(before: str = "") -> dict:
+    """Delete top-level *.md docs older than a cutoff date (YYYY-MM-DD).
+
+    Cutoff is mandatory and strictly enforced: docs with doc-date < before
+    are deleted, everything else (including subdirectories such as aiwatcher/)
+    is left alone. Returns deleted + kept counts and the deleted names.
+    """
+    docs = _docs_dir()
+    try:
+        cutoff = datetime.date.fromisoformat(before.strip())
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Query param 'before' is required as YYYY-MM-DD")
+    deleted: list[str] = []
+    kept = 0
+    for p in sorted(docs.glob("*.md")):
+        if not p.is_file():
+            kept += 1
+            continue
+        if datetime.date.fromisoformat(_doc_date(p)) < cutoff:
+            try:
+                p.unlink()
+                deleted.append(p.name)
+            except OSError as exc:
+                raise HTTPException(status_code=500, detail=f"Delete failed for {p.name}: {exc}")
+        else:
+            kept += 1
+    return {
+        "success": True,
+        "data": {"deleted": deleted, "deleted_count": len(deleted), "kept_count": kept, "before": before.strip()},
+    }
 
 
 @router.get("/{filename}")

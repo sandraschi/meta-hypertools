@@ -93,6 +93,10 @@ class ApiClient {
       body: data ? JSON.stringify(data) : undefined,
     });
   }
+
+  async delete<T>(endpoint: string): Promise<ApiResponse<T>> {
+    return this.request<T>(endpoint, { method: "DELETE" });
+  }
 }
 
 // Create singleton instance
@@ -177,6 +181,12 @@ export const api = {
 
   async readSessionDoc(name: string): Promise<ApiResponse<{ content: string }>> {
     return apiClient.get(`/api/v1/session-docs/${encodeURIComponent(name)}`);
+  },
+
+  async pruneSessionDocs(
+    before: string,
+  ): Promise<ApiResponse<{ deleted: string[]; deleted_count: number; kept_count: number; before: string }>> {
+    return apiClient.delete(`/api/v1/session-docs?before=${encodeURIComponent(before)}`);
   },
 
   // Fleet standards (mcp-central-docs bridge)
