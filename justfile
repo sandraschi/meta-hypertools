@@ -76,11 +76,9 @@ fix:
     if (Test-Path "web_sota") { Set-Location web_sota; npx @biomejs/biome check --write --unsafe src/ }
     if (-not (Test-Path ".git/hooks/pre-commit")) { Write-Host "Pre-commit hook not installed. Run 'just install-hooks'." -ForegroundColor Yellow }
 
-# Install pre-commit hook
+# Install pre-commit hook (relaxed biome: lint only, format advisory)
 install-hooks:
-    if (Test-Path ".git/hooks/pre-commit") { Write-Host "Pre-commit hook already installed." -ForegroundColor Green; exit 0 }
-    uv run pre-commit install
-    Write-Host "Pre-commit hook installed." -ForegroundColor Green
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File '{{REPO}}/scripts/install-hooks.ps1'
 
 # Run all tests
 test:
@@ -156,5 +154,5 @@ build-native-debug:
 # Bootstrap: install dev deps + pre-commit hook
 bootstrap:
     uv sync --group dev
-    uv run pre-commit install
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File '{{REPO}}/scripts/install-hooks.ps1'
     Write-Host "Pre-commit hooks installed." -ForegroundColor Green

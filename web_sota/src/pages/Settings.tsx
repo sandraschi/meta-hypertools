@@ -7,7 +7,6 @@ import {
   Folder,
   RefreshCw,
   Save,
-  Settings as SettingsIcon,
   ShieldCheck,
   Zap,
 } from "lucide-react";
@@ -325,30 +324,11 @@ export function SettingsPage() {
 
   return (
     <div className="space-y-12 max-w-5xl mx-auto pb-32 animate-in fade-in slide-in-from-bottom-6 duration-1000">
-      <div className="relative group">
-        <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-[#bd00ff] to-[#00f3ff] rounded-3xl blur opacity-10 group-hover:opacity-20 transition duration-1000 group-hover:duration-200" />
-        <div className="glass-panel p-16 relative overflow-hidden bg-black/60 border-white/5 shadow-2xl rounded-3xl">
-          <div className="absolute top-1/2 right-10 -translate-y-1/2 opacity-5 pointer-events-none group-hover:scale-110 transition-transform duration-1000">
-            <SettingsIcon size={240} className="text-blue-400 animate-pulse" strokeWidth={1} />
-          </div>
-          <div className="relative z-10 max-w-2xl">
-            <div className="flex items-center gap-3 mb-6">
-              <span className="w-12 h-1 bg-blue-500 inline-block shadow-[0_0_10px_#00f3ff]" />
-              <span className="text-[10px] font-black text-blue-400 uppercase tracking-[0.5em] italic">
-                Environmental Bindings
-              </span>
-            </div>
-            <h1 className="text-6xl font-black mb-6 text-white tracking-tighter uppercase italic leading-[0.9]">
-              System <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600">
-                Configuration
-              </span>
-            </h1>
-            <p className="text-[#94a3b8] font-bold text-lg leading-relaxed uppercase tracking-tight max-w-xl">
-              Fleet discovery path and local LLM for Chat / Analysis.
-            </p>
-          </div>
-        </div>
+      <div>
+        <h1 className="text-xl font-bold text-white">Settings</h1>
+        <p className="text-sm text-slate-500 mt-1">
+          Fleet discovery path and local LLM for Chat / Analysis.
+        </p>
       </div>
 
       <LLMSettingsSection />
