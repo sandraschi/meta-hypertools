@@ -99,17 +99,17 @@ function DrilledGroup({
       >
         <div className="flex items-center gap-3 min-w-0">
           <div
-            className={`p-1.5 rounded-lg ${open ? "bg-blue-500/20 text-blue-400" : "bg-slate-800 text-slate-400"}`}
+            className={`p-1.5 rounded-lg ${open ? "bg-blue-500/20 text-blue-400" : "bg-slate-800 text-slate-300"}`}
           >
             {open ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
           </div>
           <div>
             <div className="font-semibold text-slate-200">{group.domain}</div>
-            <div className="text-xs text-slate-400 font-mono mt-0.5">{group.name}</div>
+            <div className="text-xs text-slate-300 font-mono mt-0.5">{group.name}</div>
           </div>
         </div>
         <div className="flex items-center gap-3 shrink-0 ml-4">
-          <div className="text-xs text-slate-400">
+          <div className="text-xs text-slate-300">
             <span className="text-emerald-400 font-medium">{roCount} read</span>
             {mutCount > 0 && (
               <span className="ml-2 text-amber-400 font-medium">{mutCount} write</span>
@@ -151,7 +151,7 @@ function DrilledGroup({
                           </span>
                         )}
                       </div>
-                      <div className="text-xs text-slate-500 font-mono mt-1 truncate max-w-xl">
+                      <div className="text-xs text-slate-300 font-mono mt-1 truncate max-w-xl">
                         {op.signature}
                       </div>
                     </div>
@@ -160,14 +160,14 @@ function DrilledGroup({
                     </div>
                   </div>
                   {op.docstring && (
-                    <div className="mt-2 text-sm text-slate-400 line-clamp-2">{op.docstring}</div>
+                    <div className="mt-2 text-sm text-slate-300 line-clamp-2">{op.docstring}</div>
                   )}
                   {op.params.length > 0 && (
                     <div className="mt-2 flex flex-wrap gap-1.5">
                       {op.params.slice(0, 6).map((p) => (
                         <span
                           key={p.name}
-                          className="text-[11px] font-mono bg-slate-800 text-slate-400 px-2 py-0.5 rounded-md"
+                          className="text-[11px] font-mono bg-slate-800 text-slate-300 px-2 py-0.5 rounded-md"
                         >
                           {p.name}
                           {p.type ? `: ${p.type}` : ""}
@@ -358,7 +358,7 @@ export function HarnessPage() {
             </div>
             <h1 className="text-2xl font-bold text-slate-100">Harness Generator</h1>
           </div>
-          <p className="text-base text-slate-400 max-w-2xl ml-12">
+          <p className="text-base text-slate-300 max-w-2xl ml-12">
             Generate a FastMCP server from existing Python source code. The analyzer extracts
             function signatures, groups them by domain, and creates portmanteau tools with
             SOTA-compliant docstrings.
@@ -399,7 +399,7 @@ export function HarnessPage() {
                   placeholder="D:/projects/my-tool or https://github.com/owner/repo"
                   className="w-full bg-slate-950 border border-slate-700 rounded-xl px-5 py-4 text-base text-slate-200 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors placeholder:text-slate-600"
                 />
-                <p className="text-sm text-slate-500">
+                <p className="text-sm text-slate-300">
                   Path to a directory of Python source files. GitHub URL support coming soon.
                 </p>
               </div>
@@ -431,7 +431,7 @@ export function HarnessPage() {
                   <div className="text-sm font-medium text-slate-300 group-hover:text-slate-200">
                     Full extraction
                   </div>
-                  <div className="text-sm text-slate-500">
+                  <div className="text-sm text-slate-300">
                     Skip curation — exposes every public function found, including undocumented
                     ones. Default: only exports documented functions with type hints.
                   </div>
@@ -473,26 +473,26 @@ export function HarnessPage() {
             {/* Summary stats */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4">
-                <div className="text-sm text-slate-400">Operations</div>
+                <div className="text-sm text-slate-300">Operations</div>
                 <div className="text-2xl font-bold text-slate-200 mt-1">
                   {spec.total_operations_curated}
                 </div>
-                <div className="text-xs text-slate-500">of {spec.total_operations_found} found</div>
+                <div className="text-xs text-slate-300">of {spec.total_operations_found} found</div>
               </div>
               <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4">
-                <div className="text-sm text-slate-400">Tool groups</div>
+                <div className="text-sm text-slate-300">Tool groups</div>
                 <div className="text-2xl font-bold text-slate-200 mt-1">
                   {spec.tool_groups.length}
                 </div>
               </div>
               <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4">
-                <div className="text-sm text-slate-400">Backend</div>
+                <div className="text-sm text-slate-300">Backend</div>
                 <div className="text-lg font-bold text-slate-200 mt-1 truncate">
                   {spec.backend_engine}
                 </div>
               </div>
               <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4">
-                <div className="text-sm text-slate-400">State model</div>
+                <div className="text-sm text-slate-300">State model</div>
                 <div className="text-lg font-bold text-slate-200 mt-1">{spec.state_model}</div>
               </div>
             </div>
@@ -564,7 +564,7 @@ export function HarnessPage() {
                   placeholder="D:/repos/generated-server"
                   className="w-full bg-slate-950 border border-slate-700 rounded-xl px-5 py-4 text-base text-slate-200 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors placeholder:text-slate-600"
                 />
-                <p className="text-sm text-slate-500">
+                <p className="text-sm text-slate-300">
                   A new folder will be created here with the full server.
                 </p>
               </div>
@@ -596,7 +596,7 @@ export function HarnessPage() {
                   <div className="text-sm font-medium text-slate-300 group-hover:text-slate-200">
                     Include Tauri + NSIS wrapper
                   </div>
-                  <div className="text-sm text-slate-500">
+                  <div className="text-sm text-slate-300">
                     Adds native/ directory with Cargo.toml, build.ps1, and PyInstaller spec for
                     shipping as a single-installer desktop app.
                   </div>
@@ -647,31 +647,31 @@ export function HarnessPage() {
                 <CheckCircle size={24} className="text-green-400" />
                 <h2 className="text-xl font-bold text-slate-200">Server generated</h2>
               </div>
-              <p className="text-slate-400 mb-4 max-w-xl">
+              <p className="text-slate-300 mb-4 max-w-xl">
                 The server was created successfully. The portmanteau tools are ready to use.
               </p>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 <div className="bg-black/30 rounded-lg p-3">
-                  <div className="text-sm text-slate-400">Files created</div>
+                  <div className="text-sm text-slate-300">Files created</div>
                   <div className="text-xl font-bold text-slate-200">
                     {generateResult.file_count}
                   </div>
                 </div>
                 <div className="bg-black/30 rounded-lg p-3">
-                  <div className="text-sm text-slate-400">Tool groups</div>
+                  <div className="text-sm text-slate-300">Tool groups</div>
                   <div className="text-xl font-bold text-slate-200">
                     {generateResult.tool_groups}
                   </div>
                 </div>
                 <div className="bg-black/30 rounded-lg p-3">
-                  <div className="text-sm text-slate-400">Operations</div>
+                  <div className="text-sm text-slate-300">Operations</div>
                   <div className="text-xl font-bold text-slate-200">
                     {generateResult.operations}
                   </div>
                 </div>
                 <div className="bg-black/30 rounded-lg p-3">
-                  <div className="text-sm text-slate-400">Backend</div>
+                  <div className="text-sm text-slate-300">Backend</div>
                   <div className="text-lg font-bold text-slate-200 truncate">
                     {generateResult.backend_engine}
                   </div>
@@ -679,8 +679,8 @@ export function HarnessPage() {
               </div>
 
               <div className="mt-4 bg-black/30 rounded-lg px-4 py-3 flex items-center gap-2 text-sm">
-                <FileCode2 size={16} className="text-slate-500" />
-                <span className="text-slate-400 font-mono">{generateResult.generated_path}</span>
+                <FileCode2 size={16} className="text-slate-300" />
+                <span className="text-slate-300 font-mono">{generateResult.generated_path}</span>
               </div>
             </div>
 
@@ -689,7 +689,7 @@ export function HarnessPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-lg font-semibold text-slate-200">Refinement check</h3>
-                  <p className="text-sm text-slate-400">
+                  <p className="text-sm text-slate-300">
                     Compare the generated server against the original source for gaps.
                   </p>
                 </div>
@@ -709,7 +709,7 @@ export function HarnessPage() {
               </div>
 
               {refineReport && (
-                <div className="p-3 bg-slate-950 rounded-lg border border-slate-800 text-sm text-slate-400">
+                <div className="p-3 bg-slate-950 rounded-lg border border-slate-800 text-sm text-slate-300">
                   {refineReport}
                 </div>
               )}

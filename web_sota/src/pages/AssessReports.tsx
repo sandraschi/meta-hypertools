@@ -165,7 +165,7 @@ export function AssessReportsPage() {
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-xl font-semibold text-slate-100">Assess Reports</h1>
-          <p className="text-sm text-slate-400 mt-0.5">Fleet-wide assess-fix report registry</p>
+          <p className="text-sm text-slate-300 mt-0.5">Fleet-wide assess-fix report registry</p>
         </div>
         <button
           onClick={fetch}
@@ -186,15 +186,15 @@ export function AssessReportsPage() {
       {stats && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           <div className="bg-slate-900 border border-slate-800 rounded-lg p-4">
-            <div className="text-xs text-slate-500 mb-1">Repos Assessed</div>
+            <div className="text-xs text-slate-300 mb-1">Repos Assessed</div>
             <div className="text-2xl font-bold text-slate-100">{stats.total_assessed}</div>
           </div>
           <div className="bg-slate-900 border border-slate-800 rounded-lg p-4">
-            <div className="text-xs text-slate-500 mb-1">With Reports</div>
+            <div className="text-xs text-slate-300 mb-1">With Reports</div>
             <div className="text-2xl font-bold text-slate-100">{stats.total_with_reports}</div>
           </div>
           <div className="bg-slate-900 border border-slate-800 rounded-lg p-4">
-            <div className="text-xs text-slate-500 mb-1">Avg Score</div>
+            <div className="text-xs text-slate-300 mb-1">Avg Score</div>
             <div className="text-2xl font-bold text-slate-100 flex items-center gap-1">
               {stats.average_score != null ? (
                 <>
@@ -211,7 +211,7 @@ export function AssessReportsPage() {
             </div>
           </div>
           <div className="bg-slate-900 border border-slate-800 rounded-lg p-4">
-            <div className="text-xs text-slate-500 mb-1">Range</div>
+            <div className="text-xs text-slate-300 mb-1">Range</div>
             <div className="text-2xl font-bold text-slate-100">
               {stats.min_score != null ? `${stats.min_score} - ${stats.max_score}` : "--"}
             </div>
@@ -223,7 +223,7 @@ export function AssessReportsPage() {
       {!loading && entries.length > 0 && (
         <div className="flex items-center gap-2 flex-wrap mb-4">
           <div className="relative flex-1 min-w-[180px]">
-            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-300" />
             <input
               value={query}
               onChange={(e) => {
@@ -262,7 +262,7 @@ export function AssessReportsPage() {
             <option value="date-desc">Newest first</option>
             <option value="date-asc">Oldest first</option>
           </select>
-          <span className="text-xs text-slate-500">
+          <span className="text-xs text-slate-300">
             {filtered.length} of {entries.length}
           </span>
         </div>
@@ -270,7 +270,7 @@ export function AssessReportsPage() {
 
       {/* Report list */}
       {loading && (
-        <div className="flex items-center justify-center py-12 text-slate-400">
+        <div className="flex items-center justify-center py-12 text-slate-300">
           <div className="animate-spin mr-2 h-5 w-5 border-b-2 border-current rounded-full" />
           Scanning fleet repos...
         </div>
@@ -279,7 +279,7 @@ export function AssessReportsPage() {
       {!loading && entries.length === 0 && !error && (
         <div className="bg-slate-900 border border-slate-800 rounded-lg p-8 text-center">
           <ClipboardList size={36} className="mx-auto mb-3 text-slate-700" />
-          <p className="text-sm text-slate-400">
+          <p className="text-sm text-slate-300">
             No assess reports found. Run <code className="font-mono text-blue-400">assfix</code> on
             repos first.
           </p>
@@ -287,7 +287,7 @@ export function AssessReportsPage() {
       )}
 
       {!loading && entries.length > 0 && filtered.length === 0 && (
-        <div className="bg-slate-900 border border-slate-800 rounded-lg p-8 text-center text-sm text-slate-500">
+        <div className="bg-slate-900 border border-slate-800 rounded-lg p-8 text-center text-sm text-slate-300">
           No repos match this filter.
         </div>
       )}
@@ -305,9 +305,9 @@ export function AssessReportsPage() {
                 className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-slate-800/50 transition-colors"
               >
                 {expanded === entry.repo ? (
-                  <ChevronDown size={14} className="text-slate-500 shrink-0" />
+                  <ChevronDown size={14} className="text-slate-300 shrink-0" />
                 ) : (
-                  <ChevronRight size={14} className="text-slate-500 shrink-0" />
+                  <ChevronRight size={14} className="text-slate-300 shrink-0" />
                 )}
                 <span className="text-sm font-medium text-slate-200">{entry.repo}</span>
                 {score != null && (
@@ -317,7 +317,7 @@ export function AssessReportsPage() {
                     {score}/100
                   </span>
                 )}
-                <span className="text-xs text-slate-500 ml-auto">
+                <span className="text-xs text-slate-300 ml-auto">
                   {entry.latest_report?.report_date ?? "no report"}
                 </span>
                 {entry.timestamp?.commit && (
@@ -330,14 +330,14 @@ export function AssessReportsPage() {
               {expanded === entry.repo && (
                 <div className="px-4 pb-4 space-y-2">
                   {entry.timestamp && (
-                    <div className="bg-slate-950 border border-slate-800 rounded p-2.5 text-xs font-mono text-slate-400 space-y-1">
+                    <div className="bg-slate-950 border border-slate-800 rounded p-2.5 text-xs font-mono text-slate-300 space-y-1">
                       <div>Assessed: {entry.timestamp.timestamp?.slice(0, 19) ?? "unknown"}</div>
                       {entry.timestamp.commit && <div>Commit: {entry.timestamp.commit}</div>}
                     </div>
                   )}
 
                   {entry.latest_report?.preview && (
-                    <div className="bg-slate-950 border border-slate-800 rounded p-2.5 text-xs text-slate-400 whitespace-pre-wrap max-h-48 overflow-y-auto font-mono">
+                    <div className="bg-slate-950 border border-slate-800 rounded p-2.5 text-xs text-slate-300 whitespace-pre-wrap max-h-48 overflow-y-auto font-mono">
                       {entry.latest_report.preview}
                     </div>
                   )}
@@ -357,7 +357,7 @@ export function AssessReportsPage() {
                         href={`https://github.com/sandraschi/${entry.repo}/tree/master/docs/assess-reports`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-300"
+                        className="flex items-center gap-1.5 text-xs text-slate-300 hover:text-slate-300"
                       >
                         <ExternalLink size={12} />
                         GitHub
@@ -378,7 +378,7 @@ export function AssessReportsPage() {
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={safePage <= 1}
             aria-label="Previous page"
-            className="p-2 rounded-lg border border-slate-700 text-slate-400 hover:text-white hover:bg-slate-800 transition-colors disabled:opacity-40 disabled:pointer-events-none"
+            className="p-2 rounded-lg border border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800 transition-colors disabled:opacity-40 disabled:pointer-events-none"
           >
             <ChevronLeft size={14} />
           </button>
@@ -389,7 +389,7 @@ export function AssessReportsPage() {
               className={`min-w-8 px-2 py-1.5 rounded-lg text-sm transition-colors ${
                 n === safePage
                   ? "bg-blue-600/30 text-blue-200 border border-blue-500/40"
-                  : "text-slate-400 border border-transparent hover:text-white hover:bg-slate-800"
+                  : "text-slate-300 border border-transparent hover:text-white hover:bg-slate-800"
               }`}
             >
               {n}
@@ -399,7 +399,7 @@ export function AssessReportsPage() {
             onClick={() => setPage((p) => Math.min(pageCount, p + 1))}
             disabled={safePage >= pageCount}
             aria-label="Next page"
-            className="p-2 rounded-lg border border-slate-700 text-slate-400 hover:text-white hover:bg-slate-800 transition-colors disabled:opacity-40 disabled:pointer-events-none"
+            className="p-2 rounded-lg border border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800 transition-colors disabled:opacity-40 disabled:pointer-events-none"
           >
             <ChevronRight size={14} />
           </button>

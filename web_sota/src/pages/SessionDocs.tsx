@@ -185,16 +185,16 @@ export function SessionDocsPage() {
           <button
             type="button"
             onClick={() => setSelected(null)}
-            className="flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors"
+            className="flex items-center gap-2 text-sm text-slate-300 hover:text-white transition-colors"
           >
             <ArrowLeft size={14} />
             All session docs
           </button>
-          <span className="text-xs text-slate-500 font-mono">{selected}</span>
+          <span className="text-xs text-slate-300 font-mono">{selected}</span>
         </div>
         <div className="rounded-xl border border-slate-800 bg-slate-900/50 p-6">
           {contentLoading ? (
-            <div className="flex items-center justify-center h-32 text-slate-500">
+            <div className="flex items-center justify-center h-32 text-slate-300">
               <span className="animate-spin mr-2 h-4 w-4 border-b-2 border-current rounded-full" />
               Loading...
             </div>
@@ -211,7 +211,7 @@ export function SessionDocsPage() {
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-xl font-bold text-white">Session Docs</h1>
-          <p className="text-sm text-slate-500 mt-1">
+          <p className="text-sm text-slate-300 mt-1">
             Fleet session logs ({docs.length} docs)
           </p>
         </div>
@@ -222,7 +222,7 @@ export function SessionDocsPage() {
               onClick={() => setViewMode("grid")}
               title="Grid view"
               aria-label="Grid view"
-              className={`p-2 transition-colors ${view === "grid" ? "bg-blue-600/30 text-blue-200" : "text-slate-400 hover:text-white hover:bg-slate-800"}`}
+              className={`p-2 transition-colors ${view === "grid" ? "bg-blue-600/30 text-blue-200" : "text-slate-300 hover:text-white hover:bg-slate-800"}`}
             >
               <LayoutGrid size={16} />
             </button>
@@ -231,7 +231,7 @@ export function SessionDocsPage() {
               onClick={() => setViewMode("list")}
               title="List view"
               aria-label="List view"
-              className={`p-2 transition-colors ${view === "list" ? "bg-blue-600/30 text-blue-200" : "text-slate-400 hover:text-white hover:bg-slate-800"}`}
+              className={`p-2 transition-colors ${view === "list" ? "bg-blue-600/30 text-blue-200" : "text-slate-300 hover:text-white hover:bg-slate-800"}`}
             >
               <List size={16} />
             </button>
@@ -239,7 +239,7 @@ export function SessionDocsPage() {
           <button
             type="button"
             onClick={loadList}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+            className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
             title="Refresh"
           >
             <RefreshCw size={14} className={loading ? "animate-spin" : ""} />
@@ -255,19 +255,19 @@ export function SessionDocsPage() {
       )}
 
       {loading ? (
-        <div className="flex items-center justify-center h-40 text-slate-500">
+        <div className="flex items-center justify-center h-40 text-slate-300">
           <span className="animate-spin mr-2 h-5 w-5 border-b-2 border-current rounded-full" />
           Loading session docs...
         </div>
       ) : docs.length === 0 ? (
-        <div className="rounded-xl border border-slate-800 bg-slate-900/50 py-16 text-center text-slate-500">
+        <div className="rounded-xl border border-slate-800 bg-slate-900/50 py-16 text-center text-slate-300">
           No session docs found.
         </div>
       ) : (
         <>
           <div className="flex items-center gap-2 flex-wrap">
             <div className="relative flex-1 min-w-[180px]">
-              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-300" />
               <input
                 value={query}
                 onChange={(e) => {
@@ -293,13 +293,13 @@ export function SessionDocsPage() {
               <option value="size-desc">Largest first</option>
               <option value="size-asc">Smallest first</option>
             </select>
-            <span className="text-xs text-slate-500">
+            <span className="text-xs text-slate-300">
               {filtered.length} of {docs.length}
             </span>
           </div>
 
           {filtered.length === 0 ? (
-            <div className="rounded-xl border border-slate-800 bg-slate-900/50 py-16 text-center text-slate-500">
+            <div className="rounded-xl border border-slate-800 bg-slate-900/50 py-16 text-center text-slate-300">
               No docs match.
             </div>
           ) : view === "grid" ? (
@@ -317,7 +317,7 @@ export function SessionDocsPage() {
                       {doc.name}
                     </div>
                   </div>
-                  <div className="mt-auto pt-3 flex items-center gap-2 text-xs text-slate-500">
+                  <div className="mt-auto pt-3 flex items-center gap-2 text-xs text-slate-300">
                     <span>{doc.modified.slice(0, 10)}</span>
                     <span className="ml-auto">{fmtSize(doc.size_bytes)}</span>
                   </div>
@@ -333,10 +333,10 @@ export function SessionDocsPage() {
                   onClick={() => openDoc(doc.name)}
                   className="flex items-center gap-3 rounded-lg border border-slate-800 bg-slate-900/40 px-4 py-3 text-left hover:border-slate-600 hover:bg-slate-800/60 transition-colors"
                 >
-                  <FileText size={16} className="text-slate-500 shrink-0" />
+                  <FileText size={16} className="text-slate-300 shrink-0" />
                   <div className="min-w-0 flex-1">
                     <div className="text-sm text-slate-200 truncate">{doc.name}</div>
-                    <div className="text-xs text-slate-500 mt-0.5">
+                    <div className="text-xs text-slate-300 mt-0.5">
                       {doc.modified} · {fmtSize(doc.size_bytes)}
                     </div>
                   </div>
@@ -346,7 +346,7 @@ export function SessionDocsPage() {
           )}
 
           {pageCount > 1 && (
-            <div className="flex items-center justify-center gap-2 text-sm text-slate-400">
+            <div className="flex items-center justify-center gap-2 text-sm text-slate-300">
               <button
                 type="button"
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
@@ -373,11 +373,11 @@ export function SessionDocsPage() {
             <div className="text-sm font-semibold text-slate-200 mb-1">Prune ancient docs</div>
             {pruneAllowed ? (
               <>
-                <p className="text-xs text-slate-500 mb-3">
+                <p className="text-sm text-slate-300 mb-3">
                   Deletes top-level docs older than the cutoff. Subdirectories are never touched.
                 </p>
                 <div className="flex items-center gap-2 flex-wrap">
-                  <label htmlFor="prune-cutoff" className="text-xs text-slate-400">
+                  <label htmlFor="prune-cutoff" className="text-xs text-slate-300">
                     Older than
                   </label>
                   <input
@@ -387,7 +387,7 @@ export function SessionDocsPage() {
                     onChange={(e) => setCutoff(e.target.value)}
                     className="rounded-lg border border-slate-700 bg-slate-900/60 px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-blue-500"
                   />
-                  <span className="text-xs text-slate-500">
+                  <span className="text-xs text-slate-300">
                     {ancientCount} doc{ancientCount === 1 ? "" : "s"} match
                   </span>
                   <button
@@ -399,11 +399,11 @@ export function SessionDocsPage() {
                     <Trash2 size={14} />
                     {pruning ? "Deleting..." : "Delete"}
                   </button>
-                  {pruneMsg && <span className="text-xs text-slate-400">{pruneMsg}</span>}
+                  {pruneMsg && <span className="text-xs text-slate-300">{pruneMsg}</span>}
                 </div>
               </>
             ) : (
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-300">
                 Pruning is disabled for the shared handbook log. Set SESSION_DOCS_DIR to manage
                 deletions in a private archive.
               </p>

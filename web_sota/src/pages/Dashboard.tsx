@@ -289,7 +289,7 @@ export function DashboardPage({ servers, tools, onNavigate }: DashboardProps) {
         {/* Live KPI Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
           <div className="p-4 rounded-xl bg-slate-800/80 border border-slate-700">
-            <p className="text-slate-400 text-xs font-medium mb-1">Registered Tools</p>
+            <p className="text-slate-300 text-xs font-medium mb-1">Registered Tools</p>
             <p className="text-2xl font-bold text-slate-100">
               {catalogError ? (
                 <span className="text-red-400 text-sm" title={catalogError}>
@@ -301,27 +301,27 @@ export function DashboardPage({ servers, tools, onNavigate }: DashboardProps) {
             </p>
           </div>
           <div className="p-4 rounded-xl bg-slate-800/80 border border-slate-700">
-            <p className="text-slate-400 text-xs font-medium mb-1">Active Servers</p>
+            <p className="text-slate-300 text-xs font-medium mb-1">Active Servers</p>
             <p
               className={`text-2xl font-bold ${activeServers > 0 ? "text-emerald-400" : "text-red-400"}`}
             >
               {activeServers}
-              <span className="text-sm text-slate-500 ml-1">/{totalServers}</span>
+              <span className="text-sm text-slate-300 ml-1">/{totalServers}</span>
             </p>
           </div>
           <div className="p-4 rounded-xl bg-slate-800/80 border border-slate-700">
-            <p className="text-slate-400 text-xs font-medium mb-1">Categories</p>
+            <p className="text-slate-300 text-xs font-medium mb-1">Categories</p>
             <p className="text-2xl font-bold text-slate-100">{Object.keys(CATEGORIES).length}</p>
           </div>
           <div className="p-4 rounded-xl bg-slate-800/80 border border-slate-700">
-            <p className="text-slate-400 text-xs font-medium mb-1">Tool Suites</p>
+            <p className="text-slate-300 text-xs font-medium mb-1">Tool Suites</p>
             <p className="text-2xl font-bold text-slate-100">
               {Object.keys(categoryCounts).length}
             </p>
           </div>
         </div>
 
-        <p className="text-slate-400 max-w-2xl text-sm leading-relaxed">
+        <p className="text-slate-300 max-w-2xl text-sm leading-relaxed">
           Scaffold fullstack apps and MCP servers. Analyze repositories for runts, stub
           implementations, and token bloat. Manage IDE client configs, toolchain presets, and
           fleet-wide server health.
@@ -339,9 +339,9 @@ export function DashboardPage({ servers, tools, onNavigate }: DashboardProps) {
               "bg-slate-800/80 border border-slate-700 hover:bg-slate-700/80 rounded-xl p-4 transition-colors text-left cursor-pointer"
             }
           >
-            <action.icon size={20} className="text-slate-400 mb-2" />
+            <action.icon size={20} className="text-slate-300 mb-2" />
             <div className="text-sm font-semibold text-slate-200">{action.label}</div>
-            <div className="text-xs text-slate-500 mt-0.5">{action.hint}</div>
+            <div className="text-xs text-slate-300 mt-0.5">{action.hint}</div>
           </button>
         ))}
       </div>
@@ -351,7 +351,7 @@ export function DashboardPage({ servers, tools, onNavigate }: DashboardProps) {
         <h2 className="text-lg font-semibold text-slate-200 mb-4 flex items-center gap-2">
           <Zap size={18} className="text-blue-400" />
           Capability Registry
-          <span className="text-xs text-slate-500 ml-2">
+          <span className="text-xs text-slate-300 ml-2">
             {totalTools} tools / {Object.keys(CATEGORIES).length} categories
           </span>
         </h2>
@@ -376,9 +376,9 @@ export function DashboardPage({ servers, tools, onNavigate }: DashboardProps) {
                 </div>
                 <div className="text-2xl font-bold text-slate-100 mb-1">
                   {count}
-                  <span className="text-sm font-normal text-slate-500 ml-1">tools</span>
+                  <span className="text-sm font-normal text-slate-300 ml-1">tools</span>
                 </div>
-                <div className="text-sm text-slate-400 leading-relaxed">{cat.description}</div>
+                <div className="text-sm text-slate-300 leading-relaxed">{cat.description}</div>
               </motion.button>
             );
           })}
@@ -391,7 +391,7 @@ export function DashboardPage({ servers, tools, onNavigate }: DashboardProps) {
           <h2 className="text-lg font-semibold text-slate-200 flex items-center gap-2">
             <Server size={18} className="text-blue-400" />
             Fleet Registry
-            <span className="text-xs text-slate-500 ml-2">
+            <span className="text-xs text-slate-300 ml-2">
               {activeServers} / {totalServers} online
             </span>
           </h2>
@@ -410,7 +410,7 @@ export function DashboardPage({ servers, tools, onNavigate }: DashboardProps) {
             <p className="text-base font-semibold text-slate-300 mb-1">
               No MCP servers registered yet
             </p>
-            <p className="text-sm text-slate-500 mb-4">
+            <p className="text-sm text-slate-300 mb-4">
               Discover servers or add them to client configs.
             </p>
             <div className="flex items-center justify-center gap-3">
@@ -449,7 +449,7 @@ export function DashboardPage({ servers, tools, onNavigate }: DashboardProps) {
                     />
                     <span className="text-sm font-medium text-slate-200 truncate">{id}</span>
                   </div>
-                  <div className="text-xs text-slate-500">
+                  <div className="text-xs text-slate-300">
                     {typeof data.status === "string" ? data.status : "unknown"}
                   </div>
                 </motion.div>

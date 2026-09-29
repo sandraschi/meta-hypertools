@@ -30,7 +30,7 @@ function statusStyle(status: string): string {
   if (s === "review") return "bg-amber-500/15 text-amber-300 border-amber-500/30";
   if (s === "deprecated") return "bg-red-500/15 text-red-300 border-red-500/30";
   if (s) return "bg-slate-500/15 text-slate-300 border-slate-500/30";
-  return "bg-slate-800 text-slate-500 border-slate-700";
+  return "bg-slate-800 text-slate-300 border-slate-700";
 }
 
 function MarkdownView({ content }: { content: string }) {
@@ -135,12 +135,12 @@ export function StandardsPage() {
           <button
             type="button"
             onClick={() => setSelected(null)}
-            className="flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors"
+            className="flex items-center gap-2 text-sm text-slate-300 hover:text-white transition-colors"
           >
             <ArrowLeft size={14} />
             All standards
           </button>
-          <span className="text-xs text-slate-500 font-mono">{selected}</span>
+          <span className="text-xs text-slate-300 font-mono">{selected}</span>
         </div>
         {selectedMeta && (
           <div className="flex flex-wrap items-center gap-2">
@@ -158,13 +158,13 @@ export function StandardsPage() {
               </span>
             )}
             {selectedMeta.last_updated && (
-              <span className="text-xs text-slate-500">updated {selectedMeta.last_updated}</span>
+              <span className="text-xs text-slate-300">updated {selectedMeta.last_updated}</span>
             )}
           </div>
         )}
         <div className="rounded-xl border border-slate-800 bg-slate-900/50 p-6">
           {contentLoading ? (
-            <div className="flex items-center justify-center h-32 text-slate-500">
+            <div className="flex items-center justify-center h-32 text-slate-300">
               <span className="animate-spin mr-2 h-4 w-4 border-b-2 border-current rounded-full" />
               Loading...
             </div>
@@ -181,7 +181,7 @@ export function StandardsPage() {
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-xl font-bold text-white">Fleet Standards</h1>
-          <p className="text-sm text-slate-500 mt-1">
+          <p className="text-sm text-slate-300 mt-1">
             {available
               ? `${standards.length} standards from mcp-central-docs`
               : "Handbook not connected"}
@@ -194,7 +194,7 @@ export function StandardsPage() {
               onClick={() => setViewMode("grid")}
               title="Grid view"
               aria-label="Grid view"
-              className={`p-2 transition-colors ${view === "grid" ? "bg-blue-600/30 text-blue-200" : "text-slate-400 hover:text-white hover:bg-slate-800"}`}
+              className={`p-2 transition-colors ${view === "grid" ? "bg-blue-600/30 text-blue-200" : "text-slate-300 hover:text-white hover:bg-slate-800"}`}
             >
               <LayoutGrid size={16} />
             </button>
@@ -203,7 +203,7 @@ export function StandardsPage() {
               onClick={() => setViewMode("list")}
               title="List view"
               aria-label="List view"
-              className={`p-2 transition-colors ${view === "list" ? "bg-blue-600/30 text-blue-200" : "text-slate-400 hover:text-white hover:bg-slate-800"}`}
+              className={`p-2 transition-colors ${view === "list" ? "bg-blue-600/30 text-blue-200" : "text-slate-300 hover:text-white hover:bg-slate-800"}`}
             >
               <List size={16} />
             </button>
@@ -211,7 +211,7 @@ export function StandardsPage() {
           <button
             type="button"
             onClick={loadList}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+            className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
             title="Refresh"
           >
             <RefreshCw size={14} className={loading ? "animate-spin" : ""} />
@@ -227,15 +227,15 @@ export function StandardsPage() {
       )}
 
       {loading ? (
-        <div className="flex items-center justify-center h-40 text-slate-500">
+        <div className="flex items-center justify-center h-40 text-slate-300">
           <span className="animate-spin mr-2 h-5 w-5 border-b-2 border-current rounded-full" />
           Loading standards...
         </div>
       ) : !available ? (
         <div className="rounded-xl border border-slate-800 bg-slate-900/50 py-16 text-center">
           <BookOpen size={28} className="mx-auto text-slate-600 mb-3" />
-          <p className="text-slate-400 text-sm">{hint || "Handbook not found."}</p>
-          <p className="text-slate-500 text-xs mt-2">
+          <p className="text-slate-300 text-sm">{hint || "Handbook not found."}</p>
+          <p className="text-slate-300 text-sm mt-2">
             Set MCP_CENTRAL_DOCS_ROOT in Settings to point at your handbook clone.
           </p>
         </div>
@@ -245,7 +245,7 @@ export function StandardsPage() {
             <div className="relative flex-1 min-w-[200px]">
               <Search
                 size={14}
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-300"
               />
               <input
                 value={query}
@@ -266,13 +266,13 @@ export function StandardsPage() {
                 </option>
               ))}
             </select>
-            <span className="text-xs text-slate-500">
+            <span className="text-xs text-slate-300">
               {filtered.length} of {standards.length}
             </span>
           </div>
 
           {filtered.length === 0 ? (
-            <div className="rounded-xl border border-slate-800 bg-slate-900/50 py-16 text-center text-slate-500">
+            <div className="rounded-xl border border-slate-800 bg-slate-900/50 py-16 text-center text-slate-300">
               No standards match.
             </div>
           ) : view === "grid" ? (
@@ -290,7 +290,7 @@ export function StandardsPage() {
                       {s.title}
                     </div>
                   </div>
-                  <div className="mt-1 text-xs text-slate-500 font-mono truncate">{s.path}</div>
+                  <div className="mt-1 text-xs text-slate-300 font-mono truncate">{s.path}</div>
                   <div className="mt-auto pt-3 flex flex-wrap items-center gap-1.5">
                     {s.status && (
                       <span
@@ -304,7 +304,7 @@ export function StandardsPage() {
                         {s.category}
                       </span>
                     )}
-                    <span className="ml-auto text-[11px] text-slate-500">
+                    <span className="ml-auto text-[11px] text-slate-300">
                       {fmtSize(s.size_bytes)}
                     </span>
                   </div>
@@ -320,10 +320,10 @@ export function StandardsPage() {
                   onClick={() => openStandard(s.path)}
                   className="flex items-center gap-3 rounded-lg border border-slate-800 bg-slate-900/40 px-4 py-3 text-left hover:border-slate-600 hover:bg-slate-800/60 transition-colors"
                 >
-                  <FileText size={16} className="text-slate-500 shrink-0" />
+                  <FileText size={16} className="text-slate-300 shrink-0" />
                   <div className="min-w-0 flex-1">
                     <div className="text-sm text-slate-200 truncate">{s.title}</div>
-                    <div className="text-xs text-slate-500 mt-0.5 font-mono truncate">{s.path}</div>
+                    <div className="text-xs text-slate-300 mt-0.5 font-mono truncate">{s.path}</div>
                   </div>
                   {s.status && (
                     <span
