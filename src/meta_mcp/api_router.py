@@ -12,9 +12,10 @@ from pydantic import BaseModel, Field
 
 from meta_mcp.services.agent_hub_service import AgentHubService
 from meta_mcp.services.analysis_service import AnalysisService
-from meta_mcp.services.client_settings_manager import ClientSettingsManager
 
 # Import service classes
+from meta_mcp.services.chat_agent_service import ChatAgentService
+from meta_mcp.services.client_settings_manager import ClientSettingsManager
 from meta_mcp.services.diagnostics_service import DiagnosticsService
 from meta_mcp.services.discovery_service import DiscoveryService
 
@@ -57,6 +58,7 @@ fleet_startup_probe = FleetStartupProbeService()
 fleet_cold_install = FleetColdInstallService()
 fleet_ops = FleetOpsService()
 local_llm = LocalLLMService()
+chat_agent = ChatAgentService()
 agent_hub = AgentHubService()
 dynamic_router = DynamicRouterService()
 
@@ -842,6 +844,37 @@ async def chat_local_llm(request: LLMChatRequest):
         request.base_url,
         request.model,
         request.messages,
+    )
+    if not result.get("success"):
+        raise HTTPException(status_code=502, detail=result.get("message"))
+    return result
+
+
+class ChatAgentRequest(BaseModel):
+    provider: str = Field("ollama")
+    base_url: str = Field(...)
+    model: str = Field(...)
+    messages: list[dict[str, Any]] = Field(default_factory=list)
+    personality_id: str = Field("mcp-expert")
+    max_iterations: int = Field(5, ge=1, le=10)
+
+
+@router.get("/chat/context", summary="Chat context: personalities + tool catalog")
+async def chat_context():
+    """Personalities and compact tool catalog for chat clients (preprompt source)."""
+    return await chat_agent.context()
+
+
+@router.post("/chat/agent", summary="Agentic chat with fleet tool loop")
+async def chat_agent_run(request: ChatAgentRequest):
+    """System preprompt + bounded function-call loop over in-process fleet tools."""
+    result = await chat_agent.run(
+        request.provider,
+        request.base_url,
+        request.model,
+        request.messages,
+        request.personality_id,
+        request.max_iterations,
     )
     if not result.get("success"):
         raise HTTPException(status_code=502, detail=result.get("message"))
