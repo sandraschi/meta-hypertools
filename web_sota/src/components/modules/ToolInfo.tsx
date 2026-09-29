@@ -1,5 +1,6 @@
 import { Box, ChevronDown, ChevronRight, Play, Terminal } from "lucide-react";
 import { useState } from "react";
+import { JsonView } from "../common/JsonView";
 
 export interface ToolInfoData {
   name: string;
@@ -75,9 +76,10 @@ export function ToolInfo({ data, onExecute }: ToolInfoProps) {
             <p className="text-[10px] font-bold text-[#94a3b8] uppercase tracking-widest mb-3">
               Invocation Schema Profile
             </p>
-            <pre className="text-xs text-blue-400 bg-black/40 p-4 rounded-xl overflow-x-auto font-mono border border-white/5 shadow-inner">
-              {JSON.stringify(data.parameters, null, 2)}
-            </pre>
+            <JsonView
+              value={data.parameters}
+              className="text-xs text-blue-400 bg-black/40 p-4 rounded-xl border border-white/5 shadow-inner"
+            />
           </div>
         )}
       </div>

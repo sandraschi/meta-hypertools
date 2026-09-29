@@ -2,6 +2,7 @@ import { AlertTriangle, Code, Database, FileText, Loader, Terminal, X } from "lu
 import { useCallback, useEffect, useState } from "react";
 import { api, isSuccessResponse } from "../../api/client";
 import { asArray, asString } from "../../utils/apiTypes";
+import { JsonView } from "../common/JsonView";
 
 interface ServerInspectionModalProps {
   isOpen: boolean;
@@ -173,9 +174,7 @@ export function ServerInspectionModal({
                           <h5 className="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
                             Input Schema
                           </h5>
-                          <pre className="text-xs text-slate-300 font-mono overflow-x-auto">
-                            {JSON.stringify(tool.inputSchema, null, 2)}
-                          </pre>
+                          <JsonView value={tool.inputSchema} className="text-xs text-slate-300" />
                         </div>
                       </div>
                     ))}

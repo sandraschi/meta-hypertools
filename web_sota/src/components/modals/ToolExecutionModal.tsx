@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { api, isSuccessResponse } from "../../api/client";
 import type { ToolWithServer } from "../../pages/Tools";
 import { DynamicForm } from "../common/DynamicForm";
+import { JsonView } from "../common/JsonView";
 
 interface ToolExecutionModalProps {
   isOpen: boolean;
@@ -210,11 +211,18 @@ export function ToolExecutionModal({ isOpen, onClose, tool }: ToolExecutionModal
                   </div>
                 )}
               </div>
-              <pre
-                className={`text-xs font-mono whitespace-pre-wrap overflow-x-auto p-2 rounded-lg bg-black/40 ${error ? "text-red-300" : "text-green-300"}`}
-              >
-                {error || JSON.stringify(result, null, 2)}
-              </pre>
+              {error ? (
+                <pre
+                  className={`text-xs font-mono whitespace-pre-wrap overflow-x-auto p-2 rounded-lg bg-black/40 ${error ? "text-red-300" : "text-green-300"}`}
+                >
+                  {error}
+                </pre>
+              ) : (
+                <JsonView
+                  value={result}
+                  className="text-xs p-2 rounded-lg bg-black/40 text-green-300"
+                />
+              )}
             </div>
           )}
 
@@ -225,9 +233,10 @@ export function ToolExecutionModal({ isOpen, onClose, tool }: ToolExecutionModal
                 <div className="transition-transform group-open:rotate-90">▶</div>
                 Parameters Schema Reference
               </summary>
-              <pre className="mt-2 text-[10px] text-slate-300 bg-slate-950/50 p-3 rounded-lg overflow-x-auto font-mono max-h-32">
-                {JSON.stringify(tool.parameters, null, 2)}
-              </pre>
+              <JsonView
+                value={tool.parameters}
+                className="mt-2 text-[10px] text-slate-300 bg-slate-950/50 p-3 rounded-lg max-h-32 overflow-y-auto"
+              />
             </details>
           </div>
         </div>
