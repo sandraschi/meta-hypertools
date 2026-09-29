@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import ReactMarkdown from "react-markdown";
+import { JsonView } from "../components/common/JsonView";
 
 const API = "/api/v1/fleet/ops";
 
@@ -798,15 +799,10 @@ export function FleetOps() {
                   <ReactMarkdown>{preview.content}</ReactMarkdown>
                 </div>
               ) : (
-                <pre className="text-xs font-mono text-emerald-300 bg-black/90 rounded-xl p-4 overflow-x-auto whitespace-pre-wrap leading-relaxed border border-slate-800 shadow-inner">
-                  {(() => {
-                    try {
-                      return JSON.stringify(JSON.parse(preview.content), null, 2);
-                    } catch {
-                      return preview.content;
-                    }
-                  })()}
-                </pre>
+                <JsonView
+                  value={preview.content}
+                  className="text-xs text-emerald-300 bg-black/90 rounded-xl p-4 leading-relaxed border border-slate-800 shadow-inner"
+                />
               )}
             </div>
           </motion.div>

@@ -11,6 +11,7 @@ import {
   Terminal,
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
+import { JsonView } from "../components/common/JsonView";
 
 interface RepoEntry {
   name: string;
@@ -398,9 +399,7 @@ export function AssfixSOPPage() {
       {assessmentResult && (
         <div className="bg-slate-950 border border-slate-700 rounded-lg p-4 mb-6 max-h-96 overflow-auto">
           <div className="text-xs font-medium text-slate-400 mb-2">Assessment Result</div>
-          <pre className="text-xs text-slate-300 font-mono whitespace-pre-wrap">
-            {assessmentResult}
-          </pre>
+          <JsonView value={assessmentResult} className="text-xs text-slate-300" />
         </div>
       )}
 

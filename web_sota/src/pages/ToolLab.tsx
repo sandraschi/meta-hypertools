@@ -2,6 +2,7 @@ import { AlertTriangle, CheckCircle, FlaskConical, Loader, Play } from "lucide-r
 import { useEffect, useMemo, useState } from "react";
 import { api, isSuccessResponse } from "../api/client";
 import { DynamicForm } from "../components/common/DynamicForm";
+import { JsonView } from "../components/common/JsonView";
 import type { ToolWithServer } from "./Tools";
 
 interface ToolLabPageProps {
@@ -248,9 +249,13 @@ export function ToolLabPage({ tools }: ToolLabPageProps) {
                       </span>
                     )}
                   </div>
-                  <pre className="text-xs font-mono whitespace-pre-wrap overflow-x-auto text-[#ccc]">
-                    {err || JSON.stringify(out, null, 2)}
-                  </pre>
+                  {err ? (
+                    <pre className="text-xs font-mono whitespace-pre-wrap overflow-x-auto text-[#ccc]">
+                      {err}
+                    </pre>
+                  ) : (
+                    <JsonView value={out} className="text-xs text-[#ccc]" />
+                  )}
                 </div>
               )}
             </>

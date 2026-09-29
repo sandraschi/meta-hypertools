@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Bot, CalendarClock, Loader2, Mail, Play, RefreshCw, Sparkles, Zap } from "lucide-react";
 import type React from "react";
 import { useCallback, useEffect, useState } from "react";
+import { JsonView } from "../components/common/JsonView";
 import { asArray, asRecord, asString } from "../utils/apiTypes";
 
 const API = "/api/v1/agent-hub";
@@ -184,8 +185,8 @@ export const AgentHubPage: React.FC = () => {
       )}
 
       {lastResult && (
-        <div className="glass-panel p-4 border-green-500/20 bg-green-500/5 text-green-200 text-sm font-mono whitespace-pre-wrap">
-          {lastResult}
+        <div className="glass-panel p-4 border-green-500/20 bg-green-500/5 text-green-200 text-sm">
+          <JsonView value={lastResult} className="font-mono whitespace-pre-wrap" />
         </div>
       )}
 
