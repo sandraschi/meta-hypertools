@@ -29,6 +29,7 @@
 |---------|---------|
 | Web + API (production static) | `10718` |
 | Vite dev frontend | `10719` |
+| Desktop app operator backend (Tauri) | `11220` |
 | Fleet Starts launcher (optional) | `10796` |
 
 Bind via `HOST` / `PORT` in `.env`.

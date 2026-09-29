@@ -44,12 +44,23 @@ If you prefer not to use `just`:
 4. Start the server:
    ```powershell
    # stdio mode (for MCP clients like Claude Desktop)
-   uv run python -m meta_mcp.server
+   uv run meta-mcp-server
 
    # HTTP mode (for web dashboard)
    uv run uvicorn meta_mcp.server:app --port 10718
    ```
 5. Open `http://localhost:10718` or the frontend URL.
+
+---
+
+## Desktop app (no dev stack needed)
+
+Download `Meta Hypertools_0.5.1_x64-setup.exe` from
+[Releases](https://github.com/sandraschi/meta-hypertools/releases) and run
+it. The installer bundles the dashboard plus its own backend on port
+11220, so it runs side by side with a dev stack on 10718/10719. First
+launch seeds `.env` from the bundled example. Build it yourself with
+`just build-native`; details in [docs/TAURI.md](docs/TAURI.md).
 
 ---
 
