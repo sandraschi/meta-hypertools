@@ -5,6 +5,7 @@ import { AppsHub } from "./components/AppsHub";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { Layout } from "./components/layout/Layout";
 import { HelpModal } from "./components/modals/HelpModal";
+import { useZoom } from "./hooks/useZoom";
 import { LoggerModal } from "./components/modals/LoggerModal";
 
 import { AboutPage } from "./pages/About";
@@ -38,6 +39,7 @@ import { type LogEntry, logger } from "./utils/logger";
 import type { IntegrationStatus, McpTool } from "./types";
 
 function App() {
+  useZoom();
   // Navigation State
   const [currentPage, setCurrentPage] = useState("dashboard");
 
