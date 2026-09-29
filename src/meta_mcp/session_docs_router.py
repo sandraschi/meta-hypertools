@@ -14,20 +14,31 @@ from pathlib import Path
 
 from fastapi import APIRouter, HTTPException
 
+from meta_mcp.fleet_paths import optional_mcp_central_docs
+
 router = APIRouter(prefix="/api/v1/session-docs", tags=["session-docs"])
 
-_DEFAULT_DOCS_DIR = Path(
-    os.environ.get(
-        "SESSION_DOCS_DIR",
-        r"D:\Dev\repos\mcp-agent-session-summaries\data\sessions",
-    )
-)
+_LEGACY_DOCS_DIR = Path(r"D:\Dev\repos\mcp-agent-session-summaries\data\sessions")
 
 
 def _docs_dir() -> Path:
-    if not _DEFAULT_DOCS_DIR.is_dir():
-        raise HTTPException(status_code=500, detail=f"Session docs dir not found: {_DEFAULT_DOCS_DIR}")
-    return _DEFAULT_DOCS_DIR
+    raw = os.environ.get("SESSION_DOCS_DIR", "").strip()
+    if raw:
+        cand = Path(raw).expanduser()
+        if cand.is_dir():
+            return cand
+        raise HTTPException(status_code=500, detail=f"Session docs dir not found: {cand}")
+    mcd = optional_mcp_central_docs()
+    if mcd is not None:
+        cand = mcd / "operations" / "session-log"
+        if cand.is_dir():
+            return cand
+    if _LEGACY_DOCS_DIR.is_dir():
+        return _LEGACY_DOCS_DIR
+    raise HTTPException(
+        status_code=500,
+        detail="Session docs not found (tried SESSION_DOCS_DIR, handbook session-log, legacy dir)",
+    )
 
 
 @router.get("")
