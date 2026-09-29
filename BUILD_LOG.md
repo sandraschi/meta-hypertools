@@ -3,7 +3,14 @@
 Running record for Tauri/NSIS builds (required by the NSIS build gate).
 Newest entry first.
 
-## 2026-09-29 - first NSIS build (v0.5.1)
+## 2026-09-29 - operator port move (11220)
+
+Review note: the operator backend used the dev port 10718, so the
+installed app and the dev stack could never run side by side (and the
+operator's free_port would kill dev). Claimed `meta-mcp-native`
+11219/11220 via claim_ports.py (registered in WEBAPP_PORTS.md); operator
+backend now spawns on 11220 with the frontend baked to match, CSP
+updated, dev default untouched. Rebuilt + re-uploaded below.
 
 Phase 1 audit (TAURI_PRODUCTION_PITFALLS A-J) before building:
 

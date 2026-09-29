@@ -7,8 +7,10 @@ Node, `uv`, or git clone needed on the target machine.
 - UI: Rust shell (WebView2) + `web_sota/dist`, bundle id
   `com.sandraschi.meta-mcp`, currentUser install.
 - Backend: PyInstaller onefile `meta-mcp-backend.exe`, embedded in bundle
-  resources, copied to the app cache on launch and spawned on port 10718
-  (`META_MCP_TAURI=1`). Killed with the window on exit.
+  resources, copied to the app cache on launch and spawned on port 11220
+  (`META_MCP_TAURI=1`, dedicated operator port registered as
+  `meta-mcp-native` backend - clear of the 10718 dev backend so both can
+  run side by side). Killed with the window on exit.
 - First run seeds `.env` from the bundled `.env.example` into
   `%LOCALAPPDATA%`; the real `.env` is never bundled.
 
@@ -56,7 +58,7 @@ uses `uv run meta-mcp-server` against source; the installed app serves
 2. Install (uninstall old first on upgrade path).
 3. `%LOCALAPPDATA%\com.sandraschi.meta-mcp\logs\backend-spawn.log` shows
    the resources backend path + Uvicorn running.
-4. `Invoke-WebRequest http://127.0.0.1:10718/health` returns 200.
+4. `Invoke-WebRequest http://127.0.0.1:11220/health` returns 200.
 5. Dashboard plus one secondary route render with data; Settings
    connection test works.
 6. Uninstall removes binaries; no orphans in Task Manager.
