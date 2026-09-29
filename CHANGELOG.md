@@ -1,3 +1,12 @@
+## [Unreleased]
+
+### Added
+- Windows desktop app (Tauri 2.0 + NSIS): `web_sota/src-tauri/` operator
+  shell with embedded PyInstaller backend, kill-both-exes installer hooks,
+  backend-status dot + Ctrl+scroll zoom in the dashboard.
+  `meta-mcp-backend.spec` with frozen fixes (dist-info keeps, mypyc/tomli,
+  docket tasks, OTEL hook). Build: `just build-native`. Log: BUILD_LOG.md.
+
 ## [0.5.1] -- 2026-09-29
 
 ### Added

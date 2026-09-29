@@ -67,6 +67,18 @@ Full install paths (per-IDE config, MCPB bundle, troubleshooting):
 
 ---
 
+## Desktop app (Windows installer)
+
+Prefer a double-click install over the dev stack: download
+`Meta Hypertools_0.5.1_x64-setup.exe` from
+[Releases](https://github.com/sandraschi/meta-hypertools/releases), run it,
+launch Meta Hypertools. Bundled backend serves `http://127.0.0.1:10718`
+while the app runs; first launch seeds `.env` from the bundled example.
+Details and build log: [docs/TAURI.md](docs/TAURI.md),
+[BUILD_LOG.md](BUILD_LOG.md).
+
+---
+
 ## What you can do with it
 
 Pick your mission in [docs/WORKFLOWS.md](docs/WORKFLOWS.md) - build things,
