@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { api } from "../../api/client";
 import { asArray, asRecord } from "../../utils/apiTypes";
 import { logger } from "../../utils/logger";
+import { BackendDot } from "../common/BackendDot";
 
 // EXPERIMENTAL light mode (invert hack). Not fleet standard - see index.css.
 // Toggling `.dark` off the root flips the invert filter; persisted so the
@@ -109,6 +110,7 @@ export function Topbar({ title, onShowLogger, onShowHelp }: TopbarProps) {
 
       {/* Right Actions */}
       <div className="flex items-center gap-6">
+        <BackendDot />
         {/* Search Bar */}
         <div className="relative hidden xl:block group">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94a3b8] group-focus-within:text-blue-400 transition-colors" />
