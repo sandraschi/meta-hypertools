@@ -546,12 +546,18 @@ def discover_servers(
 # Example usage
 if __name__ == "__main__":
     import logging
+    import os
+    from pathlib import Path
+
+    # Absolute log path: a bare filename lands in the host's cwd (BUG-063)
+    log_dir = Path(os.environ.get("LOCALAPPDATA") or Path.home()) / "meta_mcp" / "logs"
+    log_dir.mkdir(parents=True, exist_ok=True)
 
     # Configure logging
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-        handlers=[logging.StreamHandler(), logging.FileHandler("tool_discovery.log")],
+        handlers=[logging.StreamHandler(), logging.FileHandler(log_dir / "tool_discovery.log")],
     )
 
     # Example tool
