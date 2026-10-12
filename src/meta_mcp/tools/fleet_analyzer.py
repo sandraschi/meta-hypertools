@@ -1,3 +1,4 @@
+import asyncio
 import time
 from pathlib import Path
 from typing import Any
@@ -87,7 +88,7 @@ async def analyze_fleet(scan_path: str | None = None) -> dict[str, Any]:
         }
 
         # 1. Component Analyzers
-        repo_data["git"] = analyze_git_health(item)
+        repo_data["git"] = await asyncio.to_thread(analyze_git_health, item)
         repo_data["docker"] = analyze_docker_readiness(item)
         repo_data["web_sota"] = analyze_web_sota(item)
 
@@ -99,7 +100,7 @@ async def analyze_fleet(scan_path: str | None = None) -> dict[str, Any]:
         repo_data["security"] = sec_orch.get("security", {})
         repo_data["orchestration"] = sec_orch.get("orchestration", {})
 
-        repo_data["github"] = analyze_github_health(item)
+        repo_data["github"] = await asyncio.to_thread(analyze_github_health, item)
 
         # CE-AKG (Cross-Environment Adversarial Knowledge Graph) Mapping
         repo_data["ce_akg"] = analyze_ce_akg(item, path)

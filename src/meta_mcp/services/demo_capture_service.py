@@ -486,7 +486,7 @@ class DemoCaptureService(MetaMCPService):
         output_mp4 = Path(materialized["output_mp4"])
         props_path = Path(materialized["props_path"])
 
-        remotion_result = self._run_remotion_render(screencast_dir, output_mp4, props_path)
+        remotion_result = await asyncio.to_thread(self._run_remotion_render, screencast_dir, output_mp4, props_path)
         success = remotion_result.get("success", False)
         return self.create_response(
             success,
@@ -541,7 +541,7 @@ class DemoCaptureService(MetaMCPService):
             if not stack_info.get("success"):
                 return stack_info
 
-        pw_result = self._run_playwright(e2e_dir, screenshots=screenshots, video=video)
+        pw_result = await asyncio.to_thread(self._run_playwright, e2e_dir, screenshots=screenshots, video=video)
         artifacts = self._collect_artifacts(e2e_dir, output_dir)
 
         remotion_info: dict[str, Any] | None = None

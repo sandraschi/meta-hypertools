@@ -325,7 +325,7 @@ def register_diagnostics_tools(mcp: FastMCP):
             return False
 
         started = False
-        if start_if_down and not _health_ok():
+        if start_if_down and not await asyncio.to_thread(_health_ok):
             start_ps1 = meta_mcp_web_start_script()
             if not start_ps1.is_file():
                 return {
@@ -364,7 +364,7 @@ def register_diagnostics_tools(mcp: FastMCP):
 
             deadline = time.time() + wait_seconds
             while time.time() < deadline:
-                if _health_ok():
+                if await asyncio.to_thread(_health_ok):
                     break
                 await asyncio.sleep(1)
 

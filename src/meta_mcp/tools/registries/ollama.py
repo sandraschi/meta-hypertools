@@ -68,7 +68,7 @@ def register_ollama_tools(mcp: FastMCP):
         if operation not in ("status", "kill", "start", "restart"):
             return {"success": False, "message": f"Unknown operation: {operation}"}
 
-        processes = _find_ollama_processes()
+        processes = await asyncio.to_thread(_find_ollama_processes)
         port_open = _check_port()
         result: dict[str, Any] = {
             "operation": operation,
@@ -129,7 +129,7 @@ def register_ollama_tools(mcp: FastMCP):
                     port_open = True
                     break
 
-            processes = _find_ollama_processes()
+            processes = await asyncio.to_thread(_find_ollama_processes)
             port_open = _check_port()
             result["processes"] = processes
             result["port_open"] = port_open

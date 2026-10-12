@@ -1,3 +1,4 @@
+import asyncio
 import shutil
 import subprocess
 from pathlib import Path
@@ -135,7 +136,8 @@ class ScaffoldingService(MetaMCPService):
         email: str | None = None,
     ) -> dict[str, Any]:
         """Scaffold (and optionally deploy) a static page to tiiny.host."""
-        return scaffold_tiiny_site(
+        return await asyncio.to_thread(
+            scaffold_tiiny_site,
             site_name=site_name,
             title=title,
             content=content,
@@ -195,7 +197,9 @@ class ScaffoldingService(MetaMCPService):
                 )
             elif template_type == "spec_kit":
                 ai_integration = features.get("ai_integration", "opencode")
-                result = self._create_spec_kit_project(project_name, output_path, ai_integration)
+                result = await asyncio.to_thread(
+                    self._create_spec_kit_project, project_name, output_path, ai_integration
+                )
             else:
                 return self.create_response(False, f"Unsupported template type: {template_type}")
 
