@@ -5,10 +5,10 @@
     BackendPort  = 10718
     FrontendPort = 10719
     HealthPath   = '/health'
-    WebRoot      = 'D:\Dev\repos\meta_mcp\web_sota'
+    WebRoot      = 'web_sota'
     Backend = @{
         Kind          = 'uvicorn'
-        UvicornTarget = 'meta_mcp.server:app'
+        UvicornTarget = 'meta_mcp.main:app'
         Env           = @{ WEB_PORT = '10718' }
     }
     Frontend = @{
