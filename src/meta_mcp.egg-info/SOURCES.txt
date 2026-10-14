@@ -18,6 +18,7 @@ src/meta_mcp/registry.py
 src/meta_mcp/router_index.py
 src/meta_mcp/server.py
 src/meta_mcp/session_docs_router.py
+src/meta_mcp/standards_router.py
 src/meta_mcp/telemetry.py
 src/meta_mcp.egg-info/PKG-INFO
 src/meta_mcp.egg-info/SOURCES.txt
@@ -38,6 +39,7 @@ src/meta_mcp/services/analysis_service.py
 src/meta_mcp/services/base.py
 src/meta_mcp/services/capability_index.py
 src/meta_mcp/services/capability_router.py
+src/meta_mcp/services/chat_agent_service.py
 src/meta_mcp/services/client_settings_manager.py
 src/meta_mcp/services/config.py
 src/meta_mcp/services/demo_capture_service.py
@@ -55,9 +57,11 @@ src/meta_mcp/services/heartbeat_service.py
 src/meta_mcp/services/implementation_honesty_service.py
 src/meta_mcp/services/local_llm_service.py
 src/meta_mcp/services/management.py
+src/meta_mcp/services/mcp_protocol_probe_service.py
 src/meta_mcp/services/pipeline_liveness_service.py
 src/meta_mcp/services/powershell_profile_manager.py
 src/meta_mcp/services/powershell_validator.py
+src/meta_mcp/services/repo_discovery_service.py
 src/meta_mcp/services/repo_inspiration_service.py
 src/meta_mcp/services/repo_packing_service.py
 src/meta_mcp/services/repo_scanner_service.py
