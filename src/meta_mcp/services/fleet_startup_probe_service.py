@@ -210,7 +210,11 @@ class FleetStartupProbeService(MetaMCPService):
                 env=env,
                 stdout=self._runner_log_handle,
                 stderr=subprocess.STDOUT,
-                creationflags=subprocess.CREATE_NEW_PROCESS_GROUP if sys.platform == "win32" else 0,
+                creationflags=(
+                    subprocess.CREATE_NEW_PROCESS_GROUP | getattr(subprocess, "CREATE_NO_WINDOW", 0)
+                    if sys.platform == "win32"
+                    else 0
+                ),
             )
             self._running_proc = proc
             if repo_filter:
@@ -242,6 +246,7 @@ class FleetStartupProbeService(MetaMCPService):
             capture_output=True,
             text=True,
             timeout=7200,
+            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0) if sys.platform == "win32" else 0,
         )
         self._running_proc = None
         report = self.get_report()

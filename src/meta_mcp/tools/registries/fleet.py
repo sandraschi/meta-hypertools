@@ -5,6 +5,7 @@ from fastmcp import FastMCP
 from meta_mcp.services.fleet_cold_install_service import FleetColdInstallService
 from meta_mcp.services.fleet_runtime_service import FleetRuntimeService
 from meta_mcp.services.fleet_startup_probe_service import FleetStartupProbeService
+from meta_mcp.services.mcp_protocol_probe_service import McpProtocolProbeService
 
 
 def register_fleet_tools(mcp: FastMCP):
@@ -13,6 +14,7 @@ def register_fleet_tools(mcp: FastMCP):
     service = FleetRuntimeService()
     probe_service = FleetStartupProbeService()
     cold_install_service = FleetColdInstallService()
+    protocol_probe_service = McpProtocolProbeService()
 
     @mcp.tool(name="fleet_ops")
     async def fleet_ops(
@@ -24,6 +26,7 @@ def register_fleet_tools(mcp: FastMCP):
             "startup_report",
             "install_probe",
             "install_report",
+            "protocol_probe",
         ],
         app_id: str | None = None,
         repo_filter: str = "",
@@ -35,11 +38,12 @@ def register_fleet_tools(mcp: FastMCP):
         host_mcpb_smoke: bool = False,
         batch_size: int = 0,
         mcp_clients: str = "",
+        url: str | None = None,
     ) -> dict[str, Any]:
         """Fleet application lifecycle and probing (portmanteau).
 
         [RATIONALE]
-        Consolidates 7 related operations into a single tool to prevent tool explosion while enabling full API coverage.
+        Consolidates 8 related operations into a single tool to prevent tool explosion while enabling full API coverage.
 
         ## Operations
         - **status**: Audit all fleet apps
@@ -49,6 +53,7 @@ def register_fleet_tools(mcp: FastMCP):
         - **startup_report**: Load the latest startup probe report
         - **install_probe**: Cold-install probe: preflight, mcpb, stdio smoke
         - **install_report**: Load the latest install probe report
+        - **protocol_probe**: Check stateless-MCP2 vs legacy compat for a streamable-HTTP `/mcp` URL (wraps `mcp-explorer doctor` via `uvx`). Requires `url`.
 
         ## Return Format
         {"success": bool, "operation": str, "message": str}
@@ -56,7 +61,10 @@ def register_fleet_tools(mcp: FastMCP):
         ## Examples
         await fleet_ops(operation="status")
         await fleet_ops(operation="launch")
+        await fleet_ops(operation="protocol_probe", url="http://127.0.0.1:10718/mcp")
         """
+        if operation == "protocol_probe":
+            return protocol_probe_service.doctor(url or "")
         if operation == "status":
             return await service.audit_fleet()
         elif operation == "launch":

@@ -219,6 +219,7 @@ class FleetRuntimeService(MetaMCPService):
                 'netstat -ano | findstr LISTENING | findstr ":10"',
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE,
+                creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
             )
             stdout, _ = await process.communicate()
             output = stdout.decode()
