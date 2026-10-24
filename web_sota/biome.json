@@ -1,40 +1,40 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.4.12/schema.json",
-  "files": {
-    "ignoreUnknown": true,
-    "include": ["src/**/*"],
-    "ignore": ["**/dist/**", "**/node_modules/**", "**/*.rar", "**/*.zip"]
-  },
-  "formatter": {
-    "enabled": true,
-    "indentStyle": "space",
-    "indentWidth": 2,
-    "lineWidth": 100
-  },
-  "linter": {
-    "enabled": true,
-    "rules": {
-      "recommended": true,
-      "a11y": {
-        "useButtonType": "off",
-        "noLabelWithoutControl": "off",
-        "noSvgWithoutTitle": "off",
-        "useKeyWithClickEvents": "off"
-      },
-      "style": {
-        "useBlockStatements": "off",
-        "useNamingConvention": "off"
-      },
-      "suspicious": {
-        "noArrayIndexKey": "off",
-        "noExplicitAny": "warn",
-        "noConsole": "warn"
-      }
-    }
-  },
-  "javascript": {
-    "formatter": {
-      "quoteStyle": "double"
-    }
-  }
+	"$schema": "https://biomejs.dev/schemas/2.4.12/schema.json",
+	"files": {
+		"ignoreUnknown": true,
+		"include": ["src/**/*"],
+		"ignore": ["**/dist/**", "**/node_modules/**", "**/*.rar", "**/*.zip"]
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "space",
+		"indentWidth": 2,
+		"lineWidth": 100
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"a11y": {
+				"useButtonType": "off",
+				"noLabelWithoutControl": "off",
+				"noSvgWithoutTitle": "off",
+				"useKeyWithClickEvents": "off"
+			},
+			"style": {
+				"useBlockStatements": "off",
+				"useNamingConvention": "off"
+			},
+			"suspicious": {
+				"noArrayIndexKey": "off",
+				"noExplicitAny": "warn",
+				"noConsole": "warn"
+			}
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "double"
+		}
+	}
 }
