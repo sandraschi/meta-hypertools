@@ -1107,13 +1107,13 @@
         "note":  ""
     },
     {
-        "repo":  "mywienerlinien",
+        "repo":  "publictransport-mcp",
         "installPath":  "INSTALL.md",
         "installOptions":  "C",
         "githubOwner":  "sandraschi",
-        "githubRepo":  "mywienerlinien",
+        "githubRepo":  "publictransport-mcp",
         "mcpbAvailable":  false,
-        "mcpbReleasesUrl":  "https://github.com/sandraschi/mywienerlinien/releases",
+        "mcpbReleasesUrl":  "https://github.com/sandraschi/publictransport-mcp/releases",
         "mcpbAssetName":  null,
         "studioSmokeArgs":  null,
         "hasWebapp":  true,

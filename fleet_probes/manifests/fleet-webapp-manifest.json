@@ -675,13 +675,13 @@
     "proxyHealthPath": "/api/platform/health"
   },
   {
-    "repo": "mywienerlinien",
+    "repo": "publictransport-mcp",
     "startPath": "web_sota/start.ps1",
     "port": 10896,
     "healthPath": "/health",
     "timeoutSec": 90,
     "startsBats": [
-      "mywienerlinien-start.bat"
+      "publictransport-mcp-start.bat"
     ],
     "frontendPort": 10896,
     "proxyHealthPath": "/health"
